@@ -1,0 +1,23 @@
+{
+  "slug": "project-07",
+  "title": "Project Eta",
+  "summary": "A brief one-line summary of Project Eta for the card display.",
+  "description": "A detailed description of Project Eta. Explain what the project does, the problem it solves, and why it matters. This paragraph will appear at the top of the project detail page.",
+  "tags": ["Python", "NLP", "AI"],
+  "date": "2023-12",
+  "thumbnail": "thumbnail.png",
+  "thumbnailAlt": "Screenshot of Project Eta main interface",
+  "algorithm": {
+    "overview": "This project uses a custom algorithm to process user input and generate optimized output.",
+    "steps": [
+      { "step": 1, "title": "Input Parsing", "description": "Raw user input is parsed and validated against the expected schema.", "image": "algo-step-1.png" },
+      { "step": 2, "title": "Core Processing", "description": "The validated data passes through the main processing pipeline.", "image": "algo-step-2.png" },
+      { "step": 3, "title": "Output Generation", "description": "Processed results are formatted and returned.", "image": null }
+    ]
+  },
+  "images": [
+    { "filename": "screenshot-1.png", "caption": "Main dashboard showing the overview panel", "alt": "Dashboard screenshot" },
+    { "filename": "screenshot-2.png", "caption": "Detail view of the processing results", "alt": "Results view screenshot" }
+  ],
+  "links": { "live": "https://example.com", "github": "https://github.com/yourusername/project-eta" }
+}

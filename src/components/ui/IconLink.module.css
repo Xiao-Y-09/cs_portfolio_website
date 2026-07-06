@@ -1,0 +1,16 @@
+.iconLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  transition: color var(--transition-fast) var(--easing);
+}
+
+.iconLink:hover {
+  text-decoration: underline;
+}
+
+.icon {
+  flex-shrink: 0;
+}

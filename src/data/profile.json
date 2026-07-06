@@ -1,0 +1,35 @@
+{
+  "name": "Your Name",
+  "title": "Computer Science Student",
+  "bio": "Placeholder bio. A brief introduction about yourself, your interests in computer science, and what drives your work. Replace this with your actual introduction.",
+  "avatar": "avatar.png",
+  "skills": [
+    "JavaScript", "TypeScript", "Python", "Java",
+    "React", "Next.js", "Node.js", "Git"
+  ],
+  "experience": [
+    {
+      "role": "Software Engineer Intern",
+      "company": "Company A",
+      "period": "2024.06 — 2024.09",
+      "description": "Placeholder description of your internship responsibilities and achievements."
+    },
+    {
+      "role": "Research Assistant",
+      "company": "University Lab",
+      "period": "2023.09 — 2024.05",
+      "description": "Placeholder description of your research work."
+    }
+  ],
+  "techStack": [
+    { "category": "Frontend", "items": ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML/CSS"] },
+    { "category": "Backend", "items": ["Node.js", "Python", "Express", "PostgreSQL"] },
+    { "category": "Tools", "items": ["Git", "Docker", "Figma", "VS Code"] },
+    { "category": "Other", "items": ["Data Structures", "Algorithms", "System Design", "Agile"] }
+  ],
+  "contact": {
+    "email": "your@email.com",
+    "github": "https://github.com/yourusername",
+    "linkedin": "https://linkedin.com/in/yourusername"
+  }
+}

@@ -1,0 +1,36 @@
+.hero {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+@media (max-width: 767px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .decoration {
+    display: none;
+  }
+}
+
+.decoration {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-gray-200);
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  margin-top: var(--space-xl);
+}
