@@ -31,6 +31,11 @@
   margin-top: var(--space-xl);
 }
 
+.repoLink {
+  font-family: var(--font-mono);
+  word-break: break-all;
+}
+
 @media (max-width: 639px) {
   .grid {
     grid-template-columns: 1fr;

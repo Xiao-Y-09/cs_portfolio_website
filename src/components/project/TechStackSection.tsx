@@ -31,7 +31,12 @@ export default function TechStackSection({
       </div>
       {github && (
         <div className={styles.links}>
-          <IconLink href={github} icon="github" label="GitHub" />
+          <IconLink
+            href={github}
+            icon="github"
+            label={github}
+            className={styles.repoLink}
+          />
         </div>
       )}
     </section>
