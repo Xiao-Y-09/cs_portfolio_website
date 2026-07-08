@@ -1,0 +1,22 @@
+{
+  "slug": "medium-daily-digest",
+  "title": "Medium Daily Digest",
+  "summary": "A daily LLM pipeline that reads my Medium feed for me — three-gate filtering, structured summaries, and a scored Top-10 email digest.",
+  "description": "Medium's recommendation feed is noisy, so I built a personal aggregator that pre-judges it for me: every day it fetches the RSS feeds I follow, has an LLM compress each article into a structured summary — a one-line hook, three key points, and a worth-reading verdict — and delivers the result as a single email I can triage in under a minute. It doubles as a test bench for comparing a frontier cloud model (Claude) against a local open-source model (Gemma via Ollama) on the same summarization task: a Summarizer base class plus a factory makes the two backends swappable with a single environment variable. The stack stays deliberately small — Python standard library where possible, feedparser for Medium's quirky feeds, SQLite for zero-config deduplication, and plain Gmail SMTP for delivery. Network, database, LLM, and SMTP each live in isolated modules, so the whole pipeline dry-runs with a fake summarizer and CI never makes an API call. Paywalled articles are handled honestly: truncated content is treated as a known input, and the model judges from the preview whether the full read is worth the click. Next up: learning my interest vector from what I actually click, scheduled runs on GitHub Actions, additional delivery channels (Telegram, Notion), and a quantified Claude-vs-Gemma quality A/B.",
+  "tags": ["Python", "Claude API", "Ollama", "Embeddings", "SQLite", "SMTP"],
+  "date": "2024-11",
+  "thumbnail": "thumbnail.png",
+  "thumbnailAlt": "Medium Daily Digest email preview",
+  "algorithm": {
+    "overview": "Articles flow through a cost-shaped funnel: cheap gates run first, the expensive model runs last, and — after real-world tuning — the actual filtering decision lives with the model that has the most judgment. The original design expected Gate 1 (embedding filter) and Gate 2 (4B coarse screen) to block most noise before the 27B summarizer. In practice they barely dropped anything: Medium articles are written to sound relevant to everything, so at a cosine threshold of 0.45 almost everything passed — and raising it to 0.6 killed recall, while making the 4B gate aggressive started dropping good articles. The fix was to keep both early gates loose to protect recall, and have the 27B model emit a 1–10 relevance/quality score alongside each summary — a near-free signal, since the model was running anyway. A post-filter (score floor of 6, sort descending, cap at 10) turned the digest from thirty undifferentiated items into a stable 8–10 high-scoring picks.",
+    "steps": [
+      { "step": 1, "title": "Fetch & Deduplicate", "description": "feedparser pulls every followed Medium RSS feed; a SQLite table records what has already been sent, so only never-seen articles enter the pipeline.", "image": null },
+      { "step": 2, "title": "Gate 1 — Embedding Interest Filter", "description": "nomic-embed-text embeds my interest description and each article, and cosine similarity screens out clearly off-topic items. The threshold stays deliberately loose (0.45) — tightening it to 0.6 discarded relevant articles.", "image": null },
+      { "step": 3, "title": "Gate 2 — 4B Coarse Screen", "description": "A local Gemma 4B model flags obviously low-quality pieces. Because a 4B's judgment is unstable, the rule is keep-when-unsure — this gate protects recall rather than cost.", "image": null },
+      { "step": 4, "title": "Gate 3 — 27B Summary + Score", "description": "Gemma 27B (or Claude, switched by one environment variable) produces a structured JSON summary — one-line hook, three key points, worth-reading verdict — plus a 1–10 relevance/quality score. JSON repair and retry handle occasional format breaks from the local model.", "image": null },
+      { "step": 5, "title": "Post-Filter, Rank & Deliver", "description": "Anything below a score of 6 is dropped, survivors sort by score descending, the top 10 make the cut, and the digest goes out via Gmail SMTP.", "image": null }
+    ]
+  },
+  "images": [],
+  "links": { "live": null, "github": "https://github.com/Xiao-Y-09/medium-daily-digest" }
+}
