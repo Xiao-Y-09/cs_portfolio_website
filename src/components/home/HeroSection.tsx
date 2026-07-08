@@ -70,6 +70,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
               marginTop: "var(--space-lg)",
               maxWidth: "600px",
               lineHeight: 1.7,
+              whiteSpace: "pre-line",
             }}
           >
             {profile.bio}

@@ -1,11 +1,12 @@
 {
-  "name": "Your Name",
+  "name": "Xiao Yang",
   "title": "Computer Science Student",
-  "bio": "Placeholder bio. A brief introduction about yourself, your interests in computer science, and what drives your work. Replace this with your actual introduction.",
+  "bio": "MS in Computer Science candidate at Northeastern University (Khoury College, Silicon Valley), graduating Winter 2027. Bachelor of Architecture from RISD.\n\nPracticing an AI-augmented development workflow — orchestrating multi-agent collaboration across frontier models (Claude Opus, OpenAI Codex) and local models (Gemma 4 31B) for architectural planning, implementation, and code review.",
   "avatar": "avatar.png",
   "skills": [
-    "JavaScript", "TypeScript", "Python", "Java",
-    "React", "Next.js", "Node.js", "Git"
+    "Python", "Java",
+    "React", "Next.js", "Node.js", "Git",
+    "AWS", "LangChain", "LangGraph", "Ollama", "JavaScript/TypeScript"
   ],
   "experience": [
     {
@@ -28,8 +29,8 @@
     { "category": "Other", "items": ["Data Structures", "Algorithms", "System Design", "Agile"] }
   ],
   "contact": {
-    "email": "your@email.com",
-    "github": "https://github.com/yourusername",
-    "linkedin": "https://linkedin.com/in/yourusername"
+    "email": "yang.x6@northeastern.edu",
+    "github": "https://github.com/Xiao-Y-09",
+    "linkedin": "https://www.linkedin.com/in/xiao-yang-6a14a3270/"
   }
 }
