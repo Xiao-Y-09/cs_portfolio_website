@@ -1,7 +1,7 @@
 {
   "name": "Xiao Yang",
   "title": "Computer Science Student",
-  "bio": "MS in Computer Science candidate at Northeastern University (Khoury College, Silicon Valley), graduating Winter 2027. Bachelor of Architecture from RISD.\n\nPracticing an AI-augmented development workflow — orchestrating multi-agent collaboration across frontier models (Claude Opus, OpenAI Codex) and local models (Gemma 4 31B) for architectural planning, implementation, and code review.",
+  "bio": "MS in Computer Science candidate at Northeastern University (Khoury College, Silicon Valley), graduating Winter 2027.\n\nPracticing an AI-augmented development workflow — orchestrating multi-agent collaboration across frontier models (Claude Opus, OpenAI Codex) and local models (Gemma 4 31B) for architectural planning, implementation, and code review.",
   "avatar": "avatar.png",
   "skills": [
     "Python", "TypeScript", "JavaScript", "Java", "SQL",

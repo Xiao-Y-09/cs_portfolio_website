@@ -34,11 +34,13 @@
   flex-wrap: wrap;
   gap: var(--space-sm);
   margin-top: var(--space-xl);
+  max-width: 600px;
 }
 
 .contact {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-lg);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
   margin-top: var(--space-xl);
 }

@@ -71,6 +71,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
               maxWidth: "600px",
               lineHeight: 1.7,
               whiteSpace: "pre-line",
+              textAlign: "justify",
             }}
           >
             {profile.bio}
