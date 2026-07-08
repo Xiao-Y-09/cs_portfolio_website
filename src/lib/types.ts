@@ -21,6 +21,16 @@ export interface ProjectLinks {
   github: string | null;
 }
 
+export interface ProjectFeature {
+  title: string;
+  description: string;
+}
+
+export interface ProjectChallenge {
+  heading: string;
+  body: string;
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -33,6 +43,9 @@ export interface Project {
   algorithm: Algorithm;
   images: ProjectImage[];
   links: ProjectLinks;
+  techStack?: TechCategory[];
+  features?: ProjectFeature[];
+  challenges?: ProjectChallenge[];
 }
 
 export interface Experience {

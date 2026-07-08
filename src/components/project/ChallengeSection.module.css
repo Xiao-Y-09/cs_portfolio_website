@@ -1,0 +1,19 @@
+.blocks {
+  margin-top: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.heading {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.body {
+  margin-top: var(--space-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
