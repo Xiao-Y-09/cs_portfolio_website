@@ -55,6 +55,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {project.description}
         </p>
       </section>
+      {project.links.live && (
+        <>
+          <GeometricDivider variant="line" />
+          <LivePreview url={project.links.live} title={project.title} />
+        </>
+      )}
       <GeometricDivider variant="dots" />
       {project.techStack && (
         <>
@@ -86,12 +92,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <>
           <GeometricDivider variant="triangles" />
           <ImageGallery images={project.images} projectSlug={project.slug} />
-        </>
-      )}
-      {project.links.live && (
-        <>
-          <GeometricDivider variant="line" />
-          <LivePreview url={project.links.live} title={project.title} />
         </>
       )}
       </div>
