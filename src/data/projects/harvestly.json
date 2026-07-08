@@ -1,0 +1,43 @@
+{
+  "slug": "harvestly",
+  "title": "Harvestly",
+  "summary": "A hackathon-built donation-matching engine for food banks — semantic embeddings, Hungarian assignment, and an A/B simulation of Stanford's real-time offer mechanism.",
+  "description": "Built with Helena Guo at the AI Supply Chain Hackathon 2026 (Food Banks + AI track). Food banks face an allocation dilemma: the legacy offer mechanism routes surplus donations to whoever responds fastest — usually the biggest agencies — so waste stays low but distribution skews badly. Harvestly attacks the problem in three moves: free-text donations and agency needs are embedded into one semantic space so matching follows category fit rather than distance alone; the Hungarian algorithm assigns whole donation batches optimally against a multi-factor cost matrix; and a mechanism simulation A/B-compares the legacy sequential offers against the real-time mechanism Stanford redesigned for Feeding America — parallel time-boxed offers, need weighting, rank tie-breaking. Under the stress scenario, the redesigned mechanism cut the waste rate from 2.5% to 0.7% while improving the Gini fairness index from 0.823 to 0.468 — winning on both axes at once. The whole demo runs offline: without an embedding server it falls back to food-category keyword embeddings.",
+  "tags": ["Python", "Embeddings", "Optimization", "SciPy", "Simulation"],
+  "date": "Jun.2026",
+  "sortKey": "2026-04",
+  "thumbnail": "thumbnail.png",
+  "thumbnailAlt": "Harvestly mechanism comparison chart",
+  "techStack": [
+    { "category": "Matching & Optimization", "items": ["scipy.optimize.linear_sum_assignment — Hungarian algorithm for optimal batch assignment", "Cost-utility matrix combining distance, shelf-life urgency, semantic fit, need level, and fairness — all weights in config.py"] },
+    { "category": "Semantics", "items": ["Ollama + nomic-embed-text — donations and agency needs embedded into one space", "Offline fallback — food-category keyword embeddings, so the demo runs with no model server"] },
+    { "category": "Simulation & Metrics", "items": ["Mechanism simulator — parallel time-boxed offers, need weighting, rank tie-breaking vs legacy sequential offers", "Waste rate + Gini coefficient, averaged over randomized runs; matplotlib comparison chart"] },
+    { "category": "Data", "items": ["Synthetic agency and donation-stream generator, designed to be swapped for real intake data"] }
+  ],
+  "features": [
+    { "title": "Semantic donation matching", "description": "Free-text donation descriptions and agency need profiles are embedded into the same vector space — 'expiring yogurt' lands at the agency short on dairy (semantic fit 0.89), not just the nearest one." },
+    { "title": "Optimal batch assignment", "description": "Instead of greedy one-at-a-time allocation, the Hungarian algorithm assigns an entire batch of donations at once against the full cost-utility matrix." },
+    { "title": "Mechanism A/B simulation", "description": "Legacy single sequential offers vs Stanford's redesigned real-time mechanism, compared over repeated randomized simulations with waste and fairness curves." },
+    { "title": "Fairness-aware offer ranking", "description": "Offers rank agencies by need plus recent under-allocation — not responsiveness — with 45-minute windows and rank-based tie-breaking to keep turnover fast." },
+    { "title": "Offline-first demo", "description": "Auto-detects a running Ollama instance and upgrades to true semantic embeddings; otherwise the keyword fallback keeps every part of the demo meaningful." },
+    { "title": "Config-driven tuning", "description": "Every scoring weight and both mechanisms' parameters live in config.py, making the fairness–efficiency trade-off directly explorable." }
+  ],
+  "challenges": [
+    { "heading": "Problem", "body": "Reproducing Stanford's headline result — better fairness at almost no efficiency cost — was not automatic. With 3 parallel offers per round, the new mechanism's deliberate preference for hard-to-reach small agencies made the waste rate slightly worse than the legacy mechanism, even though fairness improved dramatically. A demo where the 'better' mechanism loses on waste undercuts the whole story." },
+    { "heading": "What I tried", "body": "Sweeping the two mechanism knobs — the number of parallel offers per round (k) and the number of offer rounds — while holding the scoring weights fixed, and averaging each configuration over repeated randomized simulations to separate signal from noise." },
+    { "heading": "Final approach", "body": "The parallel-offer budget turned out to be the pivotal lever. At k=4 with 2 rounds (now the default), the redesigned mechanism wins on both metrics simultaneously: waste 2.5% → 0.7% and Gini 0.823 → 0.468 in the stress scenario. The simulation is framed honestly as a mechanism comparison with probabilistic acceptance — a structural A/B, not a fit to a real dataset." },
+    { "heading": "Key insight", "body": "Fairness-oriented mechanisms need enough parallelism to work: offering to more agencies at once gives small agencies real chances without burning shelf life waiting on sequential rejections. The parallel budget is exactly the knob that trades fairness against efficiency — and past the right threshold, the trade-off disappears." }
+  ],
+  "algorithm": {
+    "overview": "A donation stream flows through embed → score → assign, and the same scored world feeds a mechanism simulator that replays allocation under two different offer protocols to measure waste and fairness.",
+    "steps": [
+      { "step": 1, "title": "Ingest & Embed", "description": "Free-text donations and agency need profiles are embedded with nomic-embed-text — or the keyword fallback when no model server is available.", "image": null },
+      { "step": 2, "title": "Score", "description": "A cost-utility matrix is built from distance, shelf-life urgency, semantic category fit, agency need level, and a fairness term; all weights are config-driven.", "image": null },
+      { "step": 3, "title": "Batch Assign", "description": "The Hungarian algorithm solves the assignment problem, allocating the whole donation batch optimally in one pass.", "image": null },
+      { "step": 4, "title": "Simulate Mechanisms", "description": "The real-time protocol — parallel time-boxed offers, need weighting, rank tie-breaking — runs head-to-head against legacy sequential offers over randomized donation streams.", "image": null },
+      { "step": 5, "title": "Measure", "description": "Waste rate and Gini coefficient are averaged across runs and rendered as a comparison chart.", "image": null }
+    ]
+  },
+  "images": [],
+  "links": { "live": null, "github": "https://github.com/Xiao-Y-09/Harvestly" }
+}

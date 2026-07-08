@@ -1,0 +1,43 @@
+{
+  "slug": "xiaoliuyao",
+  "title": "小六爻",
+  "summary": "A Chinese fortune-telling site built on the classical 小六壬 method — a rigorously specified casting engine, verified against classical examples (web UI coming soon).",
+  "description": "中国算命网站 — a Chinese fortune-telling website built around 小六壬 (Xiao Liu Ren), the classical quick-divination method that turns a moment in time or a few spoken numbers into a three-palace reading. The web version is not yet deployed; v1 ships the complete casting engine as a CLI. What makes the project interesting as engineering is the source material: divination schools contradict each other, and the most detailed tutorial on the internet turned out to be internally wrong. So the project is spec-first — two research documents audit the conflicting rulesets, lock the internally consistent one (Shao Yichen's six-palace system), and pin the counting convention with worked examples that now live in the test suite. Casting works from the current time, any Gregorian datetime, one to three arbitrary numbers, or a manually supplied lunar date.",
+  "tags": ["Python", "CLI", "Algorithm Design", "Lunar Calendar"],
+  "date": "Jul.2026",
+  "sortKey": "2026-03",
+  "thumbnail": "thumbnail.png",
+  "thumbnailAlt": "小六爻 three-palace casting output",
+  "techStack": [
+    { "category": "Core Engine", "items": ["Pure-Python counting engine (core.py) — zero dependencies, never imports datetime", "Shao Yichen six-palace ruleset encoded as data (element, auspice, direction, earthly branches per palace)"] },
+    { "category": "Calendar Adapter", "items": ["solar.py — Gregorian → lunar conversion via lunar_python (swappable for cnlunar/zhdate/sxtwl)", "Shichen (double-hour) indexing with verified boundary handling", "Manual-lunar fallback — casting works with no calendar library installed"] },
+    { "category": "Interface", "items": ["api.py — composition layer: qike by datetime / by numbers / by manual lunar date", "cli.py — argparse front end with explicit edge-case flags"] },
+    { "category": "Testing & Docs", "items": ["pytest suite including classical worked examples as regression tests", "Spec-first docs: rules research + algorithm spec + phased BUILD_GUIDE as the single source of truth"] }
+  ],
+  "features": [
+    { "title": "Three casting modes", "description": "Cast from the current moment (--now), any Gregorian datetime, one to three arbitrary numbers (马前占 — license plates, dice, word counts), or a manually supplied lunar date." },
+    { "title": "Verified counting spec", "description": "The single core primitive — land = (start + count − 1) mod 6, 'the starting palace counts as one' — was reverse-engineered from three independent clean examples and baked into the test suite." },
+    { "title": "Strict layer separation", "description": "The calendar layer knows nothing about divination; the core algorithm never touches datetime; layers communicate only through a small data contract." },
+    { "title": "Edge cases as switches, not silent guesses", "description": "Leap months are flagged with is_leap rather than silently renumbered; the disputed post-23:00 'late zi hour' day-rollover is an explicit --late-zi-next-day flag." },
+    { "title": "Ruleset as data", "description": "The six-palace attribute table is a data structure, not logic — other schools can be added later without touching the engine." },
+    { "title": "Spec-first, agent-built", "description": "A phased BUILD_GUIDE with acceptance criteria per phase drove the implementation, with the two research documents as the only permitted source of rules." }
+  ],
+  "challenges": [
+    { "heading": "Problem", "body": "There is no authoritative spec for 小六壬. The schools disagree on element, number, and earthly-branch mappings — and the single most detailed tutorial online, the natural reference for any implementation, is internally inconsistent: its own worked example mixes up the 22nd and 23rd day, and its hour-palace derivation lands on the wrong palace. Copying the obvious source would have shipped a subtly wrong engine." },
+    { "heading": "What I tried", "body": "Cross-auditing every ruleset I could collect into a research document, which surfaced the contradictions between schools — and revealed that the detailed tutorial could not even be checked against itself." },
+    { "heading": "Final approach", "body": "Lock the one internally consistent ruleset (Shao Yichen's six-palace system), then reverse-engineer the correct counting convention from three clean worked examples taken from other sources. All three now pass as automated self-tests. Boundaries that are genuinely disputed in the tradition — leap-month numbering and the late-zi rollover — are surfaced as explicit caller-facing options instead of hidden assumptions." },
+    { "heading": "Key insight", "body": "Folklore is an unreliable API. When a domain has no ground truth, the engineering move is the same as with any untrusted dependency: verify against multiple independent examples, encode the verification as regression tests, and turn unresolved ambiguity into explicit configuration rather than silent defaults." }
+  ],
+  "algorithm": {
+    "overview": "Everything reduces to one primitive — land = (start + count − 1) mod 6 over the fixed six-palace cycle (大安 → 留连 → 速喜 → 赤口 → 小吉 → 空亡) — chained three times so each landing palace becomes the next count's starting point.",
+    "steps": [
+      { "step": 1, "title": "Normalize Time", "description": "A Gregorian datetime becomes lunar month, lunar day, and shichen index (子=1 … 亥=12); leap months and the post-23:00 boundary are resolved by explicit policy flags.", "image": null },
+      { "step": 2, "title": "Cast the Month Palace", "description": "Count from 大安 by the lunar month number — the palace of beginnings (heaven).", "image": null },
+      { "step": 3, "title": "Cast the Day Palace", "description": "From the month palace, count by the lunar day — the palace of the matter's middle (earth).", "image": null },
+      { "step": 4, "title": "Cast the Hour Palace", "description": "From the day palace, count by the shichen index — the palace of the outcome (human). In numbers mode the same chain runs on 1–3 numbers instead, with mod-6 and remainder-zero mapping to a full circle.", "image": null },
+      { "step": 5, "title": "Render the Reading", "description": "Each palace carries its attributes — element, auspice, direction, earthly branches — composed by the API layer and printed by the CLI.", "image": null }
+    ]
+  },
+  "images": [],
+  "links": { "live": null, "github": "https://github.com/Xiao-Y-09/chinese-xiaoliuyao" }
+}

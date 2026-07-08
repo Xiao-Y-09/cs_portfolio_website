@@ -1,0 +1,43 @@
+{
+  "slug": "multiagent-scaffold",
+  "title": "Multi-Agent Scaffold",
+  "summary": "A config-driven multi-agent pipeline — researcher (RAG) → writer → reviewer with a revision loop, where the entire graph topology lives in YAML, not code.",
+  "description": "A scaffold for building multi-agent LLM systems where the orchestration is data, not code. Three agents relay work like an assembly line: a researcher retrieves relevant material from a local knowledge base (RAG over a Chroma vector store), a writer turns the research into a draft, and a reviewer issues a pass-or-revise verdict — rejected drafts loop back to the writer with the review feedback attached, until they pass or the revision budget runs out. The defining constraint: which agent runs first, which model each one uses, how the edges connect, and how the loop terminates are all declared in config.yaml and translated into a LangGraph state machine at startup — the graph builder is a translator, not a workflow. Everything runs locally through Ollama, with per-agent model choice (a 4B reviewer and a 27B writer can coexist by editing two lines of config).",
+  "tags": ["Python", "LangGraph", "RAG", "Ollama", "ChromaDB"],
+  "date": "Jun.2026",
+  "sortKey": "2026-05",
+  "thumbnail": "thumbnail.png",
+  "thumbnailAlt": "Multi-agent scaffold pipeline diagram",
+  "techStack": [
+    { "category": "Orchestration", "items": ["LangGraph — StateGraph with fixed and conditional edges, compiled with MemorySaver checkpointing", "graph.py — the config → graph translation layer; routing.py — router functions deciding loop continuation"] },
+    { "category": "Agents", "items": ["researcher / writer / reviewer — each a make_xxx(llm) factory so models are injected from config", "registry.py — maps agent names in YAML to factory functions"] },
+    { "category": "LLM & Embeddings", "items": ["ChatOllama — per-agent model selection (e.g. Gemma 4B vs 27B) from config", "nomic-embed-text — shared embedding entry point for ingest and retrieval"] },
+    { "category": "Knowledge", "items": ["Chroma vector store over local markdown/text documents", "ingest.py — re-runnable chunk → embed → load pipeline; tools/retriever.py as the researcher's retrieval tool"] }
+  ],
+  "features": [
+    { "title": "Config-driven topology", "description": "Entry point, per-agent models, fixed edges, conditional loops, and the revision budget are all YAML; adding an agent means registering a factory and editing config, not rewiring code." },
+    { "title": "Shared-whiteboard state", "description": "Agents never call each other. Each one reads the typed State, returns a small patch ({\"draft\": ...}), and LangGraph merges it — the dataflow is fully explicit." },
+    { "title": "Review-revise loop with a budget", "description": "The reviewer's verdict routes through a router function: revise-and-under-budget goes back to the writer with feedback; pass or budget-exhausted ends the run. A recursion limit backstops real runaway loops." },
+    { "title": "Factory-injected models", "description": "Every agent is a factory that takes an LLM, so the same reviewer logic runs on a 4B or 27B model by changing one config line — the mechanism that makes config-driven possible." },
+    { "title": "Local RAG pipeline", "description": "The researcher queries a Chroma knowledge base built by a re-runnable ingest script; swapping the knowledge domain means replacing files and re-ingesting." },
+    { "title": "Checkpointed, inspectable runs", "description": "MemorySaver plus thread ids preserve the whole final State, so a finished run's research, drafts, reviews, and verdicts can be pulled out and examined." }
+  ],
+  "challenges": [
+    { "heading": "Problem", "body": "Agents in this architecture communicate only through State field names: the researcher writes research, the writer reads research. One misspelled key and the chain breaks silently — no exception, no warning. The downstream agent just reads an empty string and produces confident, plausible-looking output built on nothing. This failure mode surfaced repeatedly during development and is far worse than a crash, because nothing tells you where the pipeline went hollow." },
+    { "heading": "What I tried", "body": "Debugging by reading final outputs and working backwards — slow and unreliable, since a hollow draft can still look superficially reasonable. The root cause was never in any single agent; it was always in the unwritten contract between them." },
+    { "heading": "Final approach", "body": "Make the contract explicit and central. A TypedDict State declares every field; a writer/reader table documents which agent writes each field and which agents read it; agents return minimal patches instead of mutating shared state; and the config → graph translation is documented as a literal table, so every YAML block maps to a known edge. Loops carry two independent guards: the domain-level revision budget and LangGraph's recursion limit." },
+    { "heading": "Key insight", "body": "In multi-agent systems the dataflow contract is the architecture. Prompts are interchangeable; the field names are not. Making the contract typed, documented, and centrally visible converts the worst failure mode — silent hollowing — into something reviewable and testable." }
+  ],
+  "algorithm": {
+    "overview": "config.yaml is the control panel and graph.py is a translator: at startup the YAML is read block by block and turned into a LangGraph state machine — nodes from the agent registry, fixed edges, and conditional edges whose routers implement the loop. The compiled graph then streams State from agent to agent.",
+    "steps": [
+      { "step": 1, "title": "Translate Config into a Graph", "description": "Entry edge, agent nodes (each factory fed its configured model), fixed edges, and conditional edges are assembled from YAML and compiled with checkpointing.", "image": null },
+      { "step": 2, "title": "Seed the State", "description": "main.py plants the initial whiteboard: the topic, a zeroed revision counter, and the revision budget from config.", "image": null },
+      { "step": 3, "title": "Research", "description": "The researcher embeds the topic, retrieves from the Chroma knowledge base through its retriever tool, and writes distilled findings to the research field.", "image": null },
+      { "step": 4, "title": "Write", "description": "The writer drafts from the research — and on a revision pass, rewrites incorporating the reviewer's feedback from the review field.", "image": null },
+      { "step": 5, "title": "Review & Route", "description": "The reviewer issues pass or revise plus feedback; the router sends revise-and-under-budget runs back to the writer, everything else to END, where the checkpointed final State is printed.", "image": null }
+    ]
+  },
+  "images": [],
+  "links": { "live": null, "github": "https://github.com/Xiao-Y-09/multiagent-scaffold" }
+}
