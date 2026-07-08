@@ -11,6 +11,7 @@ import ImageGallery from "@/components/project/ImageGallery";
 import LivePreview from "@/components/project/LivePreview";
 import GeometricDivider from "@/components/ui/GeometricDivider";
 import SectionTitle from "@/components/ui/SectionTitle";
+import PlaceholderImage from "@/components/ui/PlaceholderImage";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -37,6 +38,33 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();
+
+  if (project.status === "processing") {
+    return (
+      <PageWrapper>
+        <div className="animate-fade-in-up">
+          <ProjectHeader project={project} />
+          <section style={{ marginTop: "var(--space-3xl)" }}>
+            <SectionTitle title="Project Overview" />
+            <p
+              style={{
+                fontSize: "var(--text-lg)",
+                lineHeight: 1.8,
+                color: "var(--color-text-secondary)",
+                marginTop: "var(--space-lg)",
+              }}
+            >
+              {project.description}
+            </p>
+          </section>
+          <GeometricDivider variant="dots" />
+          <div style={{ margin: "var(--space-3xl) 0" }}>
+            <PlaceholderImage height="280px" label="Work in progress" />
+          </div>
+        </div>
+      </PageWrapper>
+    );
+  }
 
   return (
     <PageWrapper>

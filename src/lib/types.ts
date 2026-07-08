@@ -33,6 +33,8 @@ export interface ProjectChallenge {
 
 export interface Project {
   slug: string;
+  /** "processing" projects show in the Processing section with a placeholder page. */
+  status?: "completed" | "processing";
   title: string;
   summary: string;
   description: string;

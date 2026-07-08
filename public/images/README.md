@@ -17,6 +17,8 @@
 | Multi-Agent Scaffold | `public/images/projects/multiagent-scaffold/thumbnail.png` |
 | 小六爻 | `public/images/projects/xiaoliuyao/thumbnail.png` |
 | Medium Daily Digest | `public/images/projects/medium-daily-digest/thumbnail.png` |
+| Tennis Match（Processing） | `public/images/projects/tennis-match/thumbnail.png` |
+| Shadowdeck（Processing） | `public/images/projects/shadowdeck/thumbnail.png` |
 
 - 文件名必须是 `thumbnail.png`（对应各 json 里的 `"thumbnail"` 字段）。
 - 想用 `.jpg`？把图命名为 `thumbnail.jpg`，并把该项目 json 里的 `"thumbnail": "thumbnail.png"` 改成 `"thumbnail.jpg"`。

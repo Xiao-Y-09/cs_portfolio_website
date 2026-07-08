@@ -5,18 +5,26 @@ import styles from "./ProjectGrid.module.css";
 
 interface ProjectGridProps {
   projects: Project[];
+  id?: string;
+  title?: string;
+  subtitle?: string;
 }
 
-export default function ProjectGrid({ projects }: ProjectGridProps) {
+export default function ProjectGrid({
+  projects,
+  id = "projects",
+  title = "Projects",
+  subtitle = "Selected works and experiments",
+}: ProjectGridProps) {
   return (
     <section
-      id="projects"
+      id={id}
       style={{
         paddingTop: "var(--space-3xl)",
         paddingBottom: "var(--space-3xl)",
       }}
     >
-      <SectionTitle title="Projects" subtitle="Selected works and experiments" />
+      <SectionTitle title={title} subtitle={subtitle} />
       <div className={styles.grid} style={{ marginTop: "var(--space-2xl)" }}>
         {projects.map((project, index) => (
           <div
