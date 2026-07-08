@@ -99,7 +99,16 @@ export default function HeroSection({ profile }: HeroSectionProps) {
           </div>
         </div>
         <div className={styles.decoration}>
-          <HeroDecoration />
+          {profile.avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={profile.avatarUrl}
+              alt={profile.name}
+              className={styles.decorationImg}
+            />
+          ) : (
+            <HeroDecoration />
+          )}
         </div>
       </div>
       <GeometricDivider variant="dots" />

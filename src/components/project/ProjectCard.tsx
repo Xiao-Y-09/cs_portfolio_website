@@ -15,7 +15,16 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     <Link href={`/projects/${project.slug}`} className={styles.link}>
       <article className={styles.card}>
         <div className={styles.thumb}>
-          <PlaceholderImage width="100%" height="100%" />
+          {project.thumbnailUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={project.thumbnailUrl}
+              alt={project.thumbnailAlt}
+              className={styles.thumbImg}
+            />
+          ) : (
+            <PlaceholderImage width="100%" height="100%" />
+          )}
         </div>
         <div className={styles.body}>
           <h3 className={styles.title}>{project.title}</h3>

@@ -24,6 +24,13 @@
   width: 100%;
 }
 
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .body {
   padding: var(--card-padding);
   display: flex;

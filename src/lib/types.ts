@@ -42,6 +42,8 @@ export interface Project {
   sortKey?: string;
   thumbnail: string;
   thumbnailAlt: string;
+  /** Resolved public URL of the cover image, set at build time only when the file exists. */
+  thumbnailUrl?: string | null;
   algorithm: Algorithm;
   images: ProjectImage[];
   links: ProjectLinks;
@@ -73,6 +75,8 @@ export interface Profile {
   title: string;
   bio: string;
   avatar: string;
+  /** Resolved public URL of the hero image, set at build time only when the file exists. */
+  avatarUrl?: string | null;
   skills: string[];
   experience: Experience[];
   techStack: TechCategory[];

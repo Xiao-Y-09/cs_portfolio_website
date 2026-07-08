@@ -21,6 +21,14 @@
   color: var(--color-gray-200);
 }
 
+.decorationImg {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
 .skills {
   display: flex;
   flex-wrap: wrap;
