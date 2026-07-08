@@ -1,0 +1,44 @@
+{
+  "slug": "xompress",
+  "title": "Xompress — Portfolio PDF Compressor",
+  "summary": "A PDF compression SaaS that shrinks 100MB design portfolios to an exact target size — element-level decision engine, text layers untouched.",
+  "description": "Design portfolios routinely blow past application upload limits — my real samples ran 33 to 99MB against 10MB caps. Xompress is a web app that compresses a PDF to a user-chosen target size while protecting what matters: instead of squashing the file as a blob, it dissects every page into raster and vector elements, plans per-element compression with a pure-function decision engine, executes the plan, surgically reassembles the original PDF in place, and iterates until the output fits under the target. Text layers, transparency, and vector line work survive untouched. The system was built end-to-end in 15 verifiable phases — data contracts first, every stage a testable module — and ships as a live web app backed by an async REST API.",
+  "tags": ["Python", "FastAPI", "Next.js", "Celery", "PyMuPDF", "Docker"],
+  "date": "Jul.2026",
+  "sortKey": "2026-07",
+  "thumbnail": "thumbnail.png",
+  "thumbnailAlt": "Xompress PDF compressor web interface",
+  "techStack": [
+    { "category": "Backend", "items": ["Python + FastAPI — async REST API (/api/v1, six routes)", "Celery + Redis — task queue with progress callbacks and a tiered-degradation state machine", "PyMuPDF + Pillow — PDF dissection, image re-encoding, in-place stream replacement", "fonttools — font subsetting with a PUA/control-character safety gate", "Pydantic v2 — a 26-type data contract shared by every pipeline stage"] },
+    { "category": "Frontend", "items": ["Next.js (App Router) — five-state upload → progress → review → result flow", "Tailwind CSS", "Playwright — end-to-end tests"] },
+    { "category": "Infra & Ops", "items": ["Docker × 2 + docker-compose, nginx — AWS EC2 deployment with CloudWatch monitoring", "Vercel — hosted frontend", "pydantic-settings + YAML — every threshold and tuning constant lives in config, not code"] },
+    { "category": "Testing", "items": ["pytest + pytest-cov — 151 tests green, 85% coverage", "End-to-end matrix 12/12, real-concurrency runs 10/10"] }
+  ],
+  "features": [
+    { "title": "Target-size compression with a convergence loop", "description": "Pick a target (5/10/15/20MB); a one-dimensional search over a global aggressiveness parameter re-plans and re-runs until the output lands under the cap — real samples went 60.5→5.2MB, 75.9→8.3MB, 33.3→5.3MB." },
+    { "title": "Pure-function decision engine with an honest cost guard", "description": "Per-element plans (JPEG quality, DPI, vector simplify/rasterize) are computed from a config-driven cost model. A cost guard computes the incompressible floor first and rejects impossible targets with TARGET_TOO_SMALL instead of silently producing garbage." },
+    { "title": "In-place surgery reassembly", "description": "Compressed image streams are swapped by xref into a copy of the source PDF rather than redrawing pages — text layers (even fonts without ToUnicode maps), annotations, and layout survive byte-identical." },
+    { "title": "Shared-stream deduplication", "description": "Images referenced on many pages are detected by content, compressed once, and re-linked everywhere: one 99MB sample collapsed 12,573 image placements into 749 actual compressions." },
+    { "title": "Transparency-safe pipeline", "description": "Alpha is typed three ways (none/opaque/translucent); base images are re-encoded as JPEG while SMask references are preserved intact, so transparency and compression stay fully decoupled." },
+    { "title": "Review checkpoint before final assembly", "description": "The pipeline pauses at a review breakpoint; the web UI shows a page-preview grid so the user can inspect quality before committing, with tier warnings and actionable error messages throughout." }
+  ],
+  "challenges": [
+    { "heading": "Problem", "body": "The original assembly stage rebuilt each page from extracted elements — and visual QC exposed an architectural dead end. Pages using fonts without ToUnicode maps cannot be re-rendered faithfully: the text layer is unrecoverable once you redraw the page. On top of that, 52.6% of the unique transparency masks in real samples were genuinely translucent, and merging them into flattened RGBA PNGs both broke JPEG compression and produced black-scrim artifacts." },
+    { "heading": "What I tried", "body": "Four targeted patches landed on the rebuild route — SMask merging fixes, white-background compositing, fallback paths, and glyph checks. They fixed the symptoms they aimed at, but the ToUnicode problem was structural: no amount of patching makes page reconstruction invertible when the source encoding information simply is not there." },
+    { "heading": "Final approach", "body": "Switch the mainline from reconstruction to in-place surgery. The pipeline keeps a copy of the source PDF; extraction records a sidecar map from each image to its source xref; assembly replaces only the image streams via xref_copy with SMask/Mask references explicitly preserved, and font subsetting runs with retain_gids plus a safety gate that skips suspicious character sets. The rebuild route was retired but kept in the codebase as a documented future dual-track option." },
+    { "heading": "Key insight", "body": "When a transformation cannot guarantee invertibility, stop transforming and start editing in place. The rewrite turned an unfixable class of bugs into a non-issue: QC over 95 pages found zero black pages, text extraction was character-identical after whitespace normalization, and CAD-heavy pages differed by 0.29–1.04 out of 255 per pixel — visually equivalent, at a fraction of the risk." }
+  ],
+  "algorithm": {
+    "overview": "A PDF is never compressed as a blob — it is dissected, planned, executed, and reassembled. Eight pipeline stages hand typed data contracts to each other, every threshold lives in config, and an orchestrating state machine loops the whole thing until the file fits the target.",
+    "steps": [
+      { "step": 1, "title": "Split & Extract", "description": "The PDF is split into per-page documents (with encryption/corruption detection and single-page fault tolerance); every raster and vector element is extracted with three-state alpha typing and content-deduplicated stream references.", "image": null },
+      { "step": 2, "title": "Classify & Preprocess", "description": "A heuristic classifier tags each page (all nine thresholds config-driven); font subsetting and fixed-overhead measurement establish the incompressible floor the budget math depends on.", "image": null },
+      { "step": 3, "title": "Decide", "description": "The pure-function engine allocates a raster budget (target minus fixed overhead, vector plans, and skipped pages), assigns per-element JPEG quality and DPI, and lets the cost guard reject infeasible targets honestly.", "image": null },
+      { "step": 4, "title": "Compress", "description": "Deduplicated streams are re-encoded once each with never-upscale fallback; a circuit breaker aborts the run if the success rate drops below 80%.", "image": null },
+      { "step": 5, "title": "Assemble — In-Place Surgery", "description": "Compressed streams are swapped into the source PDF by xref with SMask/Mask references preserved; text layers and page structure are never redrawn.", "image": null },
+      { "step": 6, "title": "Converge & Deliver", "description": "The orchestrator measures the real output size, steps the global aggressiveness, and re-runs until the target is met; results flow through the review checkpoint to the Next.js frontend via the REST API.", "image": null }
+    ]
+  },
+  "images": [],
+  "links": { "live": "https://portfolio-pdf-compressor-v4.vercel.app", "github": "https://github.com/Xiao-Y-09/Portfolio_PDF_Compressor" }
+}

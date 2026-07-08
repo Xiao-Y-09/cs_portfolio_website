@@ -61,6 +61,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <TechStackSection
             categories={project.techStack}
             github={project.links.github}
+            live={project.links.live}
           />
           <GeometricDivider variant="line" />
         </>

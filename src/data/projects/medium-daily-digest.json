@@ -5,6 +5,7 @@
   "description": "Medium's recommendation feed is noisy, so I built a personal aggregator that pre-judges it for me: every day it fetches the RSS feeds I follow, has an LLM compress each article into a structured summary — a one-line hook, three key points, and a worth-reading verdict — and delivers the result as a single email I can triage in under a minute. It doubles as a test bench for comparing a frontier cloud model (Claude) against a local open-source model (Gemma via Ollama) on the same summarization task. Paywalled articles are handled honestly: truncated content is treated as a known input, and the model judges from the preview whether the full read is worth the click.",
   "tags": ["Python", "Claude API", "Ollama", "Embeddings", "SQLite", "SMTP"],
   "date": "Mar.2026 - Jun.2026",
+  "sortKey": "2026-06",
   "thumbnail": "thumbnail.png",
   "thumbnailAlt": "Medium Daily Digest email preview",
   "techStack": [

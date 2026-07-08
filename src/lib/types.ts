@@ -38,6 +38,8 @@ export interface Project {
   description: string;
   tags: string[];
   date: string;
+  /** ISO-like key (e.g. "2026-07") used for list ordering when date is a display range */
+  sortKey?: string;
   thumbnail: string;
   thumbnailAlt: string;
   algorithm: Algorithm;

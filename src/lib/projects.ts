@@ -12,7 +12,9 @@ export function getAllProjects(): Project[] {
     const raw = fs.readFileSync(filePath, "utf-8");
     return JSON.parse(raw) as Project;
   });
-  return projects.sort((a, b) => (a.date > b.date ? -1 : 1));
+  return projects.sort((a, b) =>
+    (a.sortKey ?? a.date) > (b.sortKey ?? b.date) ? -1 : 1
+  );
 }
 
 export function getProjectBySlug(slug: string): Project | null {

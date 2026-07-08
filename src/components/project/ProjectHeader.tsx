@@ -36,7 +36,7 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
             <IconLink
               href={project.links.live}
               icon="external"
-              label="Live Demo"
+              label={project.links.live}
             />
           )}
         </div>

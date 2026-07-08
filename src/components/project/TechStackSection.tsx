@@ -6,11 +6,13 @@ import styles from "./TechStackSection.module.css";
 interface TechStackSectionProps {
   categories: TechCategory[];
   github: string | null;
+  live: string | null;
 }
 
 export default function TechStackSection({
   categories,
   github,
+  live,
 }: TechStackSectionProps) {
   return (
     <section>
@@ -29,14 +31,24 @@ export default function TechStackSection({
           </div>
         ))}
       </div>
-      {github && (
+      {(github || live) && (
         <div className={styles.links}>
-          <IconLink
-            href={github}
-            icon="github"
-            label={github}
-            className={styles.repoLink}
-          />
+          {live && (
+            <IconLink
+              href={live}
+              icon="external"
+              label={live}
+              className={styles.repoLink}
+            />
+          )}
+          {github && (
+            <IconLink
+              href={github}
+              icon="github"
+              label={github}
+              className={styles.repoLink}
+            />
+          )}
         </div>
       )}
     </section>
