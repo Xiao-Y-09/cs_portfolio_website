@@ -4,9 +4,12 @@
   "bio": "MS in Computer Science candidate at Northeastern University (Khoury College, Silicon Valley), graduating Winter 2027. Bachelor of Architecture from RISD.\n\nPracticing an AI-augmented development workflow — orchestrating multi-agent collaboration across frontier models (Claude Opus, OpenAI Codex) and local models (Gemma 4 31B) for architectural planning, implementation, and code review.",
   "avatar": "avatar.png",
   "skills": [
-    "Python", "Java",
-    "React", "Next.js", "Node.js", "Git",
-    "AWS", "LangChain", "LangGraph", "Ollama", "JavaScript/TypeScript"
+    "Python", "TypeScript", "JavaScript", "Java", "SQL",
+    "React", "Next.js", "Node.js", "FastAPI", "REST APIs",
+    "PostgreSQL", "Redis", "Celery",
+    "AWS", "Docker", "Git", "CI/CD",
+    "Claude API", "LangGraph", "LangChain", "RAG", "Vector Databases", "Embeddings", "Ollama",
+    "SciPy", "Tailwind CSS", "pytest", "Playwright"
   ],
   "experience": [
     {
