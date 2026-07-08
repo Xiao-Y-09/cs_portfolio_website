@@ -28,8 +28,12 @@ export default function Footer({ name, contact, className }: FooterProps) {
               icon="email"
               label={contact.email}
             />
-            <IconLink href={contact.github} icon="github" label="GitHub" />
-            <IconLink href={contact.linkedin} icon="linkedin" label="LinkedIn" />
+            <IconLink href={contact.github} icon="github" label={contact.github} />
+            <IconLink
+              href={contact.linkedin}
+              icon="linkedin"
+              label={contact.linkedin}
+            />
           </div>
         </div>
         <p className={styles.copyright}>© {year} All rights reserved.</p>

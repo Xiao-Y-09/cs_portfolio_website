@@ -4,7 +4,7 @@
   "summary": "A hackathon-built donation-matching engine for food banks — semantic embeddings, Hungarian assignment, and an A/B simulation of Stanford's real-time offer mechanism.",
   "description": "Built with Helena Guo at the AI Supply Chain Hackathon 2026 (Food Banks + AI track). Food banks face an allocation dilemma: the legacy offer mechanism routes surplus donations to whoever responds fastest — usually the biggest agencies — so waste stays low but distribution skews badly. Harvestly attacks the problem in three moves: free-text donations and agency needs are embedded into one semantic space so matching follows category fit rather than distance alone; the Hungarian algorithm assigns whole donation batches optimally against a multi-factor cost matrix; and a mechanism simulation A/B-compares the legacy sequential offers against the real-time mechanism Stanford redesigned for Feeding America — parallel time-boxed offers, need weighting, rank tie-breaking. Under the stress scenario, the redesigned mechanism cut the waste rate from 2.5% to 0.7% while improving the Gini fairness index from 0.823 to 0.468 — winning on both axes at once. The whole demo runs offline: without an embedding server it falls back to food-category keyword embeddings.",
   "tags": ["Python", "Embeddings", "Optimization", "SciPy", "Simulation"],
-  "date": "Jun.2026",
+  "date": "Jun.2026 - Jul.2026",
   "sortKey": "2026-04",
   "thumbnail": "thumbnail.png",
   "thumbnailAlt": "Harvestly mechanism comparison chart",

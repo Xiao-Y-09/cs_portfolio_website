@@ -4,7 +4,7 @@
   "summary": "A PDF compression SaaS that shrinks 100MB design portfolios to an exact target size — element-level decision engine, text layers untouched.",
   "description": "Design portfolios routinely blow past application upload limits — my real samples ran 33 to 99MB against 10MB caps. Xompress is a web app that compresses a PDF to a user-chosen target size while protecting what matters: instead of squashing the file as a blob, it dissects every page into raster and vector elements, plans per-element compression with a pure-function decision engine, executes the plan, surgically reassembles the original PDF in place, and iterates until the output fits under the target. Text layers, transparency, and vector line work survive untouched. The system was built end-to-end in 15 verifiable phases — data contracts first, every stage a testable module — and ships as a live web app backed by an async REST API.",
   "tags": ["Python", "FastAPI", "Next.js", "Celery", "PyMuPDF", "Docker"],
-  "date": "Jul.2026",
+  "date": "Jun.2026 - Jul.2026",
   "sortKey": "2026-07",
   "thumbnail": "thumbnail.png",
   "thumbnailAlt": "Xompress PDF compressor web interface",

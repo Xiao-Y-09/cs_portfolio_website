@@ -29,7 +29,7 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
             <IconLink
               href={project.links.github}
               icon="github"
-              label="GitHub"
+              label={project.links.github}
             />
           )}
           {project.links.live && (

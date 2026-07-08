@@ -4,7 +4,7 @@
   "summary": "A config-driven multi-agent pipeline — researcher (RAG) → writer → reviewer with a revision loop, where the entire graph topology lives in YAML, not code.",
   "description": "A scaffold for building multi-agent LLM systems where the orchestration is data, not code. Three agents relay work like an assembly line: a researcher retrieves relevant material from a local knowledge base (RAG over a Chroma vector store), a writer turns the research into a draft, and a reviewer issues a pass-or-revise verdict — rejected drafts loop back to the writer with the review feedback attached, until they pass or the revision budget runs out. The defining constraint: which agent runs first, which model each one uses, how the edges connect, and how the loop terminates are all declared in config.yaml and translated into a LangGraph state machine at startup — the graph builder is a translator, not a workflow. Everything runs locally through Ollama, with per-agent model choice (a 4B reviewer and a 27B writer can coexist by editing two lines of config).",
   "tags": ["Python", "LangGraph", "RAG", "Ollama", "ChromaDB"],
-  "date": "Jun.2026",
+  "date": "May.2026 - Jun.2026",
   "sortKey": "2026-05",
   "thumbnail": "thumbnail.png",
   "thumbnailAlt": "Multi-agent scaffold pipeline diagram",

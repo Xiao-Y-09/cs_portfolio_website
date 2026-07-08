@@ -86,11 +86,15 @@ export default function HeroSection({ profile }: HeroSectionProps) {
               icon="email"
               label={profile.contact.email}
             />
-            <IconLink href={profile.contact.github} icon="github" label="GitHub" />
+            <IconLink
+              href={profile.contact.github}
+              icon="github"
+              label={profile.contact.github}
+            />
             <IconLink
               href={profile.contact.linkedin}
               icon="linkedin"
-              label="LinkedIn"
+              label={profile.contact.linkedin}
             />
           </div>
         </div>

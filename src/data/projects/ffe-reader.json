@@ -1,0 +1,43 @@
+{
+  "slug": "ffe-reader",
+  "title": "FF&E Reader",
+  "summary": "A schedule-management SaaS for small interior design studios — Excel-like grid, a domain vocabulary engine, and an agent-ready architecture across 24 phased builds.",
+  "description": "FF&E (Furniture, Fixtures & Equipment) schedules are the operational backbone of interior design projects, and small studios still run them in Excel — with unit-conversion errors, no change history, and no spend visibility (pain points validated in interviews with studio owners). FF&E Reader replaces that workflow with a purpose-built SaaS: an Excel-like editing grid, a domain vocabulary defining the legal units and fields for every product category, event-logged edits with version snapshots and rollback, spend dashboards by space, category, and supplier, templated Excel/PDF export, and token-based client sharing with field-level permissions and WeChat integration. The project bridges my architecture background with software engineering — the domain expertise is the moat generic AI tools can't cross. Built as a two-repo system (FastAPI backend, Next.js frontend) through 24 phased builds with acceptance criteria per phase; the backend MVP closes with 88 passing tests. Deployment is pending, and the architecture reserves a clean upgrade path to AI agents without a rewrite.",
+  "tags": ["TypeScript", "Next.js", "FastAPI", "PostgreSQL", "AG Grid", "SaaS"],
+  "date": "Jun.2026 - Jul.2026",
+  "sortKey": "2026-02",
+  "thumbnail": "thumbnail.png",
+  "thumbnailAlt": "FF&E Reader schedule grid interface",
+  "techStack": [
+    { "category": "Backend", "items": ["Python 3.12 + FastAPI — REST API with OpenAPI schema as the single contract", "SQLModel + Alembic on PostgreSQL 16; JWT + bcrypt authentication", "Celery + Redis for background tasks; openpyxl / WeasyPrint for templated Excel and PDF export", "pytest + pytest-asyncio + httpx — 88 tests across the MVP"] },
+    { "category": "Frontend", "items": ["Next.js 14 App Router + TypeScript strict mode", "AG Grid Community — the Excel-like schedule editor with custom cell editors", "TanStack Query v5 for server state; Zustand + zundo for client state and undo/redo", "Tailwind CSS + shadcn/ui; ECharts dashboards; React Hook Form + Zod"] },
+    { "category": "API Contract", "items": ["orval — every frontend API type and hook is generated from the backend's openapi.json; hand-written API types are banned", "CI fails when the backend schema and the generated client drift apart"] },
+    { "category": "Infra & Ops", "items": ["Docker Compose + Caddy (HTTPS reverse proxy); GitHub Actions CI/CD; AWS EC2 deployment target", "Sentry error monitoring; Qiniu object storage for item images"] }
+  ],
+  "features": [
+    { "title": "Excel-like schedule grid", "description": "AG Grid with per-category dynamic columns, custom cell editors, filtering, and full undo/redo — the input experience studios refuse to give up, minus the spreadsheet failure modes." },
+    { "title": "Domain vocabulary engine", "description": "Product categories, their legal units, and their field definitions live as pure JSON consumed by both validation and the grid — the encoded domain expertise that generic AI tools can't match." },
+    { "title": "Event log and version snapshots", "description": "Every edit is an actor-typed event; schedules snapshot into versions with a diff view and typed-confirmation rollback, giving studios the change trail Excel never had." },
+    { "title": "Validation engine", "description": "Severity-grouped rule checks (unit legality, required fields) surface in a drawer with row-level focus; the rule interface is reserved for future AI reviewers." },
+    { "title": "Spend statistics dashboard", "description": "Aggregated consumption by space, category, and supplier rendered as ECharts pies with a budget gauge — the visibility gap studio owners named in interviews." },
+    { "title": "Sharing and export", "description": "Token-based read-only client pages with field-level permissions and WeChat share integration; Excel and PDF exports render from JSON templates with task polling and download." }
+  ],
+  "challenges": [
+    { "heading": "Problem", "body": "The product's endgame is AI agents — photo/PDF/link to structured items, an AI schedule reviewer, WeChat client approvals — but the MVP deliberately ships zero AI features to stay small enough to build and validate. Built naively, the MVP's data model and write paths would need a teardown the day agents arrive; built agent-first, the MVP would never ship. The two-repo split added a second trap: hand-synchronized frontend and backend types rot on every schema change." },
+    { "heading": "What I tried", "body": "The tempting shortcut was plain CRUD — direct updates from the grid, hardcoded category rules, types copied across repos by hand. Prototyping that way made the cost visible: no audit trail for edits, no way to attach provenance or confidence to a row, and every backend schema change silently broke the frontend." },
+    { "heading": "Final approach", "body": "Six structural constraints enforced from Phase 0: every write operation is a Command object with describe/preview/execute/undo; every business table carries source, confidence, and needs_review columns; the domain vocabulary and export templates are pure JSON, never hardcoded; an LLMClient interface exists as a deliberate stub; a prompts/ directory is reserved; and the event log types its actor as human, AI, or system. The contract problem got automation instead of discipline: orval regenerates the entire typed client from the backend's OpenAPI schema, and CI fails on drift." },
+    { "heading": "Key insight", "body": "Agent-ready is not a feature — it is a handful of cheap structural decisions made at day zero. Commands make future AI actions previewable and undoable exactly like human ones; provenance columns make AI-extracted data first-class instead of bolted on; JSON vocabularies mean an agent will read the same rules humans do. The MVP paid almost nothing for any of this, and the agent roadmap now requires extension, not rewrite." }
+  ],
+  "algorithm": {
+    "overview": "The system is organized around one invariant: every mutation flows through the same auditable pipeline — Command, event, snapshot — whether a human at the grid or, someday, an agent initiates it.",
+    "steps": [
+      { "step": 1, "title": "Authenticate & Scope", "description": "JWT sessions scope users to their projects and schedules; share tokens grant clients field-level read access with no account required.", "image": null },
+      { "step": 2, "title": "Edit via Commands", "description": "Grid edits become Command objects — describe, preview, execute, undo — never raw updates; zundo mirrors the undo/redo experience client-side.", "image": null },
+      { "step": 3, "title": "Log & Snapshot", "description": "Every executed command appends an actor-typed event; schedules snapshot into numbered versions that can be diffed and rolled back with typed confirmation.", "image": null },
+      { "step": 4, "title": "Validate", "description": "The rule engine checks items against the JSON domain vocabulary — legal units per category, required fields — and groups findings by severity for the review drawer.", "image": null },
+      { "step": 5, "title": "Aggregate & Export", "description": "Statistics endpoints aggregate spend for the ECharts dashboard; export tasks render templated Excel and PDF in the background with polling and download.", "image": null }
+    ]
+  },
+  "images": [],
+  "links": { "live": null, "github": "https://github.com/Xiao-Y-09/ffe_reader" }
+}

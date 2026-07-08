@@ -4,7 +4,7 @@
   "summary": "A Chinese fortune-telling site built on the classical 小六壬 method — a rigorously specified casting engine, verified against classical examples (web UI coming soon).",
   "description": "中国算命网站 — a Chinese fortune-telling website built around 小六壬 (Xiao Liu Ren), the classical quick-divination method that turns a moment in time or a few spoken numbers into a three-palace reading. The web version is not yet deployed; v1 ships the complete casting engine as a CLI. What makes the project interesting as engineering is the source material: divination schools contradict each other, and the most detailed tutorial on the internet turned out to be internally wrong. So the project is spec-first — two research documents audit the conflicting rulesets, lock the internally consistent one (Shao Yichen's six-palace system), and pin the counting convention with worked examples that now live in the test suite. Casting works from the current time, any Gregorian datetime, one to three arbitrary numbers, or a manually supplied lunar date.",
   "tags": ["Python", "CLI", "Algorithm Design", "Lunar Calendar"],
-  "date": "Jul.2026",
+  "date": "Jun.2026 - Jul.2026",
   "sortKey": "2026-03",
   "thumbnail": "thumbnail.png",
   "thumbnailAlt": "小六爻 three-palace casting output",
