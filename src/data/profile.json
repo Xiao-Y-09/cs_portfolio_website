@@ -5,11 +5,10 @@
   "avatar": "avatar.png",
   "skills": [
     "Python", "TypeScript", "JavaScript", "Java", "SQL",
-    "React", "Next.js", "Node.js", "FastAPI", "REST APIs",
-    "PostgreSQL", "Redis", "Celery",
-    "AWS", "Docker", "Git", "CI/CD",
-    "Claude API", "LangGraph", "LangChain", "RAG", "Vector Databases", "Embeddings", "Ollama",
-    "SciPy", "Tailwind CSS", "pytest", "Playwright"
+    "React", "Next.js", "Node.js", "FastAPI",
+    "PostgreSQL", "Redis",
+    "AWS", "Docker", "Git",
+    "LangGraph", "RAG", "Claude API", "Vector Databases"
   ],
   "experience": [
     {
