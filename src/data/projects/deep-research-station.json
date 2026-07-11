@@ -1,0 +1,44 @@
+{
+  "slug": "deep-research-station",
+  "title": "Deep Research Station — 深度研究台",
+  "summary": "A fully local, privacy-first deep research platform — a LangGraph Supervisor coordinates parallel Researcher agents on a single RTX 5090, with zero API cost and no data leaving the machine.",
+  "description": "Deep Research Station is a fully local, privacy-first deep research platform that runs multi-agent AI workflows entirely on consumer GPU hardware. It replaces cloud-dependent research tools like Perplexity or ChatGPT Deep Research with a self-hosted system where all LLM inference happens on a local RTX 5090, eliminating API costs and data privacy concerns. The custom-built Next.js frontend connects to a LangGraph-powered multi-agent backend, providing real-time visualization of the research process as a Supervisor agent coordinates multiple parallel Researcher agents to investigate complex topics and produce comprehensive reports.",
+  "tags": ["Next.js", "LangGraph", "Python", "Ollama", "Multi-Agent", "SSE"],
+  "date": "Jun.2026 - Jul.2026",
+  "sortKey": "2026-06-15",
+  "thumbnail": "thumbnail.svg",
+  "thumbnailAlt": "Deep Research Station — local multi-agent research platform",
+  "techStack": [
+    { "category": "Frontend", "items": ["Next.js 15 (App Router)", "shadcn/ui + Tailwind CSS", "Server-Sent Events (SSE) — real-time token and per-node status streaming"] },
+    { "category": "Backend", "items": ["LangGraph — graph-based multi-agent orchestration", "Python 3.11", "LangChain"] },
+    { "category": "LLM Runtime", "items": ["Ollama + Google Gemma 4 31B — fully local inference", "Single RTX 5090 (32GB VRAM), no API keys, no per-token billing"] },
+    { "category": "Search", "items": ["DuckDuckGo API — free, no API key required", "Exponential backoff with query rewording for rate-limit handling", "Shared dedupe/summarize pipeline reused across DuckDuckGo and Tavily"] },
+    { "category": "DevOps & Tooling", "items": ["UV package manager", "LangGraph Studio for graph debugging", "Claude Code (Fable 5) — AI-assisted full-stack implementation under a Max subscription"] }
+  ],
+  "features": [
+    { "title": "Zero-cost local inference", "description": "All four LLM roles (research, summarization, compression, report generation) run on a single RTX 5090 via Ollama. No API keys, no per-token billing, and no data ever leaves the machine." },
+    { "title": "Multi-agent architecture", "description": "A Supervisor agent decomposes a research question into sub-tasks, delegates them to multiple Researcher agents running in parallel, collects and compresses their findings, then generates a final structured report — all orchestrated as a LangGraph state machine." },
+    { "title": "Real-time execution visualization", "description": "The frontend shows a live graph-execution panel with the currently active node (Clarify → Brief → Research → Report), streaming token output, and per-node status indicators over SSE." },
+    { "title": "Custom frontend, no LangSmith login", "description": "A purpose-built Next.js UI with a three-panel layout — session history, chat interface, and graph state + runtime configuration — that removes the LangSmith account dependency of the default LangGraph Studio." },
+    { "title": "Dynamic runtime configuration", "description": "Users can switch Ollama models, search engines, research depth (iteration count), parallelism (concurrent research units), and clarification behavior straight from the UI, without restarting any services." },
+    { "title": "Session persistence", "description": "Thread-based conversation management with full state checkpointing — research can be paused, resumed, or branched from any point." }
+  ],
+  "challenges": [
+    { "heading": "LangSmith login wall", "body": "The default LangGraph Studio UI requires a LangSmith account to view graph execution — an unacceptable dependency for a local-first tool. The fix was a custom Next.js frontend built from scratch that talks directly to the LangGraph Server REST API (localhost:2024), with SSE streaming for real-time updates and a custom graph-execution panel that replicates Studio's node visualization." },
+    { "heading": "Ollama connection bug on Windows", "body": "OLLAMA_HOST was set to 0.0.0.0:11434 so the server listens on all interfaces — but the Python ollama client reads the same variable as its connection target, and on Windows a client cannot connect to 0.0.0.0. A startup patch rewrites OLLAMA_HOST to 127.0.0.1:11434 for the process only, without touching the Ollama server or the shell environment." },
+    { "heading": "DuckDuckGo rate limiting under parallel load", "body": "With max_concurrent_research_units set to 5, multiple Researcher agents hitting DuckDuckGo at once triggered aggressive rate limiting (5 consecutive failures in testing). The solution: exponential backoff with query rewording — on a rate limit the system waits progressively longer and reformulates the query before retrying — plus shared dedupe/summarize logic so DuckDuckGo and Tavily reuse the same post-processing pipeline." },
+    { "heading": "Local model structured-output reliability", "body": "The supervisor pattern leans heavily on structured output (JSON schemas) and tool calling, but a local 31B model occasionally emits malformed JSON or misses required fields compared with frontier APIs. Defensive .get() with defaults throughout the tool-call handling (e.g. tool_call['args'].get('reflection', '')), max_structured_output_retries for automatic reparse, and a 3-attempt compression retry loop with progressive message truncation for token-limit errors made it reliable." },
+    { "heading": "AI-assisted development across two codebases", "body": "The entire project was built with Claude Code (Fable 5) under a Max subscription — covering both frontend and backend, with zero extra API cost for development. The hard part was orchestrating the agent across two codebases (the forked open_deep_research backend and the new Next.js frontend) while keeping services running. Concerns were separated: the LangGraph Server runs manually in one terminal while Fable 5 works exclusively on frontend code in another, using fully autonomous execution with git commit checkpoints after each working milestone." }
+  ],
+  "algorithm": {
+    "overview": "A research question flows through a four-stage LangGraph state machine — clarify, brief, research, report — where a Supervisor agent plans strategy and dispatches parallel Researcher agents, each running its own ReAct search loop, then compresses findings and loops until the brief is satisfied.",
+    "steps": [
+      { "step": 1, "title": "Clarify", "description": "clarify_with_user analyzes whether the question is specific enough; if it is ambiguous the graph asks a clarifying question and waits, otherwise it proceeds.", "image": null },
+      { "step": 2, "title": "Brief", "description": "write_research_brief transforms the user's messages into a structured research brief with scope, sub-questions, and success criteria.", "image": null },
+      { "step": 3, "title": "Research — Supervisor + parallel Researchers", "description": "The Supervisor reads the brief, reflects with a think_tool, and delegates via the ConductResearch tool to multiple Researcher agents dispatched in parallel. Each Researcher runs a ReAct loop — search, analyze, reflect on gaps, search again — then compresses its findings. The Supervisor evaluates completeness and either loops back for more research or signals ResearchComplete.", "image": null },
+      { "step": 4, "title": "Report", "description": "final_report_generation synthesizes all compressed research notes into a structured markdown report with citations and findings.", "image": null }
+    ]
+  },
+  "images": [],
+  "links": { "live": null, "github": "https://github.com/Xiao-Y-09/deep-research-backend" }
+}

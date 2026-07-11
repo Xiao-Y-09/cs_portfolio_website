@@ -19,6 +19,7 @@
 | Medium Daily Digest | `public/images/projects/medium-daily-digest/thumbnail.png` |
 | Tennis Match（Processing） | `public/images/projects/tennis-match/thumbnail.png` |
 | Shadowdeck（Processing） | `public/images/projects/shadowdeck/thumbnail.png` |
+| Deep Research Station | `public/images/projects/deep-research-station/thumbnail.svg`（已内置线稿封面；想换成图片就在同目录放 `thumbnail.png`，并把该 json 的 `"thumbnail"` 改回 `"thumbnail.png"`） |
 
 - 文件名必须是 `thumbnail.png`（对应各 json 里的 `"thumbnail"` 字段）。
 - 想用 `.jpg`？把图命名为 `thumbnail.jpg`，并把该项目 json 里的 `"thumbnail": "thumbnail.png"` 改成 `"thumbnail.jpg"`。
