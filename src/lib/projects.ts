@@ -19,6 +19,9 @@ function withCover(project: Project): Project {
     thumbnailUrl: resolvePublicImage(
       `images/projects/${project.slug}/${project.thumbnail}`
     ),
+    previewImageUrl: project.previewImage
+      ? resolvePublicImage(`images/projects/${project.slug}/${project.previewImage}`)
+      : null,
   };
 }
 

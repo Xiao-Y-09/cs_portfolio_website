@@ -19,6 +19,8 @@ export interface ProjectImage {
 export interface ProjectLinks {
   live: string | null;
   github: string | null;
+  /** Bundled demo build served from public/demos/<slug>/ — relative URL. */
+  demo?: string | null;
 }
 
 export interface ProjectFeature {
@@ -46,6 +48,12 @@ export interface Project {
   thumbnailAlt: string;
   /** Resolved public URL of the cover image, set at build time only when the file exists. */
   thumbnailUrl?: string | null;
+  /** Screenshot filename used as the preview fallback (mobile / iframe failure). */
+  previewImage?: string;
+  /** Resolved public URL of previewImage, set at build time only when the file exists. */
+  previewImageUrl?: string | null;
+  /** Footnote under the demo preview; overrides the default demo disclaimer. */
+  previewNote?: string;
   algorithm: Algorithm;
   images: ProjectImage[];
   links: ProjectLinks;

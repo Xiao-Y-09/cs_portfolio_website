@@ -83,10 +83,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {project.description}
         </p>
       </section>
-      {project.links.live && (
+      {(project.links.demo || project.links.live) && (
         <>
           <GeometricDivider variant="line" />
-          <LivePreview url={project.links.live} title={project.title} />
+          <LivePreview
+            url={(project.links.demo ?? project.links.live) as string}
+            title={project.title}
+            demo={Boolean(project.links.demo)}
+            fallbackImage={project.previewImageUrl ?? project.thumbnailUrl}
+            note={project.previewNote}
+          />
         </>
       )}
       <GeometricDivider variant="dots" />
