@@ -41,6 +41,6 @@
   },
   "images": [],
   "previewImage": "preview.png",
-  "previewNote": "Demo mode — the AI reading is simulated with pre-composed text; card physics and animations are the real app. Full Ollama-backed version on GitHub.",
+  "previewNote": "Demo mode — the AI reading is simulated with pre-composed text (English / 中文 switchable, top-right); card physics and animations are the real app. Full Ollama-backed version on GitHub.",
   "links": { "live": null, "demo": "/demos/tarot/", "github": "https://github.com/Xiao-Y-09/tarot-with-local-ai-agent-suggestion" }
 }
