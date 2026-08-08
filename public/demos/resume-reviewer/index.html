@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ResumeReviewer — Demo</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --black: #111111;
+    --white: #ffffff;
+    --g100: #f5f5f5;
+    --g200: #e5e5e5;
+    --g300: #d4d4d4;
+    --g400: #a3a3a3;
+    --g600: #525252;
+    --sans: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+
+  html, body { height: 100%; }
+
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--black);
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .app {
+    height: 100%;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- top bar ---------- */
+
+  .bar {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--g200);
+    background: var(--g100);
+  }
+
+  .brand {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .strategies { display: flex; gap: -1px; margin-left: auto; }
+
+  .strategy {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border: 1px solid var(--g300);
+    background: var(--white);
+    color: var(--g600);
+    cursor: pointer;
+    margin-left: -1px;
+  }
+  .strategy:first-child { margin-left: 0; }
+  .strategy[aria-pressed="true"] {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+  }
+  .strategy:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--black);
+    background: var(--black);
+    color: var(--white);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn.ghost { background: var(--white); color: var(--black); }
+
+  /* ---------- body split ---------- */
+
+  .split { flex: 1; display: flex; min-height: 0; }
+
+  .runner {
+    width: 292px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--g200);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .report { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+  .label {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--g400);
+  }
+
+  .panelHead {
+    flex-shrink: 0;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--g200);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  /* One line, always — otherwise the two panel heads disagree in height
+     and the border under them steps. */
+  .strategyNote {
+    font-size: 11px;
+    color: var(--g600);
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ---------- jd cards ---------- */
+
+  .jdList { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+
+  .jd {
+    border: 1px solid var(--g200);
+    padding: 9px 10px;
+    cursor: pointer;
+    background: var(--white);
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    display: block;
+    width: 100%;
+  }
+  .jd:hover { border-color: var(--g400); }
+  .jd[aria-current="true"] { border-color: var(--black); }
+  .jd:disabled { cursor: default; }
+
+  .jdTop { display: flex; align-items: baseline; gap: 8px; }
+
+  .rank {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--g400);
+    width: 16px;
+    flex-shrink: 0;
+  }
+
+  .jdTitle { font-weight: 600; font-size: 12.5px; flex: 1; }
+
+  .score { font-family: var(--mono); font-size: 14px; font-weight: 600; }
+  .score .unit { font-size: 9px; color: var(--g400); font-weight: 400; }
+
+  .track { height: 3px; background: var(--g200); margin-top: 8px; overflow: hidden; }
+  .fill { height: 100%; background: var(--black); width: 0; transition: width 0.18s linear; }
+  .jd.lost .fill { background: var(--g300); }
+
+  .jdFoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 5px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--g400);
+    letter-spacing: 0.04em;
+  }
+  .jd.lost .jdFoot .stage { color: var(--black); }
+
+  .runnerFoot {
+    flex-shrink: 0;
+    border-top: 1px solid var(--g200);
+    padding: 8px 10px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .crashHint { font-size: 10px; color: var(--g400); line-height: 1.3; }
+
+  /* ---------- report ---------- */
+
+  .reportBody { flex: 1; overflow-y: auto; padding: 12px 14px; }
+
+  .empty {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .empty p {
+    margin: 0;
+    text-align: center;
+    color: var(--g400);
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .totals { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .bigScore { font-family: var(--mono); font-size: 26px; font-weight: 700; line-height: 1; }
+  .totalNote { font-size: 11px; color: var(--g600); }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+
+  th {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--g400);
+    font-weight: 400;
+    text-align: right;
+    padding: 0 0 5px;
+    border-bottom: 1px solid var(--g200);
+    white-space: nowrap;
+  }
+  th:first-child { text-align: left; }
+
+  td {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--g100);
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  td:first-child { text-align: left; font-family: var(--sans); font-size: 12px; white-space: normal; }
+
+  .skill { display: flex; align-items: center; gap: 6px; }
+
+  .chip {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 1px 4px;
+    border: 1px solid var(--g300);
+    color: var(--g600);
+  }
+  .chip.hard { border-color: var(--black); color: var(--black); }
+
+  .verdict { font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; }
+  .verdict.good::before { content: "\25CF\00A0"; }
+  .verdict.gap { color: var(--g400); }
+  .verdict.gap::before { content: "\25CB\00A0"; }
+  .verdict.miss { color: var(--black); font-weight: 600; }
+  .verdict.miss::before { content: "\00D7\00A0"; }
+
+  .dim { color: var(--g400); }
+
+  h3 {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--g400);
+    font-weight: 400;
+    margin: 18px 0 8px;
+  }
+
+  .advice { border-left: 2px solid var(--g200); padding: 0 0 0 10px; margin-bottom: 10px; }
+  .adviceHead { font-weight: 600; font-size: 12px; margin-bottom: 2px; }
+  .adviceBody { font-size: 12px; color: var(--g600); line-height: 1.55; }
+
+  .ref {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    padding: 0 3px;
+    border: 1px solid var(--g300);
+    background: var(--white);
+    color: var(--black);
+    cursor: pointer;
+  }
+  .ref:hover, .ref.active { background: var(--black); color: var(--white); border-color: var(--black); }
+
+  .evidence {
+    flex-shrink: 0;
+    border-top: 1px solid var(--g200);
+    background: var(--g100);
+    padding: 8px 14px;
+    font-size: 11.5px;
+    line-height: 1.5;
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .evidence .label { flex-shrink: 0; }
+  .evidence .quote { color: var(--g600); }
+
+  .reviewLine {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--g400);
+    margin-top: 14px;
+    letter-spacing: 0.03em;
+  }
+
+  @media (max-width: 700px) {
+    .runner { width: 200px; }
+    .bar { flex-wrap: wrap; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="bar">
+    <span class="brand">ResumeInsight</span>
+    <div class="strategies" id="strategies" role="group" aria-label="Orchestration strategy"></div>
+    <button class="btn" id="run">Run</button>
+  </div>
+
+  <div class="split">
+
+    <div class="runner">
+      <div class="panelHead">
+        <span class="label">Runner</span>
+        <span class="strategyNote" id="strategyNote"></span>
+      </div>
+      <div class="jdList" id="jdList"></div>
+      <div class="runnerFoot">
+        <button class="btn ghost" id="crash" disabled>Crash worker</button>
+        <span class="crashHint" id="crashHint"></span>
+      </div>
+    </div>
+
+    <div class="report">
+      <div class="panelHead">
+        <span class="label">Report</span>
+        <span class="strategyNote" id="reportTitle">no job description selected</span>
+      </div>
+      <div class="reportBody" id="reportBody">
+        <div class="empty"><p>Press <strong style="color:var(--black)">Run</strong> to analyse one resume<br />against three job descriptions.</p></div>
+      </div>
+      <div class="evidence" id="evidence">
+        <span class="label">Evidence</span>
+        <span class="quote" id="evidenceText">click a reference (B3, B6…) in a suggestion to resolve it</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   Constants — mirrored from pipeline/constants.py
+------------------------------------------------------------------ */
+const GOOD_THRESHOLD = 0.55;
+const HARD_MEET_THRESHOLD = 0.60;
+const WEIGHT_HARD = 1.0;
+const WEIGHT_NICE = 0.5;
+const MAX_REVIEW_ROUNDS = 2;
+
+/* ------------------------------------------------------------------
+   Sample resume — the referenceable bullets (B-ids)
+------------------------------------------------------------------ */
+const BULLETS = [
+  { id: "B1", text: "Built a PDF compression service in Python and FastAPI that pulled 100 MB design portfolios under a 10 MB upload cap." },
+  { id: "B2", text: "Designed a LangGraph multi-agent pipeline where a supervisor dispatches parallel research agents and merges their findings." },
+  { id: "B3", text: "Shipped a Next.js + TypeScript frontend with streaming server-sent updates and a three-panel layout." },
+  { id: "B4", text: "Ran local LLM inference with Ollama on a consumer GPU, removing per-token API cost from the development loop." },
+  { id: "B5", text: "Wrote 150+ pytest tests to 85% coverage, including concurrency suites for a thread-pool runner." },
+  { id: "B6", text: "Deployed containerized services to AWS EC2 with Docker Compose and nginx, monitored through CloudWatch." },
+  { id: "B7", text: "Modeled task state in PostgreSQL and Redis for a Celery queue with progress callbacks." },
+  { id: "B8", text: "Led weekly algorithms lab sections for 40 undergraduates across two semesters." }
+];
+
+const REF_INDEX = Object.fromEntries(BULLETS.map(b => [b.id, b.text]));
+const RESUME_BLOB = BULLETS.map(b => b.text).join(" ");
+
+/* ------------------------------------------------------------------
+   Sample JDs. `emb` stands in for the bge-m3 cosine score, which needs
+   a model the browser does not have — every other number below is
+   computed live by the ported scorer.
+------------------------------------------------------------------ */
+const JDS = [
+  {
+    id: "jd-backend",
+    title: "Backend Engineer, AI Platform",
+    requirements: [
+      { id: "R1", skill: "Python service development", weight: "hard", keywords: ["python", "fastapi"], emb: 0.81 },
+      { id: "R2", skill: "LLM / agent orchestration", weight: "hard", keywords: ["langgraph", "agent", "llm"], emb: 0.86 },
+      { id: "R3", skill: "Containerized deployment", weight: "nice", keywords: ["docker", "nginx"], emb: 0.72 },
+      { id: "R4", skill: "Kubernetes at production scale", weight: "hard", keywords: ["kubernetes", "k8s", "helm"], emb: 0.34 },
+      { id: "R5", skill: "Relational data modeling", weight: "nice", keywords: ["postgresql", "postgres", "sql"], emb: 0.69 },
+      { id: "R6", skill: "Automated testing", weight: "nice", keywords: ["pytest", "coverage"], emb: 0.77 }
+    ],
+    advice: [
+      { on: "R4", head: "Kubernetes is unmet and it is a hard requirement", body: "Nothing in the resume names an orchestrator. The closest adjacent work is [B6] — Docker Compose and nginx on EC2 — which is container experience without scheduling, autoscaling or rollout control. If you have any K8s exposure, name it; as written this requirement screens the application out before a human reads it." },
+      { on: "R5", head: "Data modeling reads as data usage", body: "[B7] already names PostgreSQL and Redis, but only as storage behind a queue. Say what you modeled — schema, indexes, retention, or row volume — so the line answers the requirement instead of merely containing its keyword." }
+    ]
+  },
+  {
+    id: "jd-fullstack",
+    title: "Full-Stack Product Engineer",
+    requirements: [
+      { id: "R1", skill: "React / Next.js", weight: "hard", keywords: ["react", "next.js"], emb: 0.74 },
+      { id: "R2", skill: "TypeScript", weight: "hard", keywords: ["typescript"], emb: 0.70 },
+      { id: "R3", skill: "Node.js backend", weight: "nice", keywords: ["node.js", "express"], emb: 0.41 },
+      { id: "R4", skill: "Design systems / CSS", weight: "nice", keywords: ["css", "tailwind", "figma"], emb: 0.33 },
+      { id: "R5", skill: "REST API design", weight: "nice", keywords: ["rest", "endpoint"], emb: 0.68 },
+      { id: "R6", skill: "Accessibility", weight: "hard", keywords: ["accessibility", "wcag", "aria"], emb: 0.21 }
+    ],
+    advice: [
+      { on: "R1", head: "Next.js is named, React is not", body: "[B3] says Next.js and stops there. Keyword filters treat the two as separate terms, so half the hits on a hard requirement are lost to phrasing — write it as React (Next.js App Router) and both match without inventing anything." },
+      { on: "R6", head: "Accessibility has no evidence at all", body: "No bullet touches it. [B3] is the only front-end line — if that work involved keyboard navigation, semantic markup or a WCAG pass, surface it there. If it did not, this hard requirement is genuinely unmet and the fix is work, not wording." }
+    ]
+  },
+  {
+    id: "jd-mlinfra",
+    title: "ML Infrastructure Engineer",
+    requirements: [
+      { id: "R1", skill: "Python", weight: "hard", keywords: ["python"], emb: 0.79 },
+      { id: "R2", skill: "GPU / CUDA optimization", weight: "hard", keywords: ["cuda", "gpu", "tensorrt"], emb: 0.52 },
+      { id: "R3", skill: "Kubernetes", weight: "hard", keywords: ["kubernetes", "k8s"], emb: 0.31 },
+      { id: "R4", skill: "Distributed training", weight: "hard", keywords: ["distributed training", "deepspeed", "fsdp"], emb: 0.24 },
+      { id: "R5", skill: "Docker", weight: "nice", keywords: ["docker"], emb: 0.75 },
+      { id: "R6", skill: "Model serving", weight: "nice", keywords: ["ollama", "vllm", "triton", "inference"], emb: 0.71 }
+    ],
+    advice: [
+      { on: "R4", head: "Inference is not training", body: "[B4] is single-GPU local inference — serving, not distributed training. No amount of rewording turns one into the other, and this is one of four hard requirements. The honest read is that this posting is a stretch; the ranked overview says so before you spend an evening tailoring for it." },
+      { on: "R6", head: "Frame the runtime around constraints, not cost", body: "[B4] names Ollama, which infra reviewers read as a laptop runtime. The defensible detail is what you fit on the card and what it cost you in latency — [B5] shows you already measure things, so the numbers likely exist." }
+    ]
+  }
+];
+
+/* ------------------------------------------------------------------
+   Ported from pipeline/tools/similarity.py + nodes/scorer.py.
+   This half is the real algorithm, running on the real sample text.
+------------------------------------------------------------------ */
+
+// Case-insensitive substring match that must begin at a word start —
+// so "postgres" matches "PostgreSQL", but "sql" inside it does not.
+function keywordHits(keywords, haystack) {
+  const hay = haystack.toLowerCase();
+  const hits = [];
+  for (const raw of keywords) {
+    const kw = String(raw).trim().toLowerCase();
+    if (!kw || hits.includes(kw)) continue;
+    let i = hay.indexOf(kw);
+    while (i !== -1) {
+      const prev = i === 0 ? "" : hay[i - 1];
+      if (!/[0-9a-z]/.test(prev)) { hits.push(kw); break; }
+      i = hay.indexOf(kw, i + 1);
+    }
+  }
+  return hits;
+}
+
+function keywordScore(keywords, haystack) {
+  if (!keywords.length) return 0;
+  return keywordHits(keywords, haystack).length / keywords.length;
+}
+
+function weightOf(weight) {
+  return weight === "hard" ? WEIGHT_HARD : WEIGHT_NICE;
+}
+
+function scoreJD(jd) {
+  let weighted = 0;
+  let weights = 0;
+
+  const items = jd.requirements.map(req => {
+    const hits = keywordHits(req.keywords, RESUME_BLOB);
+    const kw = keywordScore(req.keywords, RESUME_BLOB);
+    const combined = 0.5 * kw + 0.5 * req.emb;
+    const weight = weightOf(req.weight);
+
+    weighted += combined * weight;
+    weights += weight;
+
+    return {
+      ...req,
+      hits,
+      kw,
+      combined,
+      good: combined >= GOOD_THRESHOLD,
+      hardMet: req.weight === "hard"
+        ? (hits.length >= 1 || req.emb >= HARD_MEET_THRESHOLD)
+        : null
+    };
+  });
+
+  const hard = items.filter(i => i.weight === "hard");
+
+  return {
+    items,
+    total: weights ? (weighted / weights) * 100 : 0,
+    hardMet: hard.filter(i => i.hardMet).length,
+    hardTotal: hard.length
+  };
+}
+
+const RESULTS = Object.fromEntries(JDS.map(jd => [jd.id, scoreJD(jd)]));
+
+/* ------------------------------------------------------------------
+   Runners — the only thing that differs between version A, B and C
+------------------------------------------------------------------ */
+const STRATEGIES = {
+  A: {
+    label: "A · serial",
+    concurrency: 1,
+    durable: false,
+    note: "one daemon thread, FIFO"
+  },
+  B: {
+    label: "B · pool",
+    concurrency: 2,
+    durable: false,
+    note: "thread pool, cap 2"
+  },
+  C: {
+    label: "C · queue",
+    concurrency: 2,
+    durable: true,
+    note: "SQLite queue + worker process"
+  }
+};
+
+const STAGES = [
+  { at: 0, name: "parsing" },
+  { at: 26, name: "scoring" },
+  { at: 42, name: "coverage" },
+  { at: 54, name: "hard check" },
+  { at: 66, name: "advising" },
+  { at: 88, name: "review" }
+];
+
+// Different JDs take different amounts of work, which is what makes the
+// serial/pool difference visible at all.
+const SPEED = { "jd-backend": 3.1, "jd-fullstack": 4.4, "jd-mlinfra": 2.6 };
+
+let strategy = "A";
+let selected = null;
+let timer = null;
+let activeRef = null;
+
+let jobs = [];
+
+function freshJobs() {
+  return JDS.map(jd => ({
+    id: jd.id,
+    title: jd.title,
+    progress: 0,
+    state: "queued", // queued | running | done | lost
+    started: false
+  }));
+}
+
+function stageOf(job) {
+  if (job.state === "queued") return job.started ? "requeued" : "queued";
+  if (job.state === "lost") return "lost on crash";
+  if (job.state === "done") return "done";
+  let name = "parsing";
+  for (const s of STAGES) if (job.progress >= s.at) name = s.name;
+  return name;
+}
+
+/* ------------------------------------------------------------------
+   Rendering
+------------------------------------------------------------------ */
+const $ = id => document.getElementById(id);
+
+function renderStrategies() {
+  $("strategies").innerHTML = Object.entries(STRATEGIES).map(([key, s]) =>
+    `<button class="strategy" data-strategy="${key}" aria-pressed="${key === strategy}">${s.label}</button>`
+  ).join("");
+  $("strategyNote").textContent = STRATEGIES[strategy].note;
+}
+
+function renderJobs() {
+  const running = jobs.some(j => j.state === "running");
+  const allDone = jobs.every(j => j.state === "done");
+
+  // The ranked overview only exists once every JD has a score.
+  const order = allDone
+    ? [...jobs].sort((a, b) => RESULTS[b.id].total - RESULTS[a.id].total)
+    : jobs;
+
+  $("jdList").innerHTML = order.map((job, i) => {
+    const done = job.state === "done";
+    const result = RESULTS[job.id];
+    return `
+      <button class="jd ${job.state === "lost" ? "lost" : ""}"
+              data-jd="${job.id}"
+              aria-current="${selected === job.id}"
+              ${done ? "" : "disabled"}>
+        <div class="jdTop">
+          <span class="rank">${allDone ? "#" + (i + 1) : ""}</span>
+          <span class="jdTitle">${job.title}</span>
+          <span class="score">${done ? result.total.toFixed(1) : "—"}${done ? '<span class="unit"> /100</span>' : ""}</span>
+        </div>
+        <div class="track"><div class="fill" style="width:${done ? 100 : job.progress}%"></div></div>
+        <div class="jdFoot">
+          <span class="stage">${stageOf(job)}</span>
+          <span>${done ? result.hardMet + "/" + result.hardTotal + " hard met" : ""}</span>
+        </div>
+      </button>`;
+  }).join("");
+
+  $("run").disabled = running;
+  $("run").textContent = allDone ? "Re-run" : "Run";
+  $("crash").disabled = !running;
+  $("crashHint").textContent = running
+    ? (STRATEGIES[strategy].durable ? "queue survives" : "in-flight work is lost")
+    : "";
+}
+
+function refHtml(text) {
+  return text.replace(/\[(B\d+)\]/g, (_, id) => `<button class="ref" data-ref="${id}">${id}</button>`);
+}
+
+function renderReport() {
+  const body = $("reportBody");
+  if (!selected) {
+    body.innerHTML = `<div class="empty"><p>Press <strong style="color:var(--black)">Run</strong> to analyse one resume<br />against three job descriptions.</p></div>`;
+    $("reportTitle").textContent = "no job description selected";
+    return;
+  }
+
+  const jd = JDS.find(j => j.id === selected);
+  const result = RESULTS[selected];
+  $("reportTitle").textContent = jd.title;
+
+  const rows = result.items.map(item => {
+    const verdict = item.weight === "hard" && !item.hardMet
+      ? `<span class="verdict miss">unmet</span>`
+      : item.good
+        ? `<span class="verdict good">good</span>`
+        : `<span class="verdict gap">gap</span>`;
+    return `
+      <tr>
+        <td>
+          <span class="skill">
+            ${item.skill}
+            <span class="chip ${item.weight}">${item.weight}</span>
+          </span>
+        </td>
+        <td class="${item.kw ? "" : "dim"}">${item.kw.toFixed(2)}</td>
+        <td class="dim">${item.emb.toFixed(2)}</td>
+        <td><strong>${item.combined.toFixed(2)}</strong></td>
+        <td>${verdict}</td>
+      </tr>`;
+  }).join("");
+
+  const advice = jd.advice.map(a => {
+    const req = result.items.find(i => i.id === a.on);
+    return `
+      <div class="advice">
+        <div class="adviceHead">${a.head}</div>
+        <div class="adviceBody">${refHtml(a.body)}</div>
+        <div class="reviewLine">on ${a.on} · ${req.skill} · combined ${req.combined.toFixed(2)}</div>
+      </div>`;
+  }).join("");
+
+  const refCount = jd.advice.reduce((n, a) => n + (a.body.match(/\[B\d+\]/g) || []).length, 0);
+
+  body.innerHTML = `
+    <div class="totals">
+      <span class="bigScore">${result.total.toFixed(1)}</span>
+      <span class="totalNote">
+        weighted over ${result.items.length} requirements ·
+        <strong>${result.hardMet} of ${result.hardTotal}</strong> hard requirements met
+      </span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Requirement</th>
+          <th>keyword</th>
+          <th>embed</th>
+          <th>combined</th>
+          <th>verdict</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+
+    <h3>Suggestions — generated, then checked by code</h3>
+    ${advice}
+
+    <div class="reviewLine">
+      review round 1/${MAX_REVIEW_ROUNDS} · ${refCount} references emitted · ${refCount} resolved against the index · 0 dangling → passed
+    </div>`;
+}
+
+function render() {
+  renderJobs();
+  renderReport();
+}
+
+/* ------------------------------------------------------------------
+   Simulation loop
+------------------------------------------------------------------ */
+function tick() {
+  const { concurrency } = STRATEGIES[strategy];
+
+  // Admit queued work up to the cap — this is the whole difference
+  // between the three versions.
+  const running = jobs.filter(j => j.state === "running");
+  if (running.length < concurrency) {
+    const next = jobs.find(j => j.state === "queued");
+    if (next) { next.state = "running"; next.started = true; }
+  }
+
+  for (const job of jobs) {
+    if (job.state !== "running") continue;
+    job.progress += SPEED[job.id];
+    if (job.progress >= 100) {
+      job.progress = 100;
+      job.state = "done";
+      if (!selected) selected = job.id;
+    }
+  }
+
+  render();
+
+  if (jobs.every(j => j.state === "done" || j.state === "lost")) {
+    clearInterval(timer);
+    timer = null;
+    render();
+  }
+}
+
+function run() {
+  clearInterval(timer);
+  jobs = freshJobs();
+  selected = null;
+  render();
+  timer = setInterval(tick, 60);
+}
+
+function crash() {
+  clearInterval(timer);
+  timer = null;
+
+  const durable = STRATEGIES[strategy].durable;
+  for (const job of jobs) {
+    if (job.state !== "running") continue;
+    job.progress = 0;
+    // C persists the task row, so a killed worker leaves the JD queued
+    // rather than gone. A and B kept that state in memory only.
+    job.state = durable ? "queued" : "lost";
+  }
+
+  render();
+
+  if (durable && jobs.some(j => j.state === "queued")) {
+    timer = setInterval(tick, 60);
+    $("crashHint").textContent = "worker restarted from the queue";
+    $("crash").disabled = false;
+  } else {
+    $("crashHint").textContent = "progress was in memory — those JDs are gone";
+  }
+}
+
+/* ------------------------------------------------------------------
+   Events
+------------------------------------------------------------------ */
+$("strategies").addEventListener("click", e => {
+  const btn = e.target.closest("[data-strategy]");
+  if (!btn || timer) return;
+  strategy = btn.dataset.strategy;
+  renderStrategies();
+  jobs = freshJobs();
+  selected = null;
+  render();
+});
+
+$("jdList").addEventListener("click", e => {
+  const btn = e.target.closest("[data-jd]");
+  if (!btn || btn.disabled) return;
+  selected = btn.dataset.jd;
+  render();
+});
+
+$("reportBody").addEventListener("click", e => {
+  const btn = e.target.closest("[data-ref]");
+  if (!btn) return;
+  const id = btn.dataset.ref;
+  document.querySelectorAll(".ref").forEach(r => r.classList.remove("active"));
+  btn.classList.add("active");
+  activeRef = id;
+  $("evidenceText").innerHTML =
+    `<strong style="font-family:var(--mono);font-size:10.5px">${id}</strong> &nbsp;${REF_INDEX[id]}`;
+});
+
+$("run").addEventListener("click", run);
+$("crash").addEventListener("click", crash);
+
+renderStrategies();
+jobs = freshJobs();
+render();
+</script>
+</body>
+</html>
