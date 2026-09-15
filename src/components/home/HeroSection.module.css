@@ -29,6 +29,12 @@
   object-fit: cover;
 }
 
+/* 白底线稿反相后变成"石板上的粉笔画"，正好贴深色主题。
+   头像重出成透明底之后，这条和 lib/projects.ts 里的名单一起删。 */
+.onLight {
+  filter: invert(1) brightness(0.92);
+}
+
 .skills {
   display: flex;
   flex-wrap: wrap;

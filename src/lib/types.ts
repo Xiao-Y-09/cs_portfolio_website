@@ -48,6 +48,10 @@ export interface Project {
   thumbnailAlt: string;
   /** Resolved public URL of the cover image, set at build time only when the file exists. */
   thumbnailUrl?: string | null;
+  /** True when the cover has a baked-in light background, so the dark theme inverts it. Set at build time. */
+  thumbnailOnLight?: boolean;
+  /** Same, for previewImage. Set at build time. */
+  previewOnLight?: boolean;
   /** Screenshot filename used as the preview fallback (mobile / iframe failure). */
   previewImage?: string;
   /** Resolved public URL of previewImage, set at build time only when the file exists. */
@@ -87,6 +91,8 @@ export interface Profile {
   avatar: string;
   /** Resolved public URL of the hero image, set at build time only when the file exists. */
   avatarUrl?: string | null;
+  /** True when the hero image has a baked-in light background, so the dark theme inverts it. */
+  avatarOnLight?: boolean;
   skills: string[];
   experience: Experience[];
   techStack: TechCategory[];

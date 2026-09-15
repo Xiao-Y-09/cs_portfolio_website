@@ -34,6 +34,12 @@
   white-space: nowrap;
 }
 
+/* 白底截图在深色站上会炸成白块 —— 反相顶一下。
+   截图重出之后，这条和 lib/projects.ts 里的名单一起删。 */
+.onLight {
+  filter: invert(1) brightness(0.92);
+}
+
 .frameArea {
   position: relative;
   width: 100%;

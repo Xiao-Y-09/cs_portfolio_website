@@ -12,6 +12,8 @@ interface LivePreviewProps {
   demo?: boolean;
   /** Screenshot shown on mobile and when the iframe fails to load. */
   fallbackImage?: string | null;
+  /** True when that screenshot has a light background and needs inverting on the dark theme. */
+  fallbackOnLight?: boolean;
   /** Footnote under the preview; overrides the default demo disclaimer. */
   note?: string;
 }
@@ -46,17 +48,21 @@ function StaticFallback({
   url,
   title,
   fallbackImage,
+  fallbackOnLight,
 }: {
   url: string;
   title: string;
   fallbackImage?: string | null;
+  fallbackOnLight?: boolean;
 }) {
   if (fallbackImage) {
     return (
       <div className={styles.staticWrap}>
         {/* eslint-disable-next-line @next/next/no-img-element -- static export serves plain files */}
         <img
-          className={styles.staticImage}
+          className={`${styles.staticImage} ${
+            fallbackOnLight ? styles.onLight : ""
+          }`}
           src={fallbackImage}
           alt={`${title} screenshot`}
           loading="lazy"
@@ -83,6 +89,7 @@ export default function LivePreview({
   title,
   demo = false,
   fallbackImage,
+  fallbackOnLight = false,
   note,
 }: LivePreviewProps) {
   const areaRef = useRef<HTMLDivElement>(null);
@@ -136,7 +143,12 @@ export default function LivePreview({
         </div>
         <div ref={areaRef} className={styles.frameArea}>
           {mode === "static" ? (
-            <StaticFallback url={url} title={title} fallbackImage={fallbackImage} />
+            <StaticFallback
+              url={url}
+              title={title}
+              fallbackImage={fallbackImage}
+              fallbackOnLight={fallbackOnLight}
+            />
           ) : (
             <>
               {mode === "frame" && (

@@ -13,17 +13,44 @@ function resolvePublicImage(relPath: string): string | null {
   return fs.existsSync(path.join(PUBLIC_DIR, relPath)) ? `/${relPath}` : null;
 }
 
+// Covers with a baked-in white background, found by sampling their edge pixels.
+// On the dark theme these read as glaring white blocks, so they get inverted at
+// render time — they are all line drawings, so inverting is faithful.
+//
+// This list is a stopgap. Re-export these with a transparent background (they
+// also want to be larger than 280x175) and delete the entry — nothing else
+// depends on it.
+const LIGHT_BG_COVERS = new Set([
+  "avatar.png", // 1024x1024, pure white ground — a line drawing, inverts cleanly
+  "ffe-reader/thumbnail.png",
+  "harvestly/thumbnail.png",
+  "medium-daily-digest/thumbnail.png",
+  "multiagent-scaffold/thumbnail.png",
+  "xiaoliuyao/thumbnail.png",
+  "xompress/thumbnail.png",
+  "resume-reviewer/preview.png",
+]);
+
 function withCover(project: Project): Project {
   return {
     ...project,
     thumbnailUrl: resolvePublicImage(
       `images/projects/${project.slug}/${project.thumbnail}`
     ),
+    thumbnailOnLight: LIGHT_BG_COVERS.has(`${project.slug}/${project.thumbnail}`),
     previewImageUrl: project.previewImage
       ? resolvePublicImage(`images/projects/${project.slug}/${project.previewImage}`)
       : null,
+    previewOnLight: project.previewImage
+      ? LIGHT_BG_COVERS.has(`${project.slug}/${project.previewImage}`)
+      : false,
   };
 }
+
+// Pinned to the front of the home grid, in this order. Everything not listed
+// keeps falling back to newest-first by sortKey. Reorder or empty this array
+// to go back to a purely chronological grid.
+const PINNED_SLUGS = ["xompress", "medium-daily-digest", "tarot-local-ai"];
 
 export function getAllProjects(): Project[] {
   const fileNames = fs.readdirSync(PROJECTS_DIR).filter((f) => f.endsWith(".json"));
@@ -32,9 +59,14 @@ export function getAllProjects(): Project[] {
     const raw = fs.readFileSync(filePath, "utf-8");
     return withCover(JSON.parse(raw) as Project);
   });
-  return projects.sort((a, b) =>
-    (a.sortKey ?? a.date) > (b.sortKey ?? b.date) ? -1 : 1
-  );
+  return projects.sort((a, b) => {
+    const ai = PINNED_SLUGS.indexOf(a.slug);
+    const bi = PINNED_SLUGS.indexOf(b.slug);
+    if (ai !== -1 && bi !== -1) return ai - bi;
+    if (ai !== -1) return -1;
+    if (bi !== -1) return 1;
+    return (a.sortKey ?? a.date) > (b.sortKey ?? b.date) ? -1 : 1;
+  });
 }
 
 export function getProjectBySlug(slug: string): Project | null {
@@ -56,6 +88,7 @@ export function getProfile(): Profile {
   return {
     ...profile,
     avatarUrl: resolvePublicImage(`images/${profile.avatar}`),
+    avatarOnLight: LIGHT_BG_COVERS.has(profile.avatar),
   };
 }
 

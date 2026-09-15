@@ -1,3 +1,9 @@
+/* 这个区块原本靠上游的几何分隔符撑开间距。分隔符删掉之后，
+   间距改成自己带 —— 区块自己负责自己的上边距更稳。 */
+.section {
+  margin-top: var(--space-4xl);
+}
+
 .blocks {
   margin-top: var(--space-lg);
   display: flex;

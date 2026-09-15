@@ -20,7 +20,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             <img
               src={project.thumbnailUrl}
               alt={project.thumbnailAlt}
-              className={styles.thumbImg}
+              className={`${styles.thumbImg} ${
+                project.thumbnailOnLight ? styles.onLight : ""
+              }`}
             />
           ) : (
             <PlaceholderImage width="100%" height="100%" />

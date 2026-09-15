@@ -15,7 +15,7 @@ export default function TechStackSection({
   live,
 }: TechStackSectionProps) {
   return (
-    <section>
+    <section className={styles.section}>
       <SectionTitle title="Tech Stack & Links" />
       <div className={styles.grid}>
         {categories.map((cat) => (

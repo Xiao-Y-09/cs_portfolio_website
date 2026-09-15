@@ -1,5 +1,5 @@
 interface GeometricDividerProps {
-  variant?: "dots" | "line" | "triangles";
+  variant?: "line" | "triangles";
   className?: string;
 }
 
@@ -19,23 +19,6 @@ export default function GeometricDivider({
         marginBottom: "var(--space-2xl)",
       }}
     >
-      {variant === "dots" && (
-        <svg
-          width="100"
-          height="4"
-          viewBox="0 0 100 4"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <circle cx="2" cy="2" r="2" />
-          <circle cx="18" cy="2" r="2" />
-          <circle cx="34" cy="2" r="2" />
-          <circle cx="50" cy="2" r="2" />
-          <circle cx="66" cy="2" r="2" />
-          <circle cx="82" cy="2" r="2" />
-          <circle cx="98" cy="2" r="2" />
-        </svg>
-      )}
       {variant === "line" && (
         <svg
           width="200"

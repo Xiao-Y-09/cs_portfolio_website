@@ -78,7 +78,7 @@ code, pre {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(var(--rv-distance));
   }
   to {
     opacity: 1;
@@ -86,20 +86,42 @@ code, pre {
   }
 }
 
+/* 首屏入场：加载时按 --rv-i 依次浮出。
+   纯 CSS 驱动，不依赖 JS —— fill-mode both 保证动画停在终态，
+   所以哪怕脚本没跑起来，内容也一定是可见的。 */
 .animate-fade-in-up {
-  animation: fadeInUp var(--transition-slow) var(--easing) both;
+  animation: fadeInUp var(--rv-duration) var(--rv-easing) both;
+  animation-delay: calc(var(--rv-i, 0) * var(--rv-stagger));
 }
 
-.animate-delay-1 { animation-delay: 100ms; }
-.animate-delay-2 { animation-delay: 200ms; }
-.animate-delay-3 { animation-delay: 300ms; }
-.animate-delay-4 { animation-delay: 400ms; }
+/* 首屏外入场：等滚到了才揭示。
+   首屏外的元素在加载时就播完动画是纯浪费 —— 没人看得见。
+   这一段需要 JS 加 .is-revealed；下面两条兜底保证 JS 缺席时内容照样显示。 */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--rv-distance));
+  transition: opacity var(--rv-duration) var(--rv-easing),
+    transform var(--rv-duration) var(--rv-easing);
+  transition-delay: calc(var(--rv-i, 0) * var(--rv-stagger));
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  /* 滚动揭示的起始态是 opacity:0，而减动效下 ScrollReveal 直接不跑，
+     没有这条的话这些元素会永远留在隐藏态。 */
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 }
 

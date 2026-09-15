@@ -5,9 +5,12 @@
   text-decoration: none;
 }
 
+/* surface 而不是 bg：深色底上投影是隐形的，卡片只能靠亮度台阶 + 顶边高光
+   跟背景分开，否则整片会塌成一个平面。 */
 .card {
   border: var(--card-border-width) solid var(--color-border);
-  background: var(--color-white);
+  background: var(--color-surface);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   transition: transform var(--transition-base) var(--easing),
     border-color var(--transition-base) var(--easing);
   height: 100%;
@@ -30,6 +33,12 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* 白底线稿在深色站上会炸成白块。反相后白底变深、深线变亮，正好贴合主题。
+   封面重新导出成透明底之后，这条和 lib/projects.ts 里的名单一起删掉。 */
+.onLight {
+  filter: invert(1) brightness(0.92);
 }
 
 .body {

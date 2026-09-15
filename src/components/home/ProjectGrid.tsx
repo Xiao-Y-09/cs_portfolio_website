@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Project } from "@/lib/types";
 import ProjectCard from "@/components/project/ProjectCard";
 import SectionTitle from "@/components/ui/SectionTitle";
@@ -26,11 +27,13 @@ export default function ProjectGrid({
     >
       <SectionTitle title={title} subtitle={subtitle} />
       <div className={styles.grid} style={{ marginTop: "var(--space-2xl)" }}>
+        {/* 卡片几乎总在首屏外，加载时就播完等于没人看见 —— 改成滚到了才揭示。
+            延迟按每行三个循环，同一排之间错开、下一排重新开始。 */}
         {projects.map((project, index) => (
           <div
             key={project.slug}
-            className="animate-fade-in-up"
-            style={{ animationDelay: `${index * 100}ms` }}
+            data-reveal
+            style={{ "--rv-i": index % 3 } as CSSProperties}
           >
             <ProjectCard project={project} />
           </div>

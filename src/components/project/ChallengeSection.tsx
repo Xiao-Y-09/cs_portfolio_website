@@ -10,7 +10,7 @@ export default function ChallengeSection({
   challenges,
 }: ChallengeSectionProps) {
   return (
-    <section>
+    <section className={styles.section}>
       <SectionTitle title="Challenges & Solutions" />
       <div className={styles.blocks}>
         {challenges.map((challenge) => (

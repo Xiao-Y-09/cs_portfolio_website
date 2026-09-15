@@ -57,7 +57,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               {project.description}
             </p>
           </section>
-          <GeometricDivider variant="dots" />
           <div style={{ margin: "var(--space-3xl) 0" }}>
             <PlaceholderImage height="280px" label="Work in progress" />
           </div>
@@ -91,11 +90,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             title={project.title}
             demo={Boolean(project.links.demo)}
             fallbackImage={project.previewImageUrl ?? project.thumbnailUrl}
+            fallbackOnLight={
+              project.previewImageUrl
+                ? project.previewOnLight
+                : project.thumbnailOnLight
+            }
             note={project.previewNote}
           />
         </>
       )}
-      <GeometricDivider variant="dots" />
       {project.techStack && (
         <>
           <TechStackSection
@@ -117,10 +120,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         projectSlug={project.slug}
       />
       {project.challenges && (
-        <>
-          <GeometricDivider variant="dots" />
-          <ChallengeSection challenges={project.challenges} />
-        </>
+        <ChallengeSection challenges={project.challenges} />
       )}
       {project.images.length > 0 && (
         <>

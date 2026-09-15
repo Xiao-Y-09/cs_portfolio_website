@@ -1,7 +1,7 @@
+import type { CSSProperties } from "react";
 import type { Profile } from "@/lib/types";
 import Tag from "@/components/ui/Tag";
 import IconLink from "@/components/ui/IconLink";
-import GeometricDivider from "@/components/ui/GeometricDivider";
 import styles from "./HeroSection.module.css";
 
 interface HeroSectionProps {
@@ -45,26 +45,29 @@ export default function HeroSection({ profile }: HeroSectionProps) {
           <h1
             className="animate-fade-in-up"
             style={{
+              "--rv-i": 0,
               fontFamily: "var(--font-heading)",
               fontSize: "var(--text-5xl)",
               fontWeight: 700,
-            }}
+            } as CSSProperties}
           >
             {profile.name}
           </h1>
           <p
-            className="animate-fade-in-up animate-delay-1"
+            className="animate-fade-in-up"
             style={{
+              "--rv-i": 1,
               fontSize: "var(--text-xl)",
               color: "var(--color-text-secondary)",
               marginTop: "var(--space-sm)",
-            }}
+            } as CSSProperties}
           >
             {profile.title}
           </p>
           <p
-            className="animate-fade-in-up animate-delay-2"
+            className="animate-fade-in-up"
             style={{
+              "--rv-i": 2,
               fontSize: "var(--text-lg)",
               color: "var(--color-text-secondary)",
               marginTop: "var(--space-lg)",
@@ -72,16 +75,22 @@ export default function HeroSection({ profile }: HeroSectionProps) {
               lineHeight: 1.7,
               whiteSpace: "pre-line",
               textAlign: "justify",
-            }}
+            } as CSSProperties}
           >
             {profile.bio}
           </p>
-          <div className={`${styles.skills} animate-fade-in-up animate-delay-3`}>
+          <div
+            className={`${styles.skills} animate-fade-in-up`}
+            style={{ "--rv-i": 3 } as CSSProperties}
+          >
             {profile.skills.map((skill) => (
               <Tag key={skill} label={skill} />
             ))}
           </div>
-          <div className={`${styles.contact} animate-fade-in-up animate-delay-4`}>
+          <div
+            className={`${styles.contact} animate-fade-in-up`}
+            style={{ "--rv-i": 4 } as CSSProperties}
+          >
             <IconLink
               href={`mailto:${profile.contact.email}`}
               icon="email"
@@ -99,20 +108,24 @@ export default function HeroSection({ profile }: HeroSectionProps) {
             />
           </div>
         </div>
-        <div className={styles.decoration}>
+        <div
+          className={`${styles.decoration} animate-fade-in-up`}
+          style={{ "--rv-i": 5 } as CSSProperties}
+        >
           {profile.avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={profile.avatarUrl}
               alt={profile.name}
-              className={styles.decorationImg}
+              className={`${styles.decorationImg} ${
+                profile.avatarOnLight ? styles.onLight : ""
+              }`}
             />
           ) : (
             <HeroDecoration />
           )}
         </div>
       </div>
-      <GeometricDivider variant="dots" />
     </section>
   );
 }
