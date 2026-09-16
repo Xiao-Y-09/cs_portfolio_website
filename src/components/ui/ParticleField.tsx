@@ -5,43 +5,48 @@ import { useEffect, useRef } from "react";
 interface ParticleFieldProps {
   /** 点半径基准值。每个点会在 0.45–1.4 倍之间随机，让场有纵深。 */
   size?: number;
-  /** 点数量。连线是 O(n²)，但实测 220 点仍稳 60fps，320 以内都安全。 */
-  count?: number;
-  /** 两点距离小于这个值(px)才连线。点多 + 连线短 = 密网；点少 + 连线长 = 稀疏星座。 */
+  /**
+   * 每个点平均连多少个邻居 —— 这才是"网有多密"的真实指标。
+   * 点数由它和视口面积反推，所以手机和 4K 屏看到的密度是一样的。
+   */
+  density?: number;
+  /** 两点距离小于这个值(px)才连线。 */
   linkDistance?: number;
+  /** 点数上下限。上限纯粹是性能护栏，正常不会触到。 */
+  minCount?: number;
+  maxCount?: number;
   /** 点的不透明度。连线永远只有它的一小部分，否则整片会糊成白雾。 */
   alpha?: number;
   /** 每帧位移上限(px)。0 = 完全静止。 */
   speed?: number;
-  /** 视口窄于这个宽度就完全不跑 —— 手机上这个密度既费电又没意义。 */
-  minWidth?: number;
 }
 
 /**
  * 铺满视口的粒子网背景。
  *
- * 默认值是手动调出来并确认过的，不要随手改：
- *   size 2.4 · count 187 · link 420 · alpha 0.62 · speed 0.64
+ * 密度而不是点数才是被确认过的那个量：目标是每点平均连 140 个邻居，
+ * 手感对应手动调参时 count 187 / link 420 在 ~800px 宽视口下的样子。
  *
- * 注意密度跟视口面积相关 —— 同样的 count，屏幕越小网越密
- * （1280×800 约每点连 100 个，1920×1080 约 50 个）。这是刻意不做归一化的，
- * 因为上面这组值是在具体某块屏上挑的。要全屏一致的话，把 count
- * 乘以 (innerWidth * innerHeight) / (1440 * 900) 即可。
+ *   每点邻居数 ≈ (点数 ÷ 视口面积) × π × 连线距离²
+ *   ⇒ 点数 = 密度 × 视口面积 ÷ (π × 连线距离²)
+ *
+ * 所以点数是按视口面积算出来的，不是写死的 —— 否则同一个数字在手机上
+ * 会密到糊成白雾（390px 宽时每点连 315 个），在 4K 上又稀得看不出是张网。
  */
 export default function ParticleField({
   size = 2.4,
-  count = 187,
+  density = 140,
   linkDistance = 420,
+  minCount = 24,
+  maxCount = 1000,
   alpha = 0.62,
   speed = 0.64,
-  minWidth = 768,
 }: ParticleFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    if (window.innerWidth < minWidth) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -50,6 +55,7 @@ export default function ParticleField({
 
     let w = 0;
     let h = 0;
+    let count = 0;
     let raf = 0;
     let dots: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
 
@@ -59,9 +65,13 @@ export default function ParticleField({
         .getPropertyValue("--color-particle")
         .trim() || "185, 195, 208";
 
-    // 点越多每条线就得越淡，否则高密度下整片会糊成白雾。
-    // 分母 70 是基准点数，对应最初调参时的观感。
-    const lineAlpha = alpha * 0.34 * Math.min(1, Math.max(0.3, 70 / count));
+    // 连线浓度按密度补偿。密度是固定的，所以这个系数也是固定的 ——
+    // 没有它，140 的密度会让整片糊成白雾。
+    const lineAlpha = alpha * 0.34 * Math.min(1, Math.max(0.24, 70 / density));
+
+    // 连线按透明度分档，每档攒成一条路径一次画完
+    const ALPHA_STEPS = 12;
+    const buckets: number[][] = Array.from({ length: ALPHA_STEPS }, () => []);
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -70,10 +80,14 @@ export default function ParticleField({
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // 点数跟着视口面积走，密度才能在所有屏幕上保持一致
+      const ideal = (density * w * h) / (Math.PI * linkDistance * linkDistance);
+      count = Math.round(Math.min(maxCount, Math.max(minCount, ideal)));
     };
 
     const seed = () => {
-      dots = Array.from({ length: Math.round(count) }, () => ({
+      dots = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
         vx: (Math.random() - 0.5) * speed,
@@ -99,7 +113,14 @@ export default function ParticleField({
         ctx.fill();
       }
 
-      // 先比距离平方，省掉每一对点一次开方
+      // 连线按透明度分桶批量画。逐条 beginPath+stroke 的话，密度一高
+      // 就是几万次状态切换 —— 大屏上实测从 60fps 掉到 21fps。
+      // 分成 ALPHA_STEPS 档之后只剩十来次 stroke，透明度量化到这个粒度
+      // 在背景上完全看不出来。
+      for (const p of buckets) {
+        p.length = 0;
+      }
+
       const link2 = linkDistance * linkDistance;
       for (let i = 0; i < dots.length; i++) {
         const a = dots[i];
@@ -109,15 +130,24 @@ export default function ParticleField({
           const dy = a.y - b.y;
           const d2 = dx * dx + dy * dy;
           if (d2 >= link2) continue;
+          // 先比距离平方，只有真要画的那些才开方
           const t = 1 - Math.sqrt(d2) / linkDistance;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(${rgb}, ${t * lineAlpha})`;
-          ctx.stroke();
+          const slot = Math.min(ALPHA_STEPS - 1, (t * ALPHA_STEPS) | 0);
+          buckets[slot].push(a.x, a.y, b.x, b.y);
         }
       }
 
+      for (let s = 0; s < ALPHA_STEPS; s++) {
+        const seg = buckets[s];
+        if (!seg.length) continue;
+        ctx.strokeStyle = `rgba(${rgb}, ${((s + 0.5) / ALPHA_STEPS) * lineAlpha})`;
+        ctx.beginPath();
+        for (let k = 0; k < seg.length; k += 4) {
+          ctx.moveTo(seg[k], seg[k + 1]);
+          ctx.lineTo(seg[k + 2], seg[k + 3]);
+        }
+        ctx.stroke();
+      }
     };
 
     const frame = () => {
@@ -144,7 +174,7 @@ export default function ParticleField({
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
     };
-  }, [size, count, linkDistance, alpha, speed, minWidth]);
+  }, [size, density, linkDistance, minCount, maxCount, alpha, speed]);
 
   return (
     <canvas
