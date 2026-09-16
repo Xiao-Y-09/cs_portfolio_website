@@ -2,7 +2,7 @@
   "name": "Xiao Yang",
   "title": "Computer Science Student",
   "bio": "MS in Computer Science candidate at Northeastern University (Khoury College, Silicon Valley), graduating Winter 2027.\n\nPracticing an AI-augmented development workflow — orchestrating multi-agent collaboration across frontier models (Claude Opus, OpenAI Codex) and local models (Gemma 4 31B) for architectural planning, implementation, and code review.",
-  "avatar": "avatar.png",
+  "avatar": "avatar.webp",
   "skills": [
     "Python", "TypeScript", "JavaScript", "Java", "SQL",
     "React", "Next.js", "Node.js", "FastAPI",
@@ -10,20 +10,7 @@
     "AWS", "Docker", "Git",
     "LangGraph", "RAG", "Claude API", "Vector Databases"
   ],
-  "experience": [
-    {
-      "role": "Software Engineer Intern",
-      "company": "Company A",
-      "period": "2024.06 — 2024.09",
-      "description": "Placeholder description of your internship responsibilities and achievements."
-    },
-    {
-      "role": "Research Assistant",
-      "company": "University Lab",
-      "period": "2023.09 — 2024.05",
-      "description": "Placeholder description of your research work."
-    }
-  ],
+  "experience": [],
   "techStack": [
     { "category": "Frontend", "items": ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML/CSS"] },
     { "category": "Backend", "items": ["Node.js", "Python", "Express", "PostgreSQL"] },

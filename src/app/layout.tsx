@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import ParticleField from "@/components/ui/ParticleField";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { getProfile } from "@/lib/projects";
+import { SITE_URL } from "@/lib/site";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -28,20 +29,34 @@ const jetbrainsMono = JetBrains_Mono({
 export function generateMetadata(): Metadata {
   const profile = getProfile();
   const title = `${profile.name} — Portfolio`;
+  const summary = `Projects, experiments, and technical work by ${profile.name}.`;
+  const ogAlt = `${profile.name} — Computer Science portfolio`;
   return {
     title: {
       default: title,
       template: "%s — Portfolio",
     },
-    description: `CS 作品集 — Projects, experiments, and technical work by ${profile.name}.`,
-    metadataBase: new URL("https://your-domain.vercel.app"),
+    description: `Projects, experiments, and technical work by ${profile.name} — ${profile.title}.`,
+    metadataBase: new URL(SITE_URL),
     openGraph: {
       title,
-      description: "CS 作品集",
-      url: "https://your-domain.vercel.app",
+      description: summary,
+      url: SITE_URL,
       siteName: `${profile.name} Portfolio`,
-      locale: "zh_CN",
+      locale: "en_US",
       type: "website",
+      // Set by hand: the card is a route handler at /og.png rather than
+      // Next's opengraph-image convention, so nothing injects this for us.
+      // See src/app/og.png/route.tsx for why.
+      images: [
+        { url: "/og.png", width: 1200, height: 630, alt: ogAlt },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: summary,
+      images: [{ url: "/og.png", alt: ogAlt }],
     },
     robots: { index: true, follow: true },
   };
@@ -55,7 +70,7 @@ export default function RootLayout({
   const profile = getProfile();
   return (
     <html
-      lang="zh-CN"
+      lang="en"
       className={`${outfit.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable}`}
     >
       <head>

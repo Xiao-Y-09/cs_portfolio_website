@@ -21,7 +21,7 @@ function resolvePublicImage(relPath: string): string | null {
 // also want to be larger than 280x175) and delete the entry — nothing else
 // depends on it.
 const LIGHT_BG_COVERS = new Set([
-  "avatar.png", // 1024x1024, pure white ground — a line drawing, inverts cleanly
+  "avatar.webp", // 560x560, pure white ground — a line drawing, inverts cleanly
   "ffe-reader/thumbnail.png",
   "harvestly/thumbnail.png",
   "medium-daily-digest/thumbnail.png",
