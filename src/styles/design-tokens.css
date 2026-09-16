@@ -15,8 +15,10 @@
   --color-gray-600: #A8AFB8;
   --color-gray-800: #C7CCD4;
 
-  /* 粒子背景用，rgb 分量形式，供 canvas 拼 rgba() */
-  --color-particle: 185, 195, 208;
+  /* 粒子背景用，rgb 分量形式，供 canvas 拼 rgba()。
+     点和连线共用这一个色 —— 调这里就能整体提亮或压暗。
+     185,195,208 偏亮抢正文；96,103,115 淡到快成纹理。 */
+  --color-particle: 120, 128, 141;
 
   /* === 语义色彩 === */
   --color-bg: var(--color-white);
