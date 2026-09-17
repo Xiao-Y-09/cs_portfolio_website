@@ -7,7 +7,7 @@ const PROFILE_PATH = path.join(process.cwd(), "src/data/profile.json");
 const PUBLIC_DIR = path.join(process.cwd(), "public");
 
 // Returns the public URL ("/...") if the file exists under public/, else null.
-// Runs at build time (static export), so the cover/hero images fall back to a
+// Runs at build time (static export), so cover images fall back to a
 // placeholder until a real file is dropped in the matching folder.
 function resolvePublicImage(relPath: string): string | null {
   return fs.existsSync(path.join(PUBLIC_DIR, relPath)) ? `/${relPath}` : null;
@@ -21,7 +21,6 @@ function resolvePublicImage(relPath: string): string | null {
 // also want to be larger than 280x175) and delete the entry — nothing else
 // depends on it.
 const LIGHT_BG_COVERS = new Set([
-  "avatar.webp", // 560x560, pure white ground — a line drawing, inverts cleanly
   "ffe-reader/thumbnail.png",
   "harvestly/thumbnail.png",
   "medium-daily-digest/thumbnail.png",
@@ -84,12 +83,7 @@ export function getAllProjectSlugs(): string[] {
 
 export function getProfile(): Profile {
   const raw = fs.readFileSync(PROFILE_PATH, "utf-8");
-  const profile = JSON.parse(raw) as Profile;
-  return {
-    ...profile,
-    avatarUrl: resolvePublicImage(`images/${profile.avatar}`),
-    avatarOnLight: LIGHT_BG_COVERS.has(profile.avatar),
-  };
+  return JSON.parse(raw) as Profile;
 }
 
 export function getProjectImagePath(slug: string, filename: string): string {

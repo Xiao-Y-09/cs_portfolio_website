@@ -1,3 +1,5 @@
+/* 右边 3fr 那一列是故意空着的：图案已经撤掉，但文字保持原来的行宽，
+   空出来的地方让粒子背景露出来。别把它改成单列。 */
 .hero {
   display: grid;
   grid-template-columns: 7fr 3fr;
@@ -9,30 +11,6 @@
   .hero {
     grid-template-columns: 1fr;
   }
-  .decoration {
-    display: none;
-  }
-}
-
-.decoration {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--color-gray-200);
-}
-
-.decorationImg {
-  width: 100%;
-  max-width: 280px;
-  height: auto;
-  display: block;
-  object-fit: cover;
-}
-
-/* 白底线稿反相后变成"石板上的粉笔画"，正好贴深色主题。
-   头像重出成透明底之后，这条和 lib/projects.ts 里的名单一起删。 */
-.onLight {
-  filter: invert(1) brightness(0.92);
 }
 
 .skills {

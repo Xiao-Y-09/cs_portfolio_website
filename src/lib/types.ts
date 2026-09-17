@@ -88,11 +88,6 @@ export interface Profile {
   name: string;
   title: string;
   bio: string;
-  avatar: string;
-  /** Resolved public URL of the hero image, set at build time only when the file exists. */
-  avatarUrl?: string | null;
-  /** True when the hero image has a baked-in light background, so the dark theme inverts it. */
-  avatarOnLight?: boolean;
   skills: string[];
   experience: Experience[];
   techStack: TechCategory[];

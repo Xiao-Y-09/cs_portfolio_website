@@ -8,29 +8,6 @@ interface HeroSectionProps {
   profile: Profile;
 }
 
-function HeroDecoration() {
-  return (
-    <svg
-      width="280"
-      height="280"
-      viewBox="0 0 280 280"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1"
-      aria-hidden="true"
-    >
-      <circle cx="140" cy="140" r="130" />
-      <circle cx="140" cy="140" r="100" />
-      <circle cx="140" cy="140" r="70" />
-      <circle cx="140" cy="140" r="40" />
-      <line x1="0" y1="140" x2="280" y2="140" />
-      <line x1="140" y1="0" x2="140" y2="280" />
-      <line x1="20" y1="20" x2="260" y2="260" />
-      <line x1="260" y1="20" x2="20" y2="260" />
-    </svg>
-  );
-}
-
 export default function HeroSection({ profile }: HeroSectionProps) {
   return (
     <section
@@ -107,23 +84,6 @@ export default function HeroSection({ profile }: HeroSectionProps) {
               label={profile.contact.linkedin}
             />
           </div>
-        </div>
-        <div
-          className={`${styles.decoration} animate-fade-in-up`}
-          style={{ "--rv-i": 5 } as CSSProperties}
-        >
-          {profile.avatarUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={profile.avatarUrl}
-              alt={profile.name}
-              className={`${styles.decorationImg} ${
-                profile.avatarOnLight ? styles.onLight : ""
-              }`}
-            />
-          ) : (
-            <HeroDecoration />
-          )}
         </div>
       </div>
     </section>
