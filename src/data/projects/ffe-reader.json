@@ -6,8 +6,8 @@
   "tags": ["TypeScript", "Next.js", "FastAPI", "PostgreSQL", "AG Grid", "SaaS"],
   "date": "Jun.2026 - Jul.2026",
   "sortKey": "2026-02",
-  "thumbnail": "thumbnail.png",
-  "thumbnailAlt": "FF&E Reader schedule grid interface",
+  "thumbnail": "thumbnail.svg",
+  "thumbnailAlt": "Illustration of an armchair with a spec tag, linked to its highlighted row in a schedule grid",
   "techStack": [
     { "category": "Backend", "items": ["Python 3.12 + FastAPI — REST API with OpenAPI schema as the single contract", "SQLModel + Alembic on PostgreSQL 16; JWT + bcrypt authentication", "Celery + Redis for background tasks; openpyxl / WeasyPrint for templated Excel and PDF export", "pytest + pytest-asyncio + httpx — 88 tests across the MVP"] },
     { "category": "Frontend", "items": ["Next.js 14 App Router + TypeScript strict mode", "AG Grid Community — the Excel-like schedule editor with custom cell editors", "TanStack Query v5 for server state; Zustand + zundo for client state and undo/redo", "Tailwind CSS + shadcn/ui; ECharts dashboards; React Hook Form + Zod"] },

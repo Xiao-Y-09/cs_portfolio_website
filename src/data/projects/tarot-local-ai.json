@@ -7,7 +7,7 @@
   "date": "Jun.2026 - Jul.2026",
   "sortKey": "2026-06-10",
   "thumbnail": "thumbnail.svg",
-  "thumbnailAlt": "Tarot with Local AI — fanned tarot cards",
+  "thumbnailAlt": "Illustration of five tarot cards fanned from a ring of 78, the front card showing the Sun",
   "techStack": [
     { "category": "Frontend", "items": ["React + TypeScript", "Vite"] },
     { "category": "Backend", "items": ["Python + FastAPI"] },

@@ -7,7 +7,7 @@
   "date": "Aug.2026",
   "sortKey": "2026-08",
   "thumbnail": "thumbnail.svg",
-  "thumbnailAlt": "ResumeReviewer — resume scored and ranked against multiple job descriptions",
+  "thumbnailAlt": "Illustration of a resume beside a bar chart ranking its fit against four job descriptions",
   "techStack": [
     { "category": "Frontend", "items": ["React + Vite", "Tailwind CSS", "Polling-based task board — several JDs progress side by side"] },
     { "category": "Backend", "items": ["FastAPI — upload, task submission, per-JD progress, report retrieval", "A frozen submit(task_id) boundary — the single seam the three versions swap"] },

@@ -6,8 +6,8 @@
   "tags": ["Python", "CLI", "Algorithm Design", "Lunar Calendar"],
   "date": "Jun.2026 - Jul.2026",
   "sortKey": "2026-03",
-  "thumbnail": "thumbnail.png",
-  "thumbnailAlt": "小六爻 three-palace casting output",
+  "thumbnail": "thumbnail.svg",
+  "thumbnailAlt": "Illustration of a hexagram with one moving line, inside a ring of six palaces beside a crescent moon",
   "techStack": [
     { "category": "Core Engine", "items": ["Pure-Python counting engine (core.py) — zero dependencies, never imports datetime", "Shao Yichen six-palace ruleset encoded as data (element, auspice, direction, earthly branches per palace)"] },
     { "category": "Calendar Adapter", "items": ["solar.py — Gregorian → lunar conversion via lunar_python (swappable for cnlunar/zhdate/sxtwl)", "Shichen (double-hour) indexing with verified boundary handling", "Manual-lunar fallback — casting works with no calendar library installed"] },

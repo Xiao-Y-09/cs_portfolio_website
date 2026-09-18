@@ -6,8 +6,8 @@
   "tags": ["Python", "FastAPI", "Next.js", "Celery", "PyMuPDF", "Docker"],
   "date": "Jun.2026 - Jul.2026",
   "sortKey": "2026-07",
-  "thumbnail": "thumbnail.png",
-  "thumbnailAlt": "Xompress PDF compressor web interface",
+  "thumbnail": "thumbnail.svg",
+  "thumbnailAlt": "Illustration of a PDF page squeezed into a smaller one that fits the target size",
   "techStack": [
     { "category": "Backend", "items": ["Python + FastAPI — async REST API (/api/v1, six routes)", "Celery + Redis — task queue with progress callbacks and a tiered-degradation state machine", "PyMuPDF + Pillow — PDF dissection, image re-encoding, in-place stream replacement", "fonttools — font subsetting with a PUA/control-character safety gate", "Pydantic v2 — a 26-type data contract shared by every pipeline stage"] },
     { "category": "Frontend", "items": ["Next.js (App Router) — five-state upload → progress → review → result flow", "Tailwind CSS", "Playwright — end-to-end tests"] },

@@ -7,21 +7,14 @@
 
 ## 1. 主页 / 项目详情页的封面（每个项目一张）
 
-放到：`public/images/projects/<slug>/thumbnail.png`
+封面是**脚本生成的矢量图**，不用手动放图：
 
-| 项目 | 放这里 |
-|------|--------|
-| Xompress | `public/images/projects/xompress/thumbnail.png` |
-| FF&E Reader | `public/images/projects/ffe-reader/thumbnail.png` |
-| Harvestly | `public/images/projects/harvestly/thumbnail.png` |
-| Multi-Agent Scaffold | `public/images/projects/multiagent-scaffold/thumbnail.png` |
-| 小六爻 | `public/images/projects/xiaoliuyao/thumbnail.png` |
-| Medium Daily Digest | `public/images/projects/medium-daily-digest/thumbnail.png` |
-| Tennis Match（Processing） | `public/images/projects/tennis-match/thumbnail.png` |
-| Shadowdeck（Processing） | `public/images/projects/shadowdeck/thumbnail.png` |
-| Deep Research Station | `public/images/projects/deep-research-station/thumbnail.svg`（已内置线稿封面；想换成图片就在同目录放 `thumbnail.png`，并把该 json 的 `"thumbnail"` 改回 `"thumbnail.png"`） |
-| Tarot with Local AI | `public/images/projects/tarot-local-ai/thumbnail.svg`（已内置线稿封面；换图方式同上） |
+```bash
+node scripts/make-project-icons.mjs              # 重新生成全部封面
+node scripts/make-project-icons.mjs xompress     # 只生成一张
+```
 
-- 文件名必须是 `thumbnail.png`（对应各 json 里的 `"thumbnail"` 字段）。
-- 想用 `.jpg`？把图命名为 `thumbnail.jpg`，并把该项目 json 里的 `"thumbnail": "thumbnail.png"` 改成 `"thumbnail.jpg"`。
-- 建议比例约 16:10（卡片就是这个比例，会以 `cover` 裁切填满）。
+- 每张图在 `scripts/make-project-icons.mjs` 里是一个函数，输出到 `public/images/projects/<slug>/thumbnail.svg`。
+- 全部共用同一套底色、点阵、线条粗细和 Tokyo Night 配色（与 `src/styles/design-tokens.css` 同步），所以新项目照着已有函数写一个，风格就能对上。
+- 加新项目：在脚本的 `ICONS` 里加一项，运行脚本，再把该项目 json 的 `"thumbnail"` 设为 `"thumbnail.svg"`。
+- 想改用自己的图片：在该项目目录放 `thumbnail.png` / `thumbnail.jpg`，并把 json 里的 `"thumbnail"` 改成对应文件名。建议 16:10、深色底。

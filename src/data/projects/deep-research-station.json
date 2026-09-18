@@ -7,7 +7,7 @@
   "date": "Jun.2026 - Jul.2026",
   "sortKey": "2026-06-15",
   "thumbnail": "thumbnail.svg",
-  "thumbnailAlt": "Deep Research Station — local multi-agent research platform",
+  "thumbnailAlt": "Illustration of a magnifying glass over a supervisor agent fanning out to four researchers and their sources",
   "techStack": [
     { "category": "Frontend", "items": ["Next.js 15 (App Router)", "shadcn/ui + Tailwind CSS", "Server-Sent Events (SSE) — real-time token and per-node status streaming"] },
     { "category": "Backend", "items": ["LangGraph — graph-based multi-agent orchestration", "Python 3.11", "LangChain"] },

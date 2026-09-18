@@ -6,8 +6,8 @@
   "description": "This project is currently in progress. A full overview, tech stack, and write-up will appear here once it takes shape.",
   "tags": ["In Progress"],
   "date": "May.2026 - Present",
-  "thumbnail": "thumbnail.png",
-  "thumbnailAlt": "Shadowdeck — work in progress",
+  "thumbnail": "thumbnail.svg",
+  "thumbnailAlt": "Illustration of a deck of cards with an eclipse emblem, casting a long shadow",
   "algorithm": { "overview": "", "steps": [] },
   "images": [],
   "links": { "live": null, "github": "https://github.com/Xiao-Y-09/shadowdeck" }

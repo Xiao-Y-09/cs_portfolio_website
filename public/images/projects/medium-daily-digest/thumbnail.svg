@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
+  <defs>
+    <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1.1" fill="#414868"/>
+    </pattern>
+    <radialGradient id="dotFade" cx="0.5" cy="0.5" r="0.62">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="dotMask"><rect width="640" height="400" fill="url(#dotFade)"/></mask>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.42">
+      <stop offset="0" stop-color="#7aa2f7" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#7aa2f7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="640" height="400" fill="#16161e"/>
+  <rect width="640" height="400" fill="url(#dots)" mask="url(#dotMask)"/>
+  <rect width="640" height="400" fill="url(#glow)"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <g opacity="0.9">
+      <rect x="118" y="120" width="46" height="34" rx="4" fill="#16161e" stroke="#c3c8e2" stroke-width="1.6" stroke-opacity="0.72"/>
+      <path d="M126 131 H156 M126 139 H148 M126 146 H140" stroke="#c3c8e2" stroke-width="1.4" stroke-opacity="0.55"/>
+    </g>
+    <g opacity="0.6">
+      <rect x="100" y="184" width="46" height="34" rx="4" fill="#16161e" stroke="#c3c8e2" stroke-width="1.6" stroke-opacity="0.72"/>
+      <path d="M108 195 H138 M108 203 H130 M108 210 H122" stroke="#c3c8e2" stroke-width="1.4" stroke-opacity="0.55"/>
+    </g>
+    <g opacity="0.35">
+      <rect x="120" y="248" width="46" height="34" rx="4" fill="#16161e" stroke="#c3c8e2" stroke-width="1.6" stroke-opacity="0.72"/>
+      <path d="M128 259 H158 M128 267 H150 M128 274 H142" stroke="#c3c8e2" stroke-width="1.4" stroke-opacity="0.55"/>
+    </g>
+    <path d="M170 150 H176 M162 214 H174 M170 280 H176" stroke="#414868" stroke-width="1.5" stroke-dasharray="1 5"/>
+    <!-- envelope body and open flap, behind the letter -->
+    <rect x="190" y="206" width="260" height="130" rx="6" stroke="#d3daf8" stroke-width="2.5"/>
+    <path d="M190 212 L320 132 L450 212" stroke="#c3c8e2" stroke-width="2" stroke-opacity="0.72"/>
+    <!-- the digest -->
+    <rect x="212" y="84" width="216" height="236" rx="5" fill="#16161e" stroke="#d3daf8" stroke-width="2.5"/>
+    <path d="M232 128 V104 L246 118 L260 104 V128" stroke="#7aa2f7" stroke-width="3"/>
+    <path d="M276 110 H396" stroke="#c3c8e2" stroke-width="2.5" stroke-opacity="0.72"/>
+    <path d="M276 122 H346" stroke="#c3c8e2" stroke-width="2" stroke-opacity="0.55"/>
+    <path d="M232 142 H408" stroke="#414868" stroke-width="1.5"/>
+    <rect x="226" y="146" width="190" height="32" rx="5" fill="#7aa2f7" fill-opacity="0.13"/>
+    <circle cx="239" cy="162" r="5.5" fill="#7aa2f7" stroke="#7aa2f7" stroke-width="1.5"/>
+    <rect x="252" y="151" width="30" height="22" rx="3" stroke="#7aa2f7" stroke-width="1.8"/>
+    <path d="M258 168 l7 -7 l5 5 l4 -3 l3 3" stroke="#7aa2f7" stroke-width="1.4"/>
+    <path d="M292 157 H402" stroke="#d3daf8" stroke-width="2.2"/>
+    <path d="M292 168 H368" stroke="#c3c8e2" stroke-width="2" stroke-opacity="0.55"/>
+    
+    <circle cx="239" cy="196" r="5.5" fill="#16161e" stroke="#c3c8e2" stroke-width="1.5" stroke-opacity="0.72"/>
+    <rect x="252" y="185" width="30" height="22" rx="3" stroke="#c3c8e2" stroke-width="1.8" stroke-opacity="0.72"/>
+    <path d="M258 202 l7 -7 l5 5 l4 -3 l3 3" stroke="#c3c8e2" stroke-width="1.4" stroke-opacity="0.55"/>
+    <path d="M292 191 H384" stroke="#c3c8e2" stroke-width="2" stroke-opacity="0.72"/>
+    <path d="M292 202 H350" stroke="#c3c8e2" stroke-width="2" stroke-opacity="0.55"/>
+    
+    <circle cx="239" cy="230" r="5.5" fill="#16161e" stroke="#c3c8e2" stroke-width="1.5" stroke-opacity="0.72"/>
+    <rect x="252" y="219" width="30" height="22" rx="3" stroke="#c3c8e2" stroke-width="1.8" stroke-opacity="0.72"/>
+    <path d="M258 236 l7 -7 l5 5 l4 -3 l3 3" stroke="#c3c8e2" stroke-width="1.4" stroke-opacity="0.55"/>
+    <path d="M292 225 H396" stroke="#c3c8e2" stroke-width="2" stroke-opacity="0.72"/>
+    <path d="M292 236 H362" stroke="#c3c8e2" stroke-width="2" stroke-opacity="0.55"/>
+    
+    <circle cx="239" cy="264" r="5.5" fill="#16161e" stroke="#c3c8e2" stroke-width="1.5" stroke-opacity="0.72"/>
+    <rect x="252" y="253" width="30" height="22" rx="3" stroke="#c3c8e2" stroke-width="1.8" stroke-opacity="0.72"/>
+    <path d="M258 270 l7 -7 l5 5 l4 -3 l3 3" stroke="#c3c8e2" stroke-width="1.4" stroke-opacity="0.55"/>
+    <path d="M292 259 H376" stroke="#c3c8e2" stroke-width="2" stroke-opacity="0.72"/>
+    <path d="M292 270 H342" stroke="#c3c8e2" stroke-width="2" stroke-opacity="0.55"/>
+    <!-- front pocket, over the letter -->
+    <path d="M190 244 L320 304 L450 244 V330 Q450 336 444 336 H196 Q190 336 190 330 Z" fill="#16161e" stroke="#d3daf8" stroke-width="2.5"/>
+    <path d="M196 334 L292 282 M444 334 L348 282" stroke="#c3c8e2" stroke-width="1.4" stroke-opacity="0.55"/>
+    <path d="M488 103 Q489.62 110.38 497 112 Q489.62 113.62 488 121 Q486.38 113.62 479 112 Q486.38 110.38 488 103 Z" fill="#c3c8e2" fill-opacity="0.55"/>
+    <path d="M508 141 Q508.9 145.1 513 146 Q508.9 146.9 508 151 Q507.1 146.9 503 146 Q507.1 145.1 508 141 Z" fill="#c3c8e2" fill-opacity="0.35"/>
+  </g>
+</svg>

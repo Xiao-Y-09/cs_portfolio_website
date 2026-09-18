@@ -13,20 +13,15 @@ function resolvePublicImage(relPath: string): string | null {
   return fs.existsSync(path.join(PUBLIC_DIR, relPath)) ? `/${relPath}` : null;
 }
 
-// Covers with a baked-in white background, found by sampling their edge pixels.
-// On the dark theme these read as glaring white blocks, so they get inverted at
-// render time — they are all line drawings, so inverting is faithful.
+// Images with a baked-in white background, found by sampling their edge
+// pixels. On the dark theme these read as glaring white blocks, so they get
+// inverted at render time.
 //
-// This list is a stopgap. Re-export these with a transparent background (they
-// also want to be larger than 280x175) and delete the entry — nothing else
-// depends on it.
+// The project covers used to be listed here; they are now SVGs drawn on the
+// dark ground by scripts/make-project-icons.mjs, so none of them need it. Only
+// the resume-reviewer screenshot is left. Re-export it with a dark background
+// and delete the entry — nothing else depends on it.
 const LIGHT_BG_COVERS = new Set([
-  "ffe-reader/thumbnail.png",
-  "harvestly/thumbnail.png",
-  "medium-daily-digest/thumbnail.png",
-  "multiagent-scaffold/thumbnail.png",
-  "xiaoliuyao/thumbnail.png",
-  "xompress/thumbnail.png",
   "resume-reviewer/preview.png",
 ]);
 

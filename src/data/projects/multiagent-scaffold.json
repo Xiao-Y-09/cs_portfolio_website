@@ -6,8 +6,8 @@
   "tags": ["Python", "LangGraph", "RAG", "Ollama", "ChromaDB"],
   "date": "May.2026 - Jun.2026",
   "sortKey": "2026-05",
-  "thumbnail": "thumbnail.png",
-  "thumbnailAlt": "Multi-agent scaffold pipeline diagram",
+  "thumbnail": "thumbnail.svg",
+  "thumbnailAlt": "Illustration of researcher, writer, reviewer, store and output agents on a ring around a YAML config hub",
   "techStack": [
     { "category": "Orchestration", "items": ["LangGraph — StateGraph with fixed and conditional edges, compiled with MemorySaver checkpointing", "graph.py — the config → graph translation layer; routing.py — router functions deciding loop continuation"] },
     { "category": "Agents", "items": ["researcher / writer / reviewer — each a make_xxx(llm) factory so models are injected from config", "registry.py — maps agent names in YAML to factory functions"] },

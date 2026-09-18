@@ -6,8 +6,8 @@
   "tags": ["Python", "Embeddings", "Optimization", "SciPy", "Simulation"],
   "date": "Jun.2026 - Jul.2026",
   "sortKey": "2026-04",
-  "thumbnail": "thumbnail.png",
-  "thumbnailAlt": "Harvestly mechanism comparison chart",
+  "thumbnail": "thumbnail.svg",
+  "thumbnailAlt": "Illustration of three wheat stalks growing from a matching graph that assigns them to three food banks",
   "techStack": [
     { "category": "Matching & Optimization", "items": ["scipy.optimize.linear_sum_assignment — Hungarian algorithm for optimal batch assignment", "Cost-utility matrix combining distance, shelf-life urgency, semantic fit, need level, and fairness — all weights in config.py"] },
     { "category": "Semantics", "items": ["Ollama + nomic-embed-text — donations and agency needs embedded into one space", "Offline fallback — food-category keyword embeddings, so the demo runs with no model server"] },

@@ -6,8 +6,8 @@
   "tags": ["Python", "Claude API", "Ollama", "Embeddings", "SQLite", "SMTP"],
   "date": "Mar.2026 - Jun.2026",
   "sortKey": "2026-06",
-  "thumbnail": "thumbnail.png",
-  "thumbnailAlt": "Medium Daily Digest email preview",
+  "thumbnail": "thumbnail.svg",
+  "thumbnailAlt": "Illustration of a ranked daily digest rising out of an envelope, with unread articles drifting in",
   "techStack": [
     { "category": "Backend / Core", "items": ["Python — stdlib-first (sqlite3, smtplib, email) to keep the dependency surface minimal", "feedparser — handles Medium's quirky feed formats"] },
     { "category": "LLM Layer", "items": ["Anthropic Claude API — stable structured JSON output", "Ollama + Gemma (27B / 4B) — local inference path: 27B for final summaries and scoring, 4B for lightweight coarse screening", "nomic-embed-text (via Ollama) — embeddings for semantic interest matching"] },
