@@ -27,7 +27,7 @@ export default function SectionTitle({
           display: "block",
           width: "16px",
           height: "2px",
-          backgroundColor: "var(--color-black)",
+          backgroundColor: "var(--color-accent)",
           marginBottom: "var(--space-md)",
         }}
       />

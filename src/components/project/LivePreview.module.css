@@ -21,7 +21,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 1px solid var(--color-gray-400);
+  border: 1px solid var(--color-border);
 }
 
 .url {
@@ -46,7 +46,7 @@
   height: var(--iframe-height);
   border: 1px solid var(--color-border);
   border-top: none;
-  background: var(--color-white);
+  background: var(--color-bg);
 }
 
 .frame {
@@ -62,7 +62,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-white);
+  background: var(--color-bg);
   color: var(--color-text-secondary);
 }
 
@@ -87,8 +87,9 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   padding: 2px var(--space-sm);
-  border: 1px solid var(--color-black);
-  color: var(--color-black);
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
 }
 
 .demoNote {

@@ -5,6 +5,11 @@
   text-decoration: none;
 }
 
+/* 整张卡是一个链接，全局 a:hover 的下划线会划到标题和简介上 */
+.link:hover {
+  text-decoration: none;
+}
+
 /* surface 而不是 bg：深色底上投影是隐形的，卡片只能靠亮度台阶 + 顶边高光
    跟背景分开，否则整片会塌成一个平面。 */
 .card {
@@ -70,6 +75,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
+}
+
+/* --accent-soft 是半透明的。叠在页面底上，标签的强调色文字有 5.56:1；
+   叠在更亮的卡片底（--bg-card）上只剩 4.33:1，过不了 AA。卡片里去掉这层
+   浅底，强调色直接落在卡片底上是 5.33:1。描边还在，标签照样读得出是标签。 */
+.card .tags > span {
+  background: none;
 }
 
 .date {

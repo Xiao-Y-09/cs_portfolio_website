@@ -1,34 +1,38 @@
 :root {
-  /* === 色彩系统 — Graphite 深灰 ===
-     整套是冷灰（略偏蓝）。纯中性灰在屏幕上显脏、没方向；偏冷一点读起来
-     像仪器面板。全程纯灰阶，不引入彩色强调色 —— 一旦加了就变成另一套设计。
+  /* === 色彩系统 — Tokyo Night ===
+     整站调色板**只在这里定义一次**，其他文件一律引用 token，不写色值。
+     唯一的彩色是 --accent：链接、标签、徽章、焦点框、悬停描边都用它，
+     不要再引入第二个色相。
+     不要用 Tokyo Night 的注释色 #565f89 做任何文字 —— 它在 --bg 上
+     只有 2.76:1，过不了 WCAG AA。 */
+  --bg:          #1a1b26;  /* 页面背景 */
+  --bg-elevated: #16161e;  /* 页脚等"沉在页面下面"的面 */
+  --bg-card:     #292e42;  /* 卡片、悬停背景 */
+  --text:        #c0caf5;  /* 正文和标题 */
+  --text-muted:  #a9b1d6;  /* 次要文字：日期、副标题、说明 */
+  --border:      #414868;  /* 分隔线、卡片描边 */
+  --accent:      #7aa2f7;  /* 链接、按钮、标签文字、焦点框 */
+  --accent-soft: rgba(122, 162, 247, 0.12);  /* 标签和徽章的底色 */
 
-     注意命名：--color-black / --color-white 现在是**语义别名**，
-     black = 墨色（前景，现在是浅的），white = 纸色（背景，现在是深的）。
-     组件 CSS 一直是按这个语义在用，所以这里换值就够了，不用全库改名。
-     灰阶方向也跟着反过来：gray-100 是离背景最近的一档，gray-800 最接近墨色。 */
-  --color-black: #E9EBEE;  /* 墨 / 前景 */
-  --color-white: #17191D;  /* 纸 / 背景 */
-  --color-gray-100: #1E2126;
-  --color-gray-200: #2D3238;
-  --color-gray-400: #8A929C;
-  --color-gray-600: #A8AFB8;
-  --color-gray-800: #C7CCD4;
+  /* 粒子背景用，rgb 分量形式，供 canvas 拼 rgba() —— canvas 读不了上面的
+     hex，所以这里是 --border 的同一个值换了种写法，改 --border 时一起改。
+     点和连线共用这一个色。 */
+  --color-particle: 65, 72, 104;
 
-  /* 粒子背景用，rgb 分量形式，供 canvas 拼 rgba()。
-     点和连线共用这一个色 —— 调这里就能整体提亮或压暗。
-     刻意压得很低，让网只作为质感存在、不跟正文抢。
-     往回调的参考：120,128,141 网的结构清晰可辨，185,195,208 会抢正文。 */
-  --color-particle: 96, 103, 115;
-
-  /* === 语义色彩 === */
-  --color-bg: var(--color-white);
-  --color-text-primary: var(--color-black);
-  --color-text-secondary: var(--color-gray-600);
-  --color-text-tertiary: var(--color-gray-400);
-  --color-border: var(--color-gray-200);
-  --color-border-hover: var(--color-black);
-  --color-surface: var(--color-gray-100);
+  /* === 语义别名 ===
+     组件 CSS 一直按这些名字取色，这里全部指向上面的调色板。
+     secondary 和 tertiary 都落到 --text-muted：调色板只有一档次要文字色，
+     而更暗的一档（#565f89）过不了对比度。 */
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-text-primary: var(--text);
+  --color-text-secondary: var(--text-muted);
+  --color-text-tertiary: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-hover: var(--accent);
+  --color-surface: var(--bg-card);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
 
   /* === 字体 === */
   --font-heading: 'Outfit', sans-serif;

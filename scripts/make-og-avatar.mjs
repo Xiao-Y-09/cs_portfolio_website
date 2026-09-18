@@ -6,17 +6,23 @@
  * so the flip has to happen here instead.
  *
  * Inverting alone leaves the drawing on pure black, which would sit as a
- * visible square on the card's #17191D ground. Screening the inverted drawing
- * over that exact ground fixes it: black stays #17191D, the light strokes come
+ * visible square on the card's --bg ground. Screening the inverted drawing
+ * over that exact ground fixes it: black stays --bg, the light strokes come
  * through untouched.
  *
- *   node scripts/make-og-avatar.mjs
+ * The master was removed from public/ with the hero image, so pass its path.
+ * It is still in history:
+ *
+ *   git show e379e44^:public/images/avatar.png > /tmp/avatar.png
+ *   node scripts/make-og-avatar.mjs /tmp/avatar.png
  */
 import sharp from "sharp";
 
-const SRC = "public/images/avatar.png";
+const SRC = process.argv[2] ?? "public/images/avatar.png";
 const OUT = "src/assets/og-sketch.png";
-const GROUND = { r: 0x17, g: 0x19, b: 0x1d };
+// --bg in src/styles/design-tokens.css. Must match the OG card's ground
+// exactly, or the sketch shows as a faintly different square.
+const GROUND = { r: 0x1a, g: 0x1b, b: 0x26 };
 const SIZE = 600;
 
 const inverted = await sharp(SRC)

@@ -4,12 +4,12 @@
   gap: var(--space-xs);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-accent);
   transition: color var(--transition-fast) var(--easing);
 }
 
 .backLink:hover {
-  color: var(--color-text-primary);
+  color: var(--color-accent);
 }
 
 .titleBlock {

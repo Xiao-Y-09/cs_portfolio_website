@@ -35,7 +35,7 @@
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: var(--text-lg);
-  color: currentColor;
+  color: var(--color-accent);
   letter-spacing: 0.02em;
 }
 
@@ -50,14 +50,16 @@
   font-size: var(--text-sm);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: currentColor;
+  color: var(--color-accent);
   border-bottom: 1px solid transparent;
   padding-bottom: 2px;
   transition: border-bottom-color var(--transition-fast) var(--easing);
 }
 
+/* 下边框就是这里的悬停指示，全局的 a:hover 下划线会再叠一条，关掉 */
 .navLink:hover {
   border-bottom-color: currentColor;
+  text-decoration: none;
 }
 
 .menuToggle {
@@ -125,7 +127,7 @@
   font-family: var(--font-heading);
   font-size: var(--text-2xl);
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--color-accent);
 }
 
 @media (min-width: 768px) {

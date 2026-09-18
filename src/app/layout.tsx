@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -25,6 +25,11 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   display: "swap",
 });
+
+// 移动端浏览器地址栏的着色。meta 标签读不了 CSS 变量，这里镜像 --bg。
+export const viewport: Viewport = {
+  themeColor: "#1a1b26",
+};
 
 export function generateMetadata(): Metadata {
   const profile = getProfile();

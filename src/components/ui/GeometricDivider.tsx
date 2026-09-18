@@ -14,7 +14,7 @@ export default function GeometricDivider({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        color: "var(--color-black)",
+        color: "var(--color-border)",
         marginTop: "var(--space-2xl)",
         marginBottom: "var(--space-2xl)",
       }}

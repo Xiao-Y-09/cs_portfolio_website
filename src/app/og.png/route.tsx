@@ -27,13 +27,13 @@ const SIZE = { width: 1200, height: 630 };
 const ASSETS = path.join(process.cwd(), "src/assets");
 const readAsset = (file: string) => fs.readFileSync(path.join(ASSETS, file));
 
-// Ground, ink and hairline are the design tokens' values, inlined because
-// satori resolves no CSS variables.
-const GROUND = "#17191D";
-const INK = "#E9EBEE";
-const MUTED = "#A8AFB8";
-const FAINT = "#8A929C";
-const HAIRLINE = "#2D3238";
+// Mirrors of the Tokyo Night tokens in src/styles/design-tokens.css, inlined
+// because satori resolves no CSS variables. Change them together.
+const GROUND = "#1a1b26"; // --bg
+const INK = "#c0caf5"; // --text
+const MUTED = "#a9b1d6"; // --text-muted
+const HAIRLINE = "#414868"; // --border
+const ACCENT = "#7aa2f7"; // --accent
 
 export function GET() {
   const profile = getProfile();
@@ -61,7 +61,7 @@ export function GET() {
         >
           {/* The 16x2 rule that opens every section heading on the site. */}
           <div
-            style={{ width: 28, height: 3, background: INK, marginBottom: 32 }}
+            style={{ width: 28, height: 3, background: ACCENT, marginBottom: 32 }}
           />
           <div
             style={{
@@ -90,7 +90,7 @@ export function GET() {
             style={{
               fontFamily: "JetBrains Mono",
               fontSize: 22,
-              color: FAINT,
+              color: MUTED,
               marginTop: 16,
             }}
           >
@@ -139,7 +139,7 @@ export function GET() {
               top: 0,
               width: 160,
               height: "100%",
-              background: `linear-gradient(to right, ${GROUND}, rgba(23,25,29,0))`,
+              background: `linear-gradient(to right, ${GROUND}, rgba(26,27,38,0))`,
             }}
           />
         </div>

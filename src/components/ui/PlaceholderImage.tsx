@@ -24,7 +24,7 @@ export default function PlaceholderImage({
         alignItems: "center",
         justifyContent: "center",
         gap: "var(--space-sm)",
-        color: "var(--color-gray-400)",
+        color: "var(--color-text-tertiary)",
       }}
     >
       <svg
@@ -46,7 +46,7 @@ export default function PlaceholderImage({
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: "var(--text-xs)",
-            color: "var(--color-gray-400)",
+            color: "var(--color-text-tertiary)",
           }}
         >
           {label}
