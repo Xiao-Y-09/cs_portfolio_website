@@ -39,7 +39,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
-  if (project.status === "processing") {
+  // status 只决定它在首页的哪一栏。详情页看内容：还没写的（比如
+  // shadowdeck、tennis-match）给占位页；已经写完、只是被放到下面那一栏
+  // 的项目，照常出完整案例。
+  const hasWriteUp = Boolean(
+    project.techStack?.length ||
+      project.features?.length ||
+      project.challenges?.length ||
+      project.algorithm?.steps?.length
+  );
+
+  if (!hasWriteUp) {
     return (
       <PageWrapper>
         <div className="animate-fade-in-up">

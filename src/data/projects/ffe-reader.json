@@ -1,5 +1,6 @@
 {
   "slug": "ffe-reader",
+  "status": "processing",
   "title": "FF&E Reader",
   "summary": "A schedule-management SaaS for small interior design studios — Excel-like grid, a domain vocabulary engine, and an agent-ready architecture across 24 phased builds.",
   "description": "FF&E (Furniture, Fixtures & Equipment) schedules are the operational backbone of interior design projects, and small studios still run them in Excel — with unit-conversion errors, no change history, and no spend visibility (pain points validated in interviews with studio owners). FF&E Reader replaces that workflow with a purpose-built SaaS: an Excel-like editing grid, a domain vocabulary defining the legal units and fields for every product category, event-logged edits with version snapshots and rollback, spend dashboards by space, category, and supplier, templated Excel/PDF export, and token-based client sharing with field-level permissions and WeChat integration. The project bridges my architecture background with software engineering — the domain expertise is the moat generic AI tools can't cross. Built as a two-repo system (FastAPI backend, Next.js frontend) through 24 phased builds with acceptance criteria per phase; the backend MVP closes with 88 passing tests. Deployment is pending, and the architecture reserves a clean upgrade path to AI agents without a rewrite.",

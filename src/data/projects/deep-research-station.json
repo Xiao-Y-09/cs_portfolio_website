@@ -1,5 +1,6 @@
 {
   "slug": "deep-research-station",
+  "status": "processing",
   "title": "Deep Research Station — 深度研究台",
   "summary": "A fully local, privacy-first deep research platform — a LangGraph Supervisor coordinates parallel Researcher agents on a single RTX 5090, with zero API cost and no data leaving the machine.",
   "description": "Deep Research Station is a fully local, privacy-first deep research platform that runs multi-agent AI workflows entirely on consumer GPU hardware. It replaces cloud-dependent research tools like Perplexity or ChatGPT Deep Research with a self-hosted system where all LLM inference happens on a local RTX 5090, eliminating API costs and data privacy concerns. The custom-built Next.js frontend connects to a LangGraph-powered multi-agent backend, providing real-time visualization of the research process as a Supervisor agent coordinates multiple parallel Researcher agents to investigate complex topics and produce comprehensive reports.",

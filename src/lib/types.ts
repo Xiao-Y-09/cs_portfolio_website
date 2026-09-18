@@ -35,7 +35,11 @@ export interface ProjectChallenge {
 
 export interface Project {
   slug: string;
-  /** "processing" projects show in the Processing section with a placeholder page. */
+  /**
+   * "processing" puts the project in the lower Processing section of the home
+   * page. It does not change the detail page: that shows a placeholder only
+   * when the project has no write-up yet.
+   */
   status?: "completed" | "processing";
   title: string;
   summary: string;

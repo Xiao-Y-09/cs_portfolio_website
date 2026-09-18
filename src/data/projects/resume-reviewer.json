@@ -1,5 +1,6 @@
 {
   "slug": "resume-reviewer",
+  "status": "processing",
   "title": "ResumeReviewer — One System, Three Orchestration Strategies",
   "summary": "Upload one resume and many job descriptions, get ranked fit reports with evidence-backed suggestions — built three times over, differing only in how tasks are driven.",
   "description": "ResumeReviewer analyzes how well a single resume fits a batch of job descriptions. Upload one PDF resume and any number of JDs, and it returns a ranked overview plus a per-JD report: every requirement scored, a hard-requirement checklist, and rewrite suggestions that cite specific resume bullets rather than inventing experience. The interesting part is that the system exists three times. All three versions share the same frontend and the same six-stage analysis pipeline; they differ only in the runner — the ~200 lines that decide how JDs are driven through it. Version A is a serial background thread, B is a bounded thread pool, C is a SQLite queue with an independent worker process. Because everything else is frozen, the comparison isolates one variable: where the \"run it again\" decision lives, and what that costs in debuggability, fault tolerance, and throughput.",
