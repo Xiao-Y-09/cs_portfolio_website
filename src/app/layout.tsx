@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -8,21 +8,13 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import { getProfile } from "@/lib/projects";
 import { SITE_URL } from "@/lib/site";
 
-const outfit = Outfit({
+// 全站一款等宽字体。标题 / 正文 / 等宽三个变量都在 design-tokens.css 里
+// 指向它，想换回分开的字体只改那三行。不是可变字体，字重要逐个列：
+// 站内实际用到 400（正文）、600（卡片标题）、700（各级标题）。
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
+  weight: ["400", "600", "700"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
@@ -76,7 +68,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable}`}
+      className={plexMono.variable}
     >
       <head>
         {/* [data-reveal] 的起始态是 opacity:0，靠 ScrollReveal 揭示。

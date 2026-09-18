@@ -37,9 +37,11 @@
   --color-accent-soft: var(--accent-soft);
 
   /* === 字体 === */
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* 全站统一用 IBM Plex Mono。--font-plex-mono 由 layout.tsx 里的 next/font
+     挂在 <html> 上。三个变量分开保留，以后标题想换回别的字体只改一行。 */
+  --font-heading: var(--font-plex-mono), ui-monospace, monospace;
+  --font-body: var(--font-plex-mono), ui-monospace, monospace;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
   /* === 字号 === */
   --text-xs: 0.75rem;
