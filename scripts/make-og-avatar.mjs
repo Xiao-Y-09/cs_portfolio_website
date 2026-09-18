@@ -22,7 +22,7 @@ const SRC = process.argv[2] ?? "public/images/avatar.png";
 const OUT = "src/assets/og-sketch.png";
 // --bg in src/styles/design-tokens.css. Must match the OG card's ground
 // exactly, or the sketch shows as a faintly different square.
-const GROUND = { r: 0x1a, g: 0x1b, b: 0x26 };
+const GROUND = { r: 0x16, g: 0x16, b: 0x1e };
 const SIZE = 600;
 
 const inverted = await sharp(SRC)

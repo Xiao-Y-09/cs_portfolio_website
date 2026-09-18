@@ -28,7 +28,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 // 移动端浏览器地址栏的着色。meta 标签读不了 CSS 变量，这里镜像 --bg。
 export const viewport: Viewport = {
-  themeColor: "#1a1b26",
+  themeColor: "#16161e",
 };
 
 export function generateMetadata(): Metadata {

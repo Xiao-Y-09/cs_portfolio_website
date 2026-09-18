@@ -29,9 +29,9 @@ const readAsset = (file: string) => fs.readFileSync(path.join(ASSETS, file));
 
 // Mirrors of the Tokyo Night tokens in src/styles/design-tokens.css, inlined
 // because satori resolves no CSS variables. Change them together.
-const GROUND = "#1a1b26"; // --bg
-const INK = "#c0caf5"; // --text
-const MUTED = "#a9b1d6"; // --text-muted
+const GROUND = "#16161e"; // --bg
+const INK = "#d3daf8"; // --text
+const MUTED = "#c3c8e2"; // --text-muted
 const HAIRLINE = "#414868"; // --border
 const ACCENT = "#7aa2f7"; // --accent
 
@@ -139,7 +139,7 @@ export function GET() {
               top: 0,
               width: 160,
               height: "100%",
-              background: `linear-gradient(to right, ${GROUND}, rgba(26,27,38,0))`,
+              background: `linear-gradient(to right, ${GROUND}, rgba(22,22,30,0))`,
             }}
           />
         </div>
