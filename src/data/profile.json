@@ -1,7 +1,7 @@
 {
   "name": "Xiao Yang",
   "title": "Computer Science Student",
-  "bio": "MS in Computer Science candidate at Northeastern University (Khoury College, Silicon Valley), graduating Winter 2027.\n\nPracticing an AI-augmented development workflow — orchestrating multi-agent collaboration across frontier models (Claude Opus, OpenAI Codex) and local models (Gemma 4 31B) for architectural planning, implementation, and code review.",
+  "bio": "Hey, I'm Xiao. I'm a full-stack engineer, and I'm happiest when a problem is messy and real. That means finding out why something breaks, fixing it at the root, and leaving the system sturdier than I found it. Before I build anything, I start with who will use it and whether the structure will hold.\n\nThese days I work as a Research Assistant at NEURAI Lab, Northeastern University, on YouDescribeX, a platform that uses AI to write audio descriptions of YouTube videos for blind and low-vision viewers. My work there has covered securing 43 REST endpoints behind shared middleware, untangling session conflicts between dev and prod, and tracking down failures in the AI pipeline. Outside the lab, I run Xompress, a PDF compression service I built and deployed on my own, and I experiment with multi-agent systems in LangGraph. I'm finishing my MS in Computer Science at Northeastern's Silicon Valley campus and I'm open to software engineering internships for Summer 2027.",
   "skills": [
     "Python", "TypeScript", "JavaScript", "Java", "SQL",
     "React", "Next.js", "Node.js", "FastAPI",
