@@ -15,7 +15,9 @@ export default function PageWrapper({ children, className }: PageWrapperProps) {
         marginRight: "auto",
         paddingLeft: "var(--space-lg)",
         paddingRight: "var(--space-lg)",
-        paddingTop: "var(--header-height)",
+        // 顶栏是 sticky 的，已经占着文档流里的 --header-height，这里再补一次
+        // 就成了双份。只留一点让内容不贴着顶栏。
+        paddingTop: "var(--space-xl)",
         paddingBottom: "var(--space-4xl)",
       }}
     >

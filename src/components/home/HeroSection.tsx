@@ -13,7 +13,6 @@ export default function HeroSection({ profile }: HeroSectionProps) {
     <section
       id="about"
       style={{
-        paddingTop: "var(--space-4xl)",
         paddingBottom: "var(--space-4xl)",
       }}
     >

@@ -40,6 +40,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* 顶栏 sticky，锚点跳转时默认会把目标区块顶到视口最上沿、被顶栏盖住开头。
+   留出顶栏高度加一点余量。 */
+section[id] {
+  scroll-margin-top: calc(var(--header-height) + var(--space-md));
+}
+
 body {
   font-family: var(--font-body);
   color: var(--color-text-primary);
