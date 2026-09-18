@@ -13,6 +13,9 @@ export default function HeroSection({ profile }: HeroSectionProps) {
     <section
       id="about"
       style={{
+        // PageWrapper 已经给了 --space-xl，这里补到名字上方总共 96px，
+        // 跟下面的 padding-bottom 持平，整块才不会被顶得偏上。
+        paddingTop: "var(--space-3xl)",
         paddingBottom: "var(--space-4xl)",
       }}
     >
