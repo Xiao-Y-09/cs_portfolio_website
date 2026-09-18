@@ -1,30 +1,60 @@
-/* 右边 3fr 那一列是故意空着的：图案已经撤掉，但文字保持原来的行宽，
-   空出来的地方让粒子背景露出来。别把它改成单列。 */
+/* 左列是身份 / 技能 / 联系方式，右列是整段自我介绍，两列同时进入视野 ——
+   面试官不用滚动就能看全。自我介绍跨三行，所以左右谁高都不会错位。 */
 .hero {
   display: grid;
-  grid-template-columns: 7fr 3fr;
-  gap: var(--space-2xl);
-  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "identity bio"
+    "skills   bio"
+    "contact  bio";
+  column-gap: var(--space-2xl);
+  align-items: start;
 }
 
-@media (max-width: 767px) {
-  .hero {
-    grid-template-columns: 1fr;
-  }
+.identity {
+  grid-area: identity;
+}
+
+.bio {
+  grid-area: bio;
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  /* profile.json 里用 \n\n 分段，靠这条保留 */
+  white-space: pre-line;
+  text-align: justify;
 }
 
 .skills {
+  grid-area: skills;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
   margin-top: var(--space-xl);
-  max-width: 600px;
 }
 
 .contact {
+  grid-area: contact;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-md);
   margin-top: var(--space-xl);
+}
+
+/* 单列时把自我介绍提到技能标签前面：紧跟名字读下来才顺，
+   否则要先翻过一整墙标签才看到人是谁。 */
+@media (max-width: 767px) {
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "identity"
+      "bio"
+      "skills"
+      "contact";
+  }
+
+  .bio {
+    margin-top: var(--space-lg);
+  }
 }
