@@ -13,6 +13,7 @@
 /* surface 而不是 bg：深色底上投影是隐形的，卡片只能靠亮度台阶 + 顶边高光
    跟背景分开，否则整片会塌成一个平面。 */
 .card {
+  position: relative;
   border: var(--card-border-width) solid var(--color-border);
   background: var(--color-surface);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -89,4 +90,55 @@
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   color: var(--color-text-tertiary);
+}
+
+/* 卡片高光（鼠标光晕的一部分）：鼠标在卡片内的位置由 ProjectCard 写进
+   --cx / --cy。::before 是卡片内部的一团柔光；::after 用两层 mask 相减，
+   只留下 1px 边框那一圈亮环，所以离鼠标最近的那段边框最亮。
+   半径和亮度来自 design-tokens 的 --glow-*，和背景光晕是同一组值。
+   边框光圈特意比柔光大：鼠标在卡片正中时，最近的边也要看得出在亮。
+   只给有鼠标的设备 —— 触屏点一下会把高光卡在原地。 */
+@media (hover: hover) and (pointer: fine) {
+  .card::before,
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: calc(var(--card-border-width) * -1);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 250ms ease;
+  }
+
+  .card::before {
+    z-index: 1;
+    background: radial-gradient(
+      calc(var(--glow-radius) * 0.9px) circle at var(--cx, 50%) var(--cy, 50%),
+      rgba(var(--color-glow), calc(var(--glow-intensity) * 0.28)),
+      rgba(var(--color-glow), 0) 70%
+    );
+  }
+
+  .card::after {
+    z-index: 2;
+    padding: var(--card-border-width);
+    background: radial-gradient(
+      calc(var(--glow-radius) * 1.44px) circle at var(--cx, 50%) var(--cy, 50%),
+      rgba(var(--color-glow), calc(var(--glow-intensity) * 2.2)) 0%,
+      rgba(var(--color-glow), calc(var(--glow-intensity) * 1.3)) 40%,
+      rgba(var(--color-glow), 0) 100%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+
+  .link:hover .card::before,
+  .link:hover .card::after {
+    opacity: 1;
+  }
+
+  /* 悬停时边框的反馈交给亮环，不再整圈变蓝 */
+  .link:hover .card {
+    border-color: var(--color-border);
+  }
 }

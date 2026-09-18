@@ -21,6 +21,10 @@
      点和连线共用这一个色。 */
   --color-particle: 65, 72, 104;
 
+  /* 鼠标光晕的颜色，同样是 rgb 分量形式 —— 就是 --accent，
+     canvas 和 rgba() 要用分量，读不了 hex。改 --accent 时一起改。 */
+  --color-glow: 122, 162, 247;
+
   /* === 语义别名 ===
      组件 CSS 一直按这些名字取色，这里全部指向上面的调色板。
      secondary 和 tertiary 都落到 --text-muted：调色板只有一档次要文字色，
@@ -76,6 +80,14 @@
 
   /* === 预览 === */
   --iframe-height: 500px;
+
+  /* === 鼠标光晕 ===
+     在 templates/cursor-glow-preview.html 里手调选定的三个值。背景聚光和
+     粒子点亮（ParticleField 读取）、卡片高光（ProjectCard.module.css）
+     共用这一组，所以三种效果的光圈大小和亮度始终一致。 */
+  --glow-radius: 400;     /* px，写成纯数字：canvas 要数字，CSS 里用 calc(x * 1px) */
+  --glow-intensity: 0.25; /* 0–1 */
+  --glow-follow: 5;       /* 1–100，越大越跟手；5 是慢慢拖着跟过来 */
 
   /* === 入场动画 ===
      一行一行浮出。每个元素靠 --rv-i（它在序列里的序号）算出自己的延迟，
