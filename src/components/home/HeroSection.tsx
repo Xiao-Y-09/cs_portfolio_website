@@ -86,7 +86,8 @@ export default function HeroSection({ profile }: HeroSectionProps) {
             ))}
           </ul>
         </div>
-        {/* 之前这里把完整 URL 当作链接文字，三行长串。缩成短标签横排一行。 */}
+        {/* 三个链接都只显示短标签，真实地址在 href 里 ——
+            邮箱全写出来比另两个长一倍，一行里它会把其他两个压下去。 */}
         <div
           className={`${styles.contact} animate-fade-in-up`}
           style={{ "--rv-i": 5 } as CSSProperties}
@@ -94,7 +95,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
           <IconLink
             href={`mailto:${profile.contact.email}`}
             icon="email"
-            label={profile.contact.email}
+            label="E-mail"
           />
           <IconLink href={profile.contact.github} icon="github" label="GitHub" />
           <IconLink
