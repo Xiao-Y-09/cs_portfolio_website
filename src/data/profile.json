@@ -22,13 +22,13 @@
     {
       "role": "Research Assistant",
       "company": "NEURAI Lab — YouDescribe",
-      "period": "2026 — Present",
+      "period": "Jun 2026 — Present",
       "description": "Secured 43 REST endpoints, resolved session conflicts between the dev and prod deployments, and debugged the AI description pipeline end to end."
     },
     {
       "role": "Contract Full-Stack Developer",
       "company": "Fun de Mental — E-commerce Site",
-      "period": "2026 — Present",
+      "period": "Aug 2026 — Present",
       "description": "Building a headless Shopify storefront with Next.js, covering product catalog, cart, and checkout for a metal EDC brand."
     }
   ],
