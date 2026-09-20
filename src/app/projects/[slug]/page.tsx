@@ -77,19 +77,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <PageWrapper>
       <div className="animate-fade-in-up">
       <ProjectHeader project={project} />
-      <section style={{ marginTop: "var(--space-3xl)" }}>
-        <SectionTitle title="Project Overview" />
-        <p
-          style={{
-            fontSize: "var(--text-lg)",
-            lineHeight: 1.8,
-            color: "var(--color-text-secondary)",
-            marginTop: "var(--space-lg)",
-          }}
-        >
-          {project.description}
-        </p>
-      </section>
+      {/* 能跑的东西排在概述前面：点进来的人先看到它长什么样，
+          再决定要不要读下面那段字。 */}
       {(project.links.demo || project.links.live) && (
         <LivePreview
           url={(project.links.demo ?? project.links.live) as string}
@@ -104,6 +93,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           note={project.previewNote}
         />
       )}
+      <section style={{ marginTop: "var(--space-3xl)" }}>
+        <SectionTitle title="Project Overview" />
+        <p
+          style={{
+            fontSize: "var(--text-lg)",
+            lineHeight: 1.8,
+            color: "var(--color-text-secondary)",
+            marginTop: "var(--space-lg)",
+          }}
+        >
+          {project.description}
+        </p>
+      </section>
       {project.techStack && (
         <TechStackSection
           categories={project.techStack}
