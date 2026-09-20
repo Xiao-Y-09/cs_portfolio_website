@@ -40,7 +40,7 @@ const LIGHT_BG_COVERS = new Set<string>([]);
 // The three projects that get a full card at the top of the home page, in this
 // order. Everything else drops to the compact list below, newest first by
 // sortKey. Swapping a slug here is the only edit needed to re-pick the three.
-const FEATURED_SLUGS = ["xompress", "resume-reviewer", "deep-research-station"];
+const FEATURED_SLUGS = ["xompress", "medium-daily-digest", "tarot-local-ai"];
 
 function withCover(project: Project): Project {
   return {
