@@ -184,4 +184,10 @@
   .tagline {
     font-size: var(--text-xs);
   }
+
+  /* 16px 下 "Things I keep coming back to:" 是 278px，比 320px 屏的
+     272px 可用宽度多 6px —— 不降的话这句引子会被折成两行。 */
+  .bio {
+    font-size: var(--text-base);
+  }
 }

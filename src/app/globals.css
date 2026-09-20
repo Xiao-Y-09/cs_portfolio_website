@@ -142,10 +142,19 @@ code, pre {
 
 @media (max-width: 768px) {
   :root {
-    --text-6xl: 3rem;
-    --text-5xl: 2.5rem;
-    --text-4xl: 2rem;
-    --text-3xl: 1.75rem;
+    /* 手机上整张表比桌面低一截，不只是顶上几档。
+       只压大字号的话，正文和标签在窄栏里依旧显得肿。
+       11 / 13 / 15 / 16 / 18 / 20 / 24 / 28 / 32 / 40 —— 逐档递增，没有重档。 */
+    --text-6xl: 2.5rem;
+    --text-5xl: 2rem;
+    --text-4xl: 1.75rem;
+    --text-3xl: 1.5rem;
+    --text-2xl: 1.25rem;
+    --text-xl: 1.125rem;
+    --text-lg: 1rem;
+    --text-base: 0.9375rem;
+    --text-sm: 0.8125rem;
+    --text-xs: 0.6875rem;
     --grid-columns: 1;
     --space-4xl: 64px;
     --space-3xl: 48px;
