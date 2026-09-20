@@ -1,5 +1,8 @@
 .hero {
   --name-size: var(--text-6xl);
+  /* 发音和职位共用这一档。之前两处分开写死成 --text-2xl，
+     手机上只给 .title 缩了一档，结果注音反而比职位大 —— 层级反了。 */
+  --title-size: var(--text-2xl);
 
   display: flex;
   flex-direction: column;
@@ -18,9 +21,9 @@
   text-transform: uppercase;
 }
 
-/* 字号跟下面 .title 那行一致。IPA 字符的字体问题不在这里解决，
-   在 layout.tsx 的 subsets 里 —— 缺了 latin-ext 就会被别的字体接手。 */
-/* 这一行的中点对准名字里 "XIAO" 的中点，而不是整个名字的中点 ——
+/* IPA 字符的字体问题不在这里解决，在 layout.tsx 的 subsets 里 ——
+   缺了 latin-ext 就会被别的字体接手。
+   这一行的中点对准名字里 "XIAO" 的中点，而不是整个名字的中点 ——
    两者相差 (总字符数 − 第一个词字符数) / 2 个字宽，等宽字体里一个字宽 = 0.6em。
    用 position/left 而不是 transform：.animate-fade-in-up 的关键帧占着 transform，
    动画停在 translateY(0) 会把这里的位移抹掉。 */
@@ -30,13 +33,13 @@
     var(--name-size) * -0.6 *
       (var(--name-chars) - var(--first-word-chars)) / 2
   );
-  font-size: var(--text-2xl);
+  font-size: var(--title-size);
   color: var(--color-text-tertiary);
   margin-top: var(--space-sm);
 }
 
 .title {
-  font-size: var(--text-2xl);
+  font-size: var(--title-size);
   color: var(--color-accent);
   margin-top: var(--space-sm);
 }
@@ -145,13 +148,27 @@
 @media (max-width: 639px) {
   .hero {
     --name-size: var(--text-5xl);
+    --title-size: var(--text-xl);
   }
 
-  .title {
-    font-size: var(--text-xl);
+  /* tagline 最长那行 35 个字符，16px 下是 336px，比 375px 屏的可用宽度
+     还宽 —— 会把 "2027" 折到下一行去。缩一档才放得下。 */
+  .tagline {
+    font-size: var(--text-sm);
   }
 
   .contact {
     gap: var(--space-md);
+  }
+}
+
+/* 320px 屏：上面那两档在 272px 可用宽度下依然溢出，再降一档。 */
+@media (max-width: 374px) {
+  .hero {
+    --title-size: var(--text-lg);
+  }
+
+  .tagline {
+    font-size: var(--text-xs);
   }
 }
