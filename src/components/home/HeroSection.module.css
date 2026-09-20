@@ -38,6 +38,15 @@
   margin-top: var(--space-sm);
 }
 
+/* 职位和 tagline 跟下面的自述块同宽、同一条左边线，文字靠左。
+   名字和注音仍然居中 —— 注音那行的中点是对准 "XIAO" 算出来的，挤到左边就没意义了。
+   .hero 的 text-align: center 会继承下来，这里显式收回去。 */
+.title,
+.tagline {
+  width: min(var(--hero-text-width), 100%);
+  text-align: left;
+}
+
 .title {
   font-size: var(--title-size);
   color: var(--color-accent);
