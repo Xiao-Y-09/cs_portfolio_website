@@ -43,3 +43,13 @@
   max-width: 68ch;
   margin-top: var(--space-sm);
 }
+
+/* 手机上两端对齐摆不下："Contract Full-Stack Developer" 加 "2026 — Present"
+   比屏宽还长，挤在一行里中间几乎没空隙。改成职位一行、日期另起一行。 */
+@media (max-width: 639px) {
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+}

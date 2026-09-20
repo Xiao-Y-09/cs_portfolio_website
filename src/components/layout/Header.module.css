@@ -11,14 +11,16 @@
   align-items: center;
 }
 
-/* 链接块的右边缘落在页面中线上：.nav 占满内容区的左半
-   （.inner 左右内边距对称、整个容器居中，所以 50% 的右端就是页面中线），
-   里面的链接靠右排。 */
+/* .nav 占满内容区的左半，三个链接在这个框里 space-between 撑开 ——
+   一次满足三件事：右端落在页面中线（.inner 左右内边距对称、容器居中，
+   所以 50% 的右端就是中线），左端落在内容区左边缘 —— 也就是下面
+   技能跑马灯的左边缘，两者同一套盒模型；间距则由剩余宽度平分。
+   gap 留作最小值，宽度不够时不至于粘在一起。 */
 .nav {
   width: 50%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: var(--space-xl);
 }
 
@@ -38,16 +40,24 @@
   text-decoration: none;
 }
 
-/* 窄屏下内容区的一半装不下这三个词，放弃“右边对中线”，
-   改成满宽居中 —— 跟首屏其他内容在手机上的排法一致。字号也缩一档。 */
+/* 窄屏下内容区的一半装不下这三个词，改成满宽 space-between：
+   左 / 中 / 右 各一个，左右两端仍然跟下面的跑马灯对齐。字号缩一档。 */
 @media (max-width: 639px) {
   .nav {
     width: 100%;
-    justify-content: center;
-    gap: var(--space-md);
+    justify-content: space-between;
+    gap: var(--space-sm);
   }
 
   .navLink {
     font-size: var(--text-lg);
+  }
+}
+
+/* 320px 屏：18px 下三个词共 270px，加最小间距已经超过可用的 272px，
+   再缩一档才不会顶出横向滚动条。 */
+@media (max-width: 374px) {
+  .navLink {
+    font-size: var(--text-base);
   }
 }

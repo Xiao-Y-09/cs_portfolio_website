@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 import type { Project, Profile } from "./types";
@@ -9,8 +10,21 @@ const PUBLIC_DIR = path.join(process.cwd(), "public");
 // Returns the public URL ("/...") if the file exists under public/, else null.
 // Runs at build time (static export), so cover images fall back to a
 // placeholder until a real file is dropped in the matching folder.
+//
+// The URL carries a hash of the file's own bytes. Every cover keeps its
+// filename across a redraw, so without this a browser that already has the
+// old art goes on showing it — which is exactly what happened when the whole
+// set was recoloured from the blue palette to grey. Change the file, the hash
+// changes, the URL changes, the cached copy stops matching.
 function resolvePublicImage(relPath: string): string | null {
-  return fs.existsSync(path.join(PUBLIC_DIR, relPath)) ? `/${relPath}` : null;
+  const abs = path.join(PUBLIC_DIR, relPath);
+  if (!fs.existsSync(abs)) return null;
+  const hash = crypto
+    .createHash("sha1")
+    .update(fs.readFileSync(abs))
+    .digest("hex")
+    .slice(0, 8);
+  return `/${relPath}?v=${hash}`;
 }
 
 // Images with a baked-in white background, found by sampling their edge
