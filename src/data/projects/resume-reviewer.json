@@ -1,50 +1,164 @@
 {
   "slug": "resume-reviewer",
-  "status": "processing",
-  "title": "ResumeReviewer — One System, Three Orchestration Strategies",
-  "summary": "Upload one resume and many job descriptions, get ranked fit reports with evidence-backed suggestions — built three times over, differing only in how tasks are driven.",
+  "title": "ResumeReviewer",
+  "summary": "Ranks one resume against many job descriptions, with evidence for every suggestion.",
+  "impact": "Built three times over — sequential, supervisor, and graph orchestration, compared head to head.",
   "description": "ResumeReviewer analyzes how well a single resume fits a batch of job descriptions. Upload one PDF resume and any number of JDs, and it returns a ranked overview plus a per-JD report: every requirement scored, a hard-requirement checklist, and rewrite suggestions that cite specific resume bullets rather than inventing experience. The interesting part is that the system exists three times. All three versions share the same frontend and the same six-stage analysis pipeline; they differ only in the runner — the ~200 lines that decide how JDs are driven through it. Version A is a serial background thread, B is a bounded thread pool, C is a SQLite queue with an independent worker process. Because everything else is frozen, the comparison isolates one variable: where the \"run it again\" decision lives, and what that costs in debuggability, fault tolerance, and throughput.",
-  "tags": ["Python", "FastAPI", "LangGraph", "React", "Ollama", "SQLite"],
-  "date": "Aug.2026",
+  "tags": [
+    "Python",
+    "FastAPI",
+    "LangGraph",
+    "React",
+    "Ollama",
+    "SQLite"
+  ],
+  "date": "Aug 2026",
   "sortKey": "2026-08",
   "thumbnail": "thumbnail.svg",
   "thumbnailAlt": "Illustration of a resume beside a bar chart ranking its fit against four job descriptions",
   "techStack": [
-    { "category": "Frontend", "items": ["React + Vite", "Tailwind CSS", "Polling-based task board — several JDs progress side by side"] },
-    { "category": "Backend", "items": ["FastAPI — upload, task submission, per-JD progress, report retrieval", "A frozen submit(task_id) boundary — the single seam the three versions swap"] },
-    { "category": "Pipeline", "items": ["LangGraph — parse → score → coverage → hard check → advise fan-out → review → assemble", "LangGraph Send — one advice job per requirement, fanned out in parallel", "Pydantic models as the shared state contract"] },
-    { "category": "LLM Runtime", "items": ["Ollama + qwen2.5:14b — fully local generation, no API keys", "bge-m3 — local embeddings for requirement/bullet similarity", "Single entry point (llm_client.py) so the backend is swappable"] },
-    { "category": "Orchestration Variants", "items": ["A — serial queue on one daemon thread (FIFO, most predictable)", "B — ThreadPoolExecutor with a deliberately low cap (one local GPU behind it)", "C — SQLite task queue + separate worker process (survives backend restart)"] },
-    { "category": "Testing", "items": ["pytest — 194+ tests per version, including concurrency and fan-out isolation suites", "Grep-verifiable architecture rules enforced per build phase"] }
+    {
+      "category": "Frontend",
+      "items": [
+        "React + Vite",
+        "Tailwind CSS",
+        "Polling-based task board — several JDs progress side by side"
+      ]
+    },
+    {
+      "category": "Backend",
+      "items": [
+        "FastAPI — upload, task submission, per-JD progress, report retrieval",
+        "A frozen submit(task_id) boundary — the single seam the three versions swap"
+      ]
+    },
+    {
+      "category": "Pipeline",
+      "items": [
+        "LangGraph — parse → score → coverage → hard check → advise fan-out → review → assemble",
+        "LangGraph Send — one advice job per requirement, fanned out in parallel",
+        "Pydantic models as the shared state contract"
+      ]
+    },
+    {
+      "category": "LLM Runtime",
+      "items": [
+        "Ollama + qwen2.5:14b — fully local generation, no API keys",
+        "bge-m3 — local embeddings for requirement/bullet similarity",
+        "Single entry point (llm_client.py) so the backend is swappable"
+      ]
+    },
+    {
+      "category": "Orchestration Variants",
+      "items": [
+        "A — serial queue on one daemon thread (FIFO, most predictable)",
+        "B — ThreadPoolExecutor with a deliberately low cap (one local GPU behind it)",
+        "C — SQLite task queue + separate worker process (survives backend restart)"
+      ]
+    },
+    {
+      "category": "Testing",
+      "items": [
+        "pytest — 194+ tests per version, including concurrency and fan-out isolation suites",
+        "Grep-verifiable architecture rules enforced per build phase"
+      ]
+    }
   ],
   "features": [
-    { "title": "Ranked multi-JD analysis", "description": "One resume goes out against every uploaded JD at once. The overview ranks them by total score; each JD gets its own report with per-requirement verdicts, a hard-requirement checklist, and targeted rewrite suggestions." },
-    { "title": "Deterministic scoring, LLM-free", "description": "A requirement's score is 0.5 × keyword_hits/keywords + 0.5 × max cosine(requirement, bullet), weighted hard vs. nice-to-have and rounded before any threshold comparison. No language model is consulted — the verdict is what the advice layer is later told, never what it decides." },
-    { "title": "Evidence by reference", "description": "The LLM may only emit reference IDs (B3, R2, P1); code backfills the original text from a single ref index shared by the review and assemble stages. A model cannot quote a bullet that does not exist, and an invalid ID degrades gracefully instead of fabricating." },
-    { "title": "Deterministic review loop with precise re-dispatch", "description": "After the advice fan-out, a code-only reviewer checks every suggestion for dangling refs and shape violations. Failures are re-dispatched individually — only the offending requirements re-run — for a bounded number of rounds, after which the report ships with an honest warning rather than a silent pass." },
-    { "title": "Content-addressed caching", "description": "Every cache key is a sha256 of the content, never a filename or timestamp, with a process-local dict in front of a JSON file on disk. The same resume uploaded twice reuses the parse and the embeddings; a renamed file does not silently miss." },
-    { "title": "Three runners, one frozen seam", "description": "submit(task_id) is the only file that differs between versions. That constraint is what makes the comparison meaningful — any behavioral difference between A, B and C is attributable to the orchestration strategy and nothing else." }
+    {
+      "title": "Ranked multi-JD analysis",
+      "description": "One resume goes out against every uploaded JD at once. The overview ranks them by total score; each JD gets its own report with per-requirement verdicts, a hard-requirement checklist, and targeted rewrite suggestions."
+    },
+    {
+      "title": "Deterministic scoring, LLM-free",
+      "description": "A requirement's score is 0.5 × keyword_hits/keywords + 0.5 × max cosine(requirement, bullet), weighted hard vs. nice-to-have and rounded before any threshold comparison. No language model is consulted — the verdict is what the advice layer is later told, never what it decides."
+    },
+    {
+      "title": "Evidence by reference",
+      "description": "The LLM may only emit reference IDs (B3, R2, P1); code backfills the original text from a single ref index shared by the review and assemble stages. A model cannot quote a bullet that does not exist, and an invalid ID degrades gracefully instead of fabricating."
+    },
+    {
+      "title": "Deterministic review loop with precise re-dispatch",
+      "description": "After the advice fan-out, a code-only reviewer checks every suggestion for dangling refs and shape violations. Failures are re-dispatched individually — only the offending requirements re-run — for a bounded number of rounds, after which the report ships with an honest warning rather than a silent pass."
+    },
+    {
+      "title": "Content-addressed caching",
+      "description": "Every cache key is a sha256 of the content, never a filename or timestamp, with a process-local dict in front of a JSON file on disk. The same resume uploaded twice reuses the parse and the embeddings; a renamed file does not silently miss."
+    },
+    {
+      "title": "Three runners, one frozen seam",
+      "description": "submit(task_id) is the only file that differs between versions. That constraint is what makes the comparison meaningful — any behavioral difference between A, B and C is attributable to the orchestration strategy and nothing else."
+    }
   ],
   "challenges": [
-    { "heading": "Keeping the LLM out of the verdict", "body": "The obvious design lets the model read the resume and the JD and say how good the fit is — which produces confident, unreproducible, un-auditable numbers. The rule adopted instead was \"LLM generates, deterministic code judges\": scoring, coverage analysis, hard-requirement checks and review validation are pure functions with no model call anywhere in the path. The model only writes prose, and only after being handed the verdict. Enforcing it needed more than discipline — grep-verifiable constraints (no llm_client import under the scoring nodes) were checked per build phase." },
-    { "heading": "Stopping fabricated citations", "body": "Asking a 14B local model to quote the resume produces plausible bullets that were never written. The fix was to remove the model's ability to quote at all: it emits reference IDs only (B3, R2, P1), and one module owns the ID-to-text mapping. Because review and assemble read the same index, \"does this reference exist\" and \"what did it point at\" can never disagree — a class of bug that a second prompt-based checker would never have closed." },
-    { "heading": "A real check-then-act race, found by version B", "body": "Version A's serial runner never exercised concurrent access to the parse cache, so a check-then-act window between the existence check and the write sat there invisibly. The moment version B ran JDs through a thread pool, two workers parsing the same resume raced it. That is the actual value of building the same system three ways: the thread pool did not introduce the bug, it made an existing one observable. The cache moved to lock-guarded access with a concurrency suite pinning the behavior." },
-    { "heading": "Bounding parallelism against a single local GPU", "body": "JDs are genuinely independent — nothing one produces is read by another — so the natural instinct is to fan out wide. But one local GPU serving qwen2.5:14b queues requests anyway, and past a couple of concurrent runs that queueing surfaces as latency on every JD rather than throughput on any. The pool cap is therefore deliberately low: the parallelism is a declaration that the work is independent, not an attempt to buy speed the hardware cannot sell." },
-    { "heading": "Durability without a database — and then with one", "body": "Versions A and B keep progress in memory and treat the per-JD report on disk as the durable artifact: a finished JD is never lost, but a restart forgets everything still in flight. Version C accepts a SQLite queue to fix exactly that — tasks survive a backend restart and the worker can crash and resume mid-batch — at the cost of a second process, a schema, and reclaim logic for tasks left marked running by a dead worker. The three versions are the trade-off written out rather than argued about." }
+    {
+      "heading": "Keeping the LLM out of the verdict",
+      "body": "The obvious design lets the model read the resume and the JD and say how good the fit is — which produces confident, unreproducible, un-auditable numbers. The rule adopted instead was \"LLM generates, deterministic code judges\": scoring, coverage analysis, hard-requirement checks and review validation are pure functions with no model call anywhere in the path. The model only writes prose, and only after being handed the verdict. Enforcing it needed more than discipline — grep-verifiable constraints (no llm_client import under the scoring nodes) were checked per build phase."
+    },
+    {
+      "heading": "Stopping fabricated citations",
+      "body": "Asking a 14B local model to quote the resume produces plausible bullets that were never written. The fix was to remove the model's ability to quote at all: it emits reference IDs only (B3, R2, P1), and one module owns the ID-to-text mapping. Because review and assemble read the same index, \"does this reference exist\" and \"what did it point at\" can never disagree — a class of bug that a second prompt-based checker would never have closed."
+    },
+    {
+      "heading": "A real check-then-act race, found by version B",
+      "body": "Version A's serial runner never exercised concurrent access to the parse cache, so a check-then-act window between the existence check and the write sat there invisibly. The moment version B ran JDs through a thread pool, two workers parsing the same resume raced it. That is the actual value of building the same system three ways: the thread pool did not introduce the bug, it made an existing one observable. The cache moved to lock-guarded access with a concurrency suite pinning the behavior."
+    },
+    {
+      "heading": "Bounding parallelism against a single local GPU",
+      "body": "JDs are genuinely independent — nothing one produces is read by another — so the natural instinct is to fan out wide. But one local GPU serving qwen2.5:14b queues requests anyway, and past a couple of concurrent runs that queueing surfaces as latency on every JD rather than throughput on any. The pool cap is therefore deliberately low: the parallelism is a declaration that the work is independent, not an attempt to buy speed the hardware cannot sell."
+    },
+    {
+      "heading": "Durability without a database — and then with one",
+      "body": "Versions A and B keep progress in memory and treat the per-JD report on disk as the durable artifact: a finished JD is never lost, but a restart forgets everything still in flight. Version C accepts a SQLite queue to fix exactly that — tasks survive a backend restart and the worker can crash and resume mid-batch — at the cost of a second process, a schema, and reclaim logic for tasks left marked running by a dead worker. The three versions are the trade-off written out rather than argued about."
+    }
   ],
   "algorithm": {
     "overview": "A LangGraph state machine runs each JD independently. The front half is a straight line — parse, score, check coverage, check hard requirements — and is entirely deterministic. The back half fans out one advice job per requirement, reviews the results in code, and rebounds a bounded number of times before assembling the report.",
     "steps": [
-      { "step": 1, "title": "Parse", "description": "parse_resume splits the PDF into referenceable bullets (B-ids), parse_jd extracts requirements with keywords and hard/nice weights (R-ids), parse_projects pulls project items (P-ids). Results are cached by content hash, so re-running the same resume skips the work.", "image": null },
-      { "step": 2, "title": "Score", "description": "Every requirement is scored against the resume with a fixed formula — half keyword hit-rate over the full text, half best cosine similarity over individual bullets using local bge-m3 embeddings — then weighted hard vs. nice and rolled into a total out of 100. No LLM involvement.", "image": null },
-      { "step": 3, "title": "Coverage + hard check", "description": "coverage identifies which requirements are unmet and where the gaps cluster; check_hard produces the pass/fail checklist for hard requirements, where a single keyword hit or a high-enough embedding score counts as met.", "image": null },
-      { "step": 4, "title": "Advise — parallel fan-out", "description": "dispatch_advise emits a LangGraph Send per weak requirement, running advise_one jobs in parallel plus one advise_overall pass. Each job receives the verdict it must respect and the reference index it may cite, and returns suggestions carrying reference IDs only.", "image": null },
-      { "step": 5, "title": "Review — deterministic, with precise re-dispatch", "description": "A code-only reviewer validates every suggestion: references must be well-formed and must exist in the index. On failure, prune_advices drops just the bad entries and re-dispatches only those requirements — up to MAX_REVIEW_ROUNDS, after which the report exits with review_passed false and shows the warning.", "image": null },
-      { "step": 6, "title": "Assemble", "description": "assemble backfills every reference with its original text, merges scores, checklist and suggestions into the final per-JD report, and writes it to disk — the durable artifact, complete the moment its JD finishes regardless of what the other JDs are doing.", "image": null }
+      {
+        "step": 1,
+        "title": "Parse",
+        "description": "parse_resume splits the PDF into referenceable bullets (B-ids), parse_jd extracts requirements with keywords and hard/nice weights (R-ids), parse_projects pulls project items (P-ids). Results are cached by content hash, so re-running the same resume skips the work.",
+        "image": null
+      },
+      {
+        "step": 2,
+        "title": "Score",
+        "description": "Every requirement is scored against the resume with a fixed formula — half keyword hit-rate over the full text, half best cosine similarity over individual bullets using local bge-m3 embeddings — then weighted hard vs. nice and rolled into a total out of 100. No LLM involvement.",
+        "image": null
+      },
+      {
+        "step": 3,
+        "title": "Coverage + hard check",
+        "description": "coverage identifies which requirements are unmet and where the gaps cluster; check_hard produces the pass/fail checklist for hard requirements, where a single keyword hit or a high-enough embedding score counts as met.",
+        "image": null
+      },
+      {
+        "step": 4,
+        "title": "Advise — parallel fan-out",
+        "description": "dispatch_advise emits a LangGraph Send per weak requirement, running advise_one jobs in parallel plus one advise_overall pass. Each job receives the verdict it must respect and the reference index it may cite, and returns suggestions carrying reference IDs only.",
+        "image": null
+      },
+      {
+        "step": 5,
+        "title": "Review — deterministic, with precise re-dispatch",
+        "description": "A code-only reviewer validates every suggestion: references must be well-formed and must exist in the index. On failure, prune_advices drops just the bad entries and re-dispatches only those requirements — up to MAX_REVIEW_ROUNDS, after which the report exits with review_passed false and shows the warning.",
+        "image": null
+      },
+      {
+        "step": 6,
+        "title": "Assemble",
+        "description": "assemble backfills every reference with its original text, merges scores, checklist and suggestions into the final per-JD report, and writes it to disk — the durable artifact, complete the moment its JD finishes regardless of what the other JDs are doing.",
+        "image": null
+      }
     ]
   },
   "images": [],
   "previewImage": "preview.png",
   "previewNote": "Demo mode — the deterministic half is real: keyword scoring, weights, thresholds and the hard-requirement checklist are the pipeline's own algorithm ported to the browser. Embedding scores are cached and the suggestion text is pre-composed, but its citations resolve through a real reference index. Switch runner A / B / C, then press Crash worker. Full Ollama-backed version on GitHub.",
-  "links": { "live": null, "demo": "/demos/resume-reviewer/", "github": "https://github.com/Xiao-Y-09/resume-reviewer" }
+  "links": {
+    "live": null,
+    "demo": "/demos/resume-reviewer/",
+    "github": "https://github.com/Xiao-Y-09/resume-reviewer"
+  }
 }

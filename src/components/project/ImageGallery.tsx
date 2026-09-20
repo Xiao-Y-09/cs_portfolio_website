@@ -12,7 +12,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
   if (images.length === 0) return null;
 
   return (
-    <section>
+    <section className={styles.section}>
       <SectionTitle title="Screenshots" />
       <div className={styles.grid}>
         {images.map((image) => (

@@ -1,0 +1,70 @@
+.list {
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  column-gap: var(--space-lg);
+  padding: var(--space-lg) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  color: inherit;
+  transition: background-color var(--transition-fast) var(--easing);
+}
+
+.row:hover {
+  background-color: var(--color-surface);
+  text-decoration: none;
+}
+
+.main {
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.summary {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-top: var(--space-xs);
+}
+
+.tags {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-sm);
+}
+
+.date {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.arrow {
+  color: var(--color-accent);
+  transition: transform var(--transition-fast) var(--easing);
+}
+
+.row:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* 窄屏把日期收到标题行下面，箭头去掉 —— 三栏挤在手机上会把标题压成一列字。 */
+@media (max-width: 639px) {
+  .row {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-sm);
+  }
+
+  .arrow {
+    display: none;
+  }
+}

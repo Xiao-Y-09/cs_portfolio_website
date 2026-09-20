@@ -1,34 +1,36 @@
 :root {
-  /* === 色彩系统 — Tokyo Night ===
+  /* === 色彩系统 — 浅灰 ===
      整站调色板**只在这里定义一次**，其他文件一律引用 token，不写色值。
-     唯一的彩色是 --accent：链接、标签、徽章、焦点框、悬停描边都用它，
-     不要再引入第二个色相。
-     不要用 Tokyo Night 的注释色 #565f89 做任何文字 —— 它在 --bg 上
-     只有 2.91:1，过不了 WCAG AA。
-     背景取的是 Tokyo Night 更深的两档（bg_dark / bg_dark1）；两个文字色
-     在官方值基础上朝白色提亮了 30%（#c0caf5 / #a9b1d6 原值），色相不变。 */
-  --bg:          #16161e;  /* 页面背景 */
-  --bg-elevated: #0c0e14;  /* 页脚等"沉在页面下面"的面 */
-  --bg-card:     #292e42;  /* 卡片、悬停背景 */
-  --text:        #d3daf8;  /* 正文和标题 */
-  --text-muted:  #c3c8e2;  /* 次要文字：日期、副标题、说明 */
-  --border:      #414868;  /* 分隔线、卡片描边 */
-  --accent:      #7aa2f7;  /* 链接、按钮、标签文字、焦点框 */
-  --accent-soft: rgba(122, 162, 247, 0.12);  /* 标签和徽章的底色 */
+     全部是无色相的灰（R=G=B）。--accent 是纯黑，
+     靠亮度而不是色相拉开层级：黑(链接/标签) > 近黑(正文) > 中灰(次要)。
 
-  /* 粒子背景用，rgb 分量形式，供 canvas 拼 rgba() —— canvas 读不了上面的
-     hex，所以这里是 --border 的同一个值换了种写法，改 --border 时一起改。
-     点和连线共用这一个色。 */
-  --color-particle: 65, 72, 104;
+     --bg 定在 #d6d6d6，是被白色鼠标光晕倒逼出来的：光晕靠提亮做效果，
+     底色离纯白多远就只有多少发挥空间。#d6d6d6 留下 41 级余量；
+     再暗到 #d0d0d0 余量虽然更大，但次要文字会掉到 4.47，过不了 AA。
 
-  /* 鼠标光晕的颜色，同样是 rgb 分量形式 —— 就是 --accent，
-     canvas 和 rgba() 要用分量，读不了 hex。改 --accent 时一起改。 */
-  --color-glow: 122, 162, 247;
+     卡片比底白、页脚比底暗 —— 浅色主题里"浮起"是变白，跟深色主题反着来。
+
+     对比度（WCAG AA 需 4.5:1）：正文在底/卡片/页脚上是 11.97 / 15.82 / 10.19，
+     次要文字是 5.73 / 7.57 / 4.87。改这里的值请重算三种底色。 */
+  --bg:          #d6d6d6;  /* 页面背景 */
+  --bg-elevated: #c6c6c6;  /* 页脚等"沉在页面下面"的面，比底暗 */
+  --bg-card:     #f4f4f4;  /* 卡片、悬停背景，比底白 */
+  --text:        #1a1a1a;  /* 正文和标题 */
+  --text-muted:  #4e4e4e;  /* 次要文字：日期、副标题、说明 */
+  --border:      #9e9e9e;  /* 分隔线、卡片描边 */
+  --accent:      #000000;  /* 链接、按钮、标签文字、焦点框 */
+  --accent-soft: rgba(0, 0, 0, 0.08);  /* 标签和徽章的底色 */
+
+  /* 两种光晕用不同的色，因为它们贴在不同亮度的面上：
+       --color-glow  黑：卡片是近白的，只能靠压暗做出边缘光。
+       --color-spot  白：背景是灰的，靠提亮做出"鼠标处被照亮"的感觉。
+     两者都是 rgb 分量形式 —— rgba() 要用分量，读不了 hex。 */
+  --color-glow: 0, 0, 0;
+  --color-spot: 255, 255, 255;
 
   /* === 语义别名 ===
      组件 CSS 一直按这些名字取色，这里全部指向上面的调色板。
-     secondary 和 tertiary 都落到 --text-muted：调色板只有一档次要文字色，
-     而更暗的一档（#565f89）过不了对比度。 */
+     secondary 和 tertiary 都落到 --text-muted：调色板只有一档次要文字色。 */
   --color-bg: var(--bg);
   --color-bg-elevated: var(--bg-elevated);
   --color-text-primary: var(--text);
@@ -57,6 +59,7 @@
   --text-3xl: 2rem;
   --text-4xl: 2.5rem;
   --text-5xl: 3.5rem;
+  --text-6xl: 4.5rem;
 
   /* === 间距 === */
   --space-xs: 4px;
@@ -67,9 +70,13 @@
   --space-2xl: 48px;
   --space-3xl: 64px;
   --space-4xl: 96px;
+  --space-5xl: 128px;
 
   /* === 布局 === */
   --max-width: 1200px;
+  /* 首屏中央栏的宽度。顶上三个链接左对齐到它的左边，
+     自述那段填满它 —— 两者共用同一条左边线。 */
+  --hero-text-width: 480px;
   --header-height: 64px;
   --grid-columns: 3;
   --grid-gap: var(--space-lg);
@@ -82,11 +89,13 @@
   --iframe-height: 500px;
 
   /* === 鼠标光晕 ===
-     在 templates/cursor-glow-preview.html 里手调选定的三个值。背景聚光和
-     粒子点亮（ParticleField 读取）、卡片高光（ProjectCard.module.css）
-     共用这一组，所以三种效果的光圈大小和亮度始终一致。 */
+     粒子背景已移除，现在只剩卡片高光（ProjectCard.module.css）在用。
+     --glow-follow 是给背景聚光的缓动跟随用的，现在无人读取。 */
   --glow-radius: 400;     /* px，写成纯数字：canvas 要数字，CSS 里用 calc(x * 1px) */
-  --glow-intensity: 0.25; /* 0–1 */
+  --glow-intensity: 0.25; /* 0–1，卡片高光用 */
+  /* 背景聚光单独一档，因为它的天花板不一样：白光在 #d6d6d6 上最多
+     只能提亮 41 级，所以要跑到 1（中心正好是纯白）才看得清。 */
+  --spot-intensity: 1;
   --glow-follow: 5;       /* 1–100，越大越跟手；5 是慢慢拖着跟过来 */
 
   /* === 入场动画 ===

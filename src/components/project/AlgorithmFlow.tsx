@@ -10,7 +10,7 @@ interface AlgorithmFlowProps {
 
 export default function AlgorithmFlow({ algorithm }: AlgorithmFlowProps) {
   return (
-    <section>
+    <section className={styles.section}>
       <SectionTitle title="Algorithm Flow" />
       <p className={styles.overview} style={{ marginTop: "var(--space-lg)" }}>
         {algorithm.overview}

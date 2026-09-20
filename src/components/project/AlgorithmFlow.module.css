@@ -1,3 +1,9 @@
+/* 区块之间的间距。以前靠 GeometricDivider 自带的上下外边距撑开，
+   分隔符删掉后改成区块自己负责 —— 跟 TechStackSection / ChallengeSection 对齐。 */
+.section {
+  margin-top: var(--space-4xl);
+}
+
 .overview {
   color: var(--color-text-secondary);
   margin-bottom: var(--space-xl);

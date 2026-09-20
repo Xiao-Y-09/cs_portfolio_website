@@ -1,6 +1,8 @@
+/* 不画描边，只留一层淡底色 —— 标签还是成块的，但不再每个都括个框。
+   Tag 是个不可交互的 <span>，所以没有 hover 态 —— 原来那条只改
+   border-color，连同 transition 一起删了。 */
 .tag {
   display: inline-block;
-  border: 1px solid var(--color-border);
   color: var(--color-accent);
   background: var(--color-accent-soft);
   padding: var(--space-xs) var(--space-md);
@@ -8,9 +10,4 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  transition: border-color var(--transition-fast) var(--easing);
-}
-
-.tag:hover {
-  border-color: var(--color-border-hover);
 }

@@ -9,7 +9,6 @@ import ChallengeSection from "@/components/project/ChallengeSection";
 import AlgorithmFlow from "@/components/project/AlgorithmFlow";
 import ImageGallery from "@/components/project/ImageGallery";
 import LivePreview from "@/components/project/LivePreview";
-import GeometricDivider from "@/components/ui/GeometricDivider";
 import SectionTitle from "@/components/ui/SectionTitle";
 import PlaceholderImage from "@/components/ui/PlaceholderImage";
 
@@ -39,9 +38,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
-  // status 只决定它在首页的哪一栏。详情页看内容：还没写的（比如
-  // shadowdeck、tennis-match）给占位页；已经写完、只是被放到下面那一栏
-  // 的项目，照常出完整案例。
+  // 首页分栏（大卡 / 列表）跟这里无关。详情页只看内容：写完的出完整案例，
+  // 还没写的给占位页。真正没东西的项目在 JSON 里标 draft，根本到不了这。
   const hasWriteUp = Boolean(
     project.techStack?.length ||
       project.features?.length ||
@@ -93,37 +91,28 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </p>
       </section>
       {(project.links.demo || project.links.live) && (
-        <>
-          <GeometricDivider variant="line" />
-          <LivePreview
-            url={(project.links.demo ?? project.links.live) as string}
-            title={project.title}
-            demo={Boolean(project.links.demo)}
-            fallbackImage={project.previewImageUrl ?? project.thumbnailUrl}
-            fallbackOnLight={
-              project.previewImageUrl
-                ? project.previewOnLight
-                : project.thumbnailOnLight
-            }
-            note={project.previewNote}
-          />
-        </>
+        <LivePreview
+          url={(project.links.demo ?? project.links.live) as string}
+          title={project.title}
+          demo={Boolean(project.links.demo)}
+          fallbackImage={project.previewImageUrl ?? project.thumbnailUrl}
+          fallbackOnLight={
+            project.previewImageUrl
+              ? project.previewOnLight
+              : project.thumbnailOnLight
+          }
+          note={project.previewNote}
+        />
       )}
       {project.techStack && (
-        <>
-          <TechStackSection
-            categories={project.techStack}
-            github={project.links.github}
-            live={project.links.live}
-          />
-          <GeometricDivider variant="line" />
-        </>
+        <TechStackSection
+          categories={project.techStack}
+          github={project.links.github}
+          live={project.links.live}
+        />
       )}
       {project.features && (
-        <>
-          <FeatureList features={project.features} />
-          <GeometricDivider variant="triangles" />
-        </>
+        <FeatureList features={project.features} />
       )}
       <AlgorithmFlow
         algorithm={project.algorithm}
@@ -133,10 +122,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <ChallengeSection challenges={project.challenges} />
       )}
       {project.images.length > 0 && (
-        <>
-          <GeometricDivider variant="triangles" />
-          <ImageGallery images={project.images} projectSlug={project.slug} />
-        </>
+        <ImageGallery images={project.images} projectSlug={project.slug} />
       )}
       </div>
     </PageWrapper>

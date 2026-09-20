@@ -2,7 +2,7 @@
  * Project cover icons: public/images/projects/<slug>/thumbnail.svg
  *
  * Every cover is drawn here so the set stays one family: the same ground,
- * the same line weights, and the Tokyo Night palette from
+ * the same line weights, and the light grey palette from
  * src/styles/design-tokens.css. SVGs loaded through <img> cannot read CSS
  * variables, so the colours below are literal copies of the tokens.
  *
@@ -20,13 +20,13 @@ import path from "path";
 
 // Mirrors of the palette tokens. Change them together with design-tokens.css.
 const C = {
-  bg: "#16161e", // --bg
-  elev: "#0c0e14", // --bg-elevated
-  card: "#292e42", // --bg-card
-  text: "#d3daf8", // --text
-  muted: "#c3c8e2", // --text-muted
-  border: "#414868", // --border
-  accent: "#7aa2f7", // --accent
+  bg: "#d6d6d6", // --bg
+  elev: "#c6c6c6", // --bg-elevated
+  card: "#f4f4f4", // --bg-card
+  text: "#1a1a1a", // --text
+  muted: "#4e4e4e", // --text-muted
+  border: "#9e9e9e", // --border
+  accent: "#000000", // --accent
 };
 
 const W = 640;

@@ -1,30 +1,27 @@
 import { getAllProjects, getProfile } from "@/lib/projects";
 import PageWrapper from "@/components/layout/PageWrapper";
 import HeroSection from "@/components/home/HeroSection";
+import ExperienceSection from "@/components/home/ExperienceSection";
 import ProjectGrid from "@/components/home/ProjectGrid";
-import GeometricDivider from "@/components/ui/GeometricDivider";
+import ProjectList from "@/components/home/ProjectList";
 
 export default function HomePage() {
   const profile = getProfile();
   const projects = getAllProjects();
-  const completed = projects.filter((p) => p.status !== "processing");
-  const processing = projects.filter((p) => p.status === "processing");
+  // 谁进上面那三张大卡，由 lib/projects.ts 的 FEATURED_SLUGS 决定。
+  const featured = projects.filter((p) => p.featured);
+  const rest = projects.filter((p) => !p.featured);
 
   return (
     <PageWrapper>
       <HeroSection profile={profile} />
-      <ProjectGrid projects={completed} />
-      {processing.length > 0 && (
-        <>
-          <GeometricDivider variant="line" />
-          <ProjectGrid
-            projects={processing}
-            id="processing"
-            title="Processing"
-            subtitle="Ideas in progress"
-          />
-        </>
-      )}
+      <ExperienceSection experience={profile.experience} />
+      <ProjectGrid
+        projects={featured}
+        title="Selected Work"
+        subtitle="Three projects worth digging into"
+      />
+      <ProjectList projects={rest} />
     </PageWrapper>
   );
 }

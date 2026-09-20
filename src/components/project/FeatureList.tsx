@@ -8,7 +8,7 @@ interface FeatureListProps {
 
 export default function FeatureList({ features }: FeatureListProps) {
   return (
-    <section>
+    <section className={styles.section}>
       <SectionTitle title="Key Features" />
       <ul className={styles.list}>
         {features.map((feature) => (

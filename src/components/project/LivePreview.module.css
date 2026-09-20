@@ -1,5 +1,6 @@
 .wrapper {
-  margin-top: var(--space-lg);
+  /* 以前靠上方 GeometricDivider 的外边距撑开，分隔符删掉后自己负责。 */
+  margin-top: var(--space-4xl);
 }
 
 .urlBar {

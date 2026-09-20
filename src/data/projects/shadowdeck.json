@@ -1,14 +1,22 @@
 {
   "slug": "shadowdeck",
-  "status": "processing",
+  "draft": true,
   "title": "Shadowdeck",
   "summary": "Idea in progress — details coming soon.",
   "description": "This project is currently in progress. A full overview, tech stack, and write-up will appear here once it takes shape.",
-  "tags": ["In Progress"],
+  "tags": [
+    "In Progress"
+  ],
   "date": "May.2026 - Present",
   "thumbnail": "thumbnail.svg",
   "thumbnailAlt": "Illustration of a deck of cards with an eclipse emblem, casting a long shadow",
-  "algorithm": { "overview": "", "steps": [] },
+  "algorithm": {
+    "overview": "",
+    "steps": []
+  },
   "images": [],
-  "links": { "live": null, "github": "https://github.com/Xiao-Y-09/shadowdeck" }
+  "links": {
+    "live": null,
+    "github": "https://github.com/Xiao-Y-09/shadowdeck"
+  }
 }

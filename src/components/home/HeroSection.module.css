@@ -1,60 +1,157 @@
-/* 左列是身份 / 技能 / 联系方式，右列是整段自我介绍，两列同时进入视野 ——
-   面试官不用滚动就能看全。自我介绍跨三行，所以左右谁高都不会错位。 */
 .hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    "identity bio"
-    "skills   bio"
-    "contact  bio";
-  column-gap: var(--space-2xl);
-  align-items: start;
+  --name-size: var(--text-6xl);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.identity {
-  grid-area: identity;
+/* 只改显示。profile.name 还要给页面标题、Footer、OG 图用，
+   改数据的话那几处会跟着一起变成全大写。 */
+.name {
+  font-family: var(--font-heading);
+  font-size: var(--name-size);
+  /* 不走粗体：字号已经到 4.5rem，700 在这个尺寸上只会把笔画堵成一团。
+     等宽字体各字重的字宽一致，所以改字重不影响发音那行的偏移量。 */
+  font-weight: 400;
+  text-transform: uppercase;
 }
 
+/* 字号跟下面 .title 那行一致。IPA 字符的字体问题不在这里解决，
+   在 layout.tsx 的 subsets 里 —— 缺了 latin-ext 就会被别的字体接手。 */
+/* 这一行的中点对准名字里 "XIAO" 的中点，而不是整个名字的中点 ——
+   两者相差 (总字符数 − 第一个词字符数) / 2 个字宽，等宽字体里一个字宽 = 0.6em。
+   用 position/left 而不是 transform：.animate-fade-in-up 的关键帧占着 transform，
+   动画停在 translateY(0) 会把这里的位移抹掉。 */
+.pronunciation {
+  position: relative;
+  left: calc(
+    var(--name-size) * -0.6 *
+      (var(--name-chars) - var(--first-word-chars)) / 2
+  );
+  font-size: var(--text-2xl);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-sm);
+}
+
+.title {
+  font-size: var(--text-2xl);
+  color: var(--color-accent);
+  margin-top: var(--space-sm);
+}
+
+.tagline {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-top: var(--space-sm);
+}
+
+/* 吃满整栏，跟顶上三个链接同宽、同一条左边线。
+   整块居中、每行左对齐：.hero 的 text-align: center 会继承下来，显式收回去。 */
 .bio {
-  grid-area: bio;
+  width: min(var(--hero-text-width), 100%);
+  text-align: left;
   font-size: var(--text-lg);
   color: var(--color-text-secondary);
-  line-height: 1.7;
-  /* profile.json 里用 \n\n 分段，靠这条保留 */
-  white-space: pre-line;
-  text-align: justify;
+  line-height: 1.8;
+  margin-top: var(--space-2xl);
 }
 
+/* 跑马灯的窗口：宽度跟着容器走（跟改之前那行占的范围一致），
+   两端用 mask 淡出 —— 否则标签会在边界上硬切。 */
 .skills {
-  grid-area: skills;
+  width: 100%;
+  overflow: hidden;
+  /* 比其他区块间距大一档：把技能 + 联系方式跟上面的自述分开。 */
+  margin-top: var(--space-5xl);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+/* 向左恰好走一份的宽度（总宽 ÷ 份数）后回到原点，内容追上去正好接上。
+   动画挂在 .track 而不是 .skills：.skills 带着 animate-fade-in-up，
+   那个关键帧占着 transform，两者挂同一个元素会打架。 */
+.track {
   display: flex;
-  flex-wrap: wrap;
+  width: max-content;
+  animation: marquee var(--marquee-duration) linear infinite;
+}
+
+.run {
+  display: flex;
   gap: var(--space-sm);
-  margin-top: var(--space-xl);
+  padding-right: var(--space-sm);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(calc(-100% / var(--marquee-copies)));
+  }
+}
+
+/* 悬停暂停，想看清某个标签时不用追着它跑。 */
+.skills:hover .track {
+  animation-play-state: paused;
+}
+
+/* 关了动效就不滚：收掉副本、收掉淡出，退回改之前那种折行居中的一排。 */
+@media (prefers-reduced-motion: reduce) {
+  .skills {
+    overflow: visible;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .track {
+    animation: none;
+    width: 100%;
+  }
+
+  .run + .run {
+    display: none;
+  }
+
+  .run {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding-right: 0;
+  }
 }
 
 .contact {
-  grid-area: contact;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-md);
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
   margin-top: var(--space-xl);
 }
 
-/* 单列时把自我介绍提到技能标签前面：紧跟名字读下来才顺，
-   否则要先翻过一整墙标签才看到人是谁。 */
-@media (max-width: 767px) {
+@media (max-width: 639px) {
   .hero {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "identity"
-      "bio"
-      "skills"
-      "contact";
+    --name-size: var(--text-5xl);
   }
 
-  .bio {
-    margin-top: var(--space-lg);
+  .title {
+    font-size: var(--text-xl);
+  }
+
+  .contact {
+    gap: var(--space-md);
   }
 }

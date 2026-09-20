@@ -1,20 +1,36 @@
 {
   "name": "Xiao Yang",
-  "title": "Computer Science Student",
-  "bio": "Hey, I'm Xiao, a full-stack engineer. I'm pursuing my MS in Computer Science at Northeastern University's Silicon Valley campus.\n\nI'm a Research Assistant at NEURAI Lab, working on YouDescribeX, a platform that uses AI to write audio descriptions of YouTube videos for blind and low-vision viewers. There I've secured 43 REST endpoints, fixed session conflicts between dev and prod, and debugged the AI pipeline. I also built and run Xompress, a PDF compression service, and experiment with multi-agent systems in LangGraph. I'm open to software engineering internships for Summer 2027.",
-  "skills": [
-    "Python", "TypeScript", "JavaScript", "Java", "SQL",
-    "React", "Next.js", "Node.js", "FastAPI",
-    "PostgreSQL", "Redis",
-    "AWS", "Docker", "Git",
-    "LangGraph", "RAG", "Claude API", "Vector Databases"
+  "pronunciation": "/ɕjaʊ · shao/",
+  "title": "Full-Stack & AI Engineer",
+  "tagline": [
+    "MS Computer Science",
+    "Northeastern, Silicon Valley",
+    "Seeking SWE internship, Summer 2027"
   ],
-  "experience": [],
-  "techStack": [
-    { "category": "Frontend", "items": ["React", "Next.js", "TypeScript", "Tailwind CSS", "HTML/CSS"] },
-    { "category": "Backend", "items": ["Node.js", "Python", "Express", "PostgreSQL"] },
-    { "category": "Tools", "items": ["Git", "Docker", "Figma", "VS Code"] },
-    { "category": "Other", "items": ["Data Structures", "Algorithms", "System Design", "Agile"] }
+  "bio": "I build full-stack systems around AI. At NEURAI Lab I work on YouDescribeX, a platform that generates audio descriptions of YouTube videos for blind and low-vision viewers. On my own time I ship local-first LLM tools that run without an API key.",
+  "skills": [
+    "Python",
+    "TypeScript",
+    "React / Next.js",
+    "FastAPI",
+    "PostgreSQL",
+    "LangGraph",
+    "Docker",
+    "AWS"
+  ],
+  "experience": [
+    {
+      "role": "Research Assistant",
+      "company": "NEURAI Lab — YouDescribe",
+      "period": "2026 — Present",
+      "description": "Secured 43 REST endpoints, resolved session conflicts between the dev and prod deployments, and debugged the AI description pipeline end to end."
+    },
+    {
+      "role": "Contract Full-Stack Developer",
+      "company": "Fun de Mental — E-commerce Site",
+      "period": "2026 — Present",
+      "description": "Building a headless Shopify storefront with Next.js, covering product catalog, cart, and checkout for a metal EDC brand."
+    }
   ],
   "contact": {
     "email": "yang.x6@northeastern.edu",

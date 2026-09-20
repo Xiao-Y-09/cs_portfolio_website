@@ -1,0 +1,45 @@
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.item {
+  border-left: 2px solid var(--color-accent);
+  padding-left: var(--space-lg);
+}
+
+/* 职位和时间排在同一行两端 —— 简历上的读法，扫一眼就知道什么时候做的。 */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.role {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+
+.period {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.company {
+  font-size: var(--text-base);
+  color: var(--color-accent);
+  margin-top: var(--space-xs);
+}
+
+.description {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  max-width: 68ch;
+  margin-top: var(--space-sm);
+}

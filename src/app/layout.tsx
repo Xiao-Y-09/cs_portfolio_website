@@ -3,8 +3,8 @@ import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import ParticleField from "@/components/ui/ParticleField";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import CursorGlow from "@/components/ui/CursorGlow";
 import { getProfile } from "@/lib/projects";
 import { SITE_URL } from "@/lib/site";
 
@@ -12,7 +12,9 @@ import { SITE_URL } from "@/lib/site";
 // 指向它，想换回分开的字体只改那三行。不是可变字体，字重要逐个列：
 // 站内实际用到 400（正文）、600（卡片标题）、700（各级标题）。
 const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
+  // latin-ext 是为名字下面的 IPA 注音加的：ɕ (U+0255)、ʊ (U+028A)
+  // 落在 U+0100-02AF，只加载 latin 的话浏览器会拿别的字体补，看着就不是一套。
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "600", "700"],
   variable: "--font-plex-mono",
   display: "swap",
@@ -20,7 +22,7 @@ const plexMono = IBM_Plex_Mono({
 
 // 移动端浏览器地址栏的着色。meta 标签读不了 CSS 变量，这里镜像 --bg。
 export const viewport: Viewport = {
-  themeColor: "#16161e",
+  themeColor: "#d6d6d6",
 };
 
 export function generateMetadata(): Metadata {
@@ -78,8 +80,8 @@ export default function RootLayout({
         </noscript>
       </head>
       <body>
-        {/* 挂在 layout 而不是 PageWrapper：全站一个实例，路由切换时不会重挂、粒子不会重排 */}
-        <ParticleField />
+        {/* 挂在 layout 而不是 PageWrapper：全站一个实例，路由切换时不会重挂 */}
+        <CursorGlow />
         <ScrollReveal />
         <Header />
         {children}

@@ -44,6 +44,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <div className={styles.body}>
           <h3 className={styles.title}>{project.title}</h3>
           <p className={styles.summary}>{project.summary}</p>
+          {/* 第一行说做的是什么，这一行给最硬的那个事实 —— 卡片上扫到的
+              就是这两句，别的都得点进去才看得到。 */}
+          {project.impact && <p className={styles.impact}>{project.impact}</p>}
           <div className={styles.tags}>
             {visibleTags.map((tag) => (
               <Tag key={tag} label={tag} />

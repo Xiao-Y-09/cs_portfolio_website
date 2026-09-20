@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Project } from "@/lib/types";
 import Tag from "@/components/ui/Tag";
 import IconLink from "@/components/ui/IconLink";
-import GeometricDivider from "@/components/ui/GeometricDivider";
 import styles from "./ProjectHeader.module.css";
 
 interface ProjectHeaderProps {
@@ -41,7 +40,6 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
           )}
         </div>
       </div>
-      <GeometricDivider variant="line" />
     </header>
   );
 }

@@ -70,6 +70,8 @@ export default function ParticleField({
     let count = 0;
     let raf = 0;
     let dots: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
+    // 连线重算的帧计数，配合下面的 LINK_EVERY 用
+    let linkTick = 0;
 
     // 颜色和光晕参数都跟着 token 走，不写死
     const css = getComputedStyle(document.documentElement);
@@ -98,6 +100,8 @@ export default function ParticleField({
     // 连线按透明度分档，每档攒成一条路径一次画完。
     // lit 是被鼠标点亮的那部分，叠在原线上画一层强调色。
     const ALPHA_STEPS = 12;
+    // 连线多少帧重算一次。1 = 每帧（原行为），2 = 隔一帧。
+    const LINK_EVERY = 2;
     const buckets: number[][] = Array.from({ length: ALPHA_STEPS }, () => []);
     const lit: number[][] = Array.from({ length: ALPHA_STEPS }, () => []);
 
@@ -169,34 +173,40 @@ export default function ParticleField({
       // 就是几万次状态切换 —— 大屏上实测从 60fps 掉到 21fps。
       // 分成 ALPHA_STEPS 档之后只剩十来次 stroke，透明度量化到这个粒度
       // 在背景上完全看不出来。
-      for (let s = 0; s < ALPHA_STEPS; s++) {
-        buckets[s].length = 0;
-        lit[s].length = 0;
-      }
+      // 这一段是整个循环里唯一 O(点数²) 的部分：1080p 下每帧 11.7 万次配对
+      // 检查，1440p 下 37.5 万次 —— 窗口面积翻倍就是四倍工作量。所以隔帧才重算，
+      // 中间的帧直接复用上一帧的桶。点仍然每帧在动，但单帧位移上限是
+      // speed/2 = 0.32px，线端跟点错开的量在亚像素级，看不出来。
+      if (linkTick++ % LINK_EVERY === 0) {
+        for (let s = 0; s < ALPHA_STEPS; s++) {
+          buckets[s].length = 0;
+          lit[s].length = 0;
+        }
 
-      const link2 = linkDistance * linkDistance;
-      for (let i = 0; i < dots.length; i++) {
-        const a = dots[i];
-        for (let j = i + 1; j < dots.length; j++) {
-          const b = dots[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 >= link2) continue;
-          // 先比距离平方，只有真要画的那些才开方
-          const t = 1 - Math.sqrt(d2) / linkDistance;
-          const slot = Math.min(ALPHA_STEPS - 1, (t * ALPHA_STEPS) | 0);
-          buckets[slot].push(a.x, a.y, b.x, b.y);
+        const link2 = linkDistance * linkDistance;
+        for (let i = 0; i < dots.length; i++) {
+          const a = dots[i];
+          for (let j = i + 1; j < dots.length; j++) {
+            const b = dots[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 >= link2) continue;
+            // 先比距离平方，只有真要画的那些才开方
+            const t = 1 - Math.sqrt(d2) / linkDistance;
+            const slot = Math.min(ALPHA_STEPS - 1, (t * ALPHA_STEPS) | 0);
+            buckets[slot].push(a.x, a.y, b.x, b.y);
 
-          if (lightOn) {
-            // 线亮多少看它中点离鼠标多远，只给这条已有的线叠一层强调色
-            const mx = (a.x + b.x) / 2 - mouse.x;
-            const my = (a.y + b.y) / 2 - mouse.y;
-            const m2 = mx * mx + my * my;
-            if (m2 < glowR2) {
-              const v = falloff(Math.sqrt(m2)) * strength * t;
-              if (v > 0.03) {
-                lit[Math.min(ALPHA_STEPS - 1, (v * ALPHA_STEPS) | 0)].push(a.x, a.y, b.x, b.y);
+            if (lightOn) {
+              // 线亮多少看它中点离鼠标多远，只给这条已有的线叠一层强调色
+              const mx = (a.x + b.x) / 2 - mouse.x;
+              const my = (a.y + b.y) / 2 - mouse.y;
+              const m2 = mx * mx + my * my;
+              if (m2 < glowR2) {
+                const v = falloff(Math.sqrt(m2)) * strength * t;
+                if (v > 0.03) {
+                  lit[Math.min(ALPHA_STEPS - 1, (v * ALPHA_STEPS) | 0)].push(a.x, a.y, b.x, b.y);
+                }
               }
             }
           }
@@ -255,6 +265,8 @@ export default function ParticleField({
     const onResize = () => {
       resize();
       seed();
+      // 点全换了，上一帧的连线桶全是旧坐标 —— 下一帧强制重算
+      linkTick = 0;
       if (still) draw();
     };
 

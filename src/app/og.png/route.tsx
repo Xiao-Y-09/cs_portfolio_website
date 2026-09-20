@@ -27,13 +27,13 @@ const SIZE = { width: 1200, height: 630 };
 const ASSETS = path.join(process.cwd(), "src/assets");
 const readAsset = (file: string) => fs.readFileSync(path.join(ASSETS, file));
 
-// Mirrors of the Tokyo Night tokens in src/styles/design-tokens.css, inlined
+// Mirrors of the light grey tokens in src/styles/design-tokens.css, inlined
 // because satori resolves no CSS variables. Change them together.
-const GROUND = "#16161e"; // --bg
-const INK = "#d3daf8"; // --text
-const MUTED = "#c3c8e2"; // --text-muted
-const HAIRLINE = "#414868"; // --border
-const ACCENT = "#7aa2f7"; // --accent
+const GROUND = "#d6d6d6"; // --bg
+const INK = "#1a1a1a"; // --text
+const MUTED = "#4e4e4e"; // --text-muted
+const HAIRLINE = "#9e9e9e"; // --border
+const ACCENT = "#000000"; // --accent
 
 export function GET() {
   const profile = getProfile();
@@ -139,7 +139,7 @@ export function GET() {
               top: 0,
               width: 160,
               height: "100%",
-              background: `linear-gradient(to right, ${GROUND}, rgba(22,22,30,0))`,
+              background: `linear-gradient(to right, ${GROUND}, rgba(214,214,214,0))`,
             }}
           />
         </div>

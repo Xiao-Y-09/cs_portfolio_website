@@ -142,10 +142,12 @@ code, pre {
 
 @media (max-width: 768px) {
   :root {
+    --text-6xl: 3rem;
     --text-5xl: 2.5rem;
     --text-4xl: 2rem;
     --text-3xl: 1.5rem;
     --grid-columns: 1;
+    --space-5xl: 88px;
     --space-4xl: 64px;
     --space-3xl: 48px;
   }

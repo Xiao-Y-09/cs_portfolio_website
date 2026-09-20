@@ -1,54 +1,18 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./Header.module.css";
 
-interface HeaderProps {
-  className?: string;
-}
-
 const NAV_ITEMS = [
+  { href: "/#experience", label: "Experience" },
   { href: "/#projects", label: "Projects" },
-  { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },
 ];
 
-const LOGO_TEXT = "Portfolio";
-
-export default function Header({ className }: HeaderProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previous;
-    };
-  }, [isOpen]);
-
-  const closeMenu = () => setIsOpen(false);
-  const headerClasses = [
-    styles.header,
-    isOpen && styles.headerOpen,
-    className,
-  ]
-    .filter(Boolean)
-    .join(" ");
-  const toggleClasses = [
-    styles.menuToggle,
-    isOpen && styles.menuToggleOpen,
-  ]
-    .filter(Boolean)
-    .join(" ");
-
+// 不再是导航栏：不吸顶、不上底色、没有汉堡菜单，就是页面顶上的三个链接。
+// 高度仍占 --header-height，所以去掉 sticky 之后下面的内容位置不动。
+export default function Header() {
   return (
-    <header className={headerClasses}>
+    <div className={styles.header}>
       <div className={styles.inner}>
-        <Link href="/" className={styles.logo} onClick={closeMenu}>
-          {LOGO_TEXT}
-        </Link>
         <nav className={styles.nav} aria-label="Primary">
           {NAV_ITEMS.map((item) => (
             <Link key={item.href} href={item.href} className={styles.navLink}>
@@ -56,33 +20,7 @@ export default function Header({ className }: HeaderProps) {
             </Link>
           ))}
         </nav>
-        <button
-          type="button"
-          className={toggleClasses}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
-          <span className={styles.bar} />
-          <span className={styles.bar} />
-          <span className={styles.bar} />
-        </button>
       </div>
-
-      {isOpen && (
-        <div className={styles.overlay} role="dialog" aria-modal="true">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={styles.overlayLink}
-              onClick={closeMenu}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
-      )}
-    </header>
+    </div>
   );
 }

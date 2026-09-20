@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="640" height="400">
   <defs>
     <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
-      <circle cx="10" cy="10" r="1.1" fill="#414868"/>
+      <circle cx="10" cy="10" r="1.1" fill="#9e9e9e"/>
     </pattern>
     <radialGradient id="dotFade" cx="0.5" cy="0.5" r="0.62">
       <stop offset="0" stop-color="#fff" stop-opacity="0.95"/>
@@ -9,16 +9,16 @@
     </radialGradient>
     <mask id="dotMask"><rect width="640" height="400" fill="url(#dotFade)"/></mask>
     <radialGradient id="glow" cx="0.5" cy="0.5" r="0.42">
-      <stop offset="0" stop-color="#7aa2f7" stop-opacity="0.14"/>
-      <stop offset="1" stop-color="#7aa2f7" stop-opacity="0"/>
+      <stop offset="0" stop-color="#000000" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
     </radialGradient>
     <clipPath id="shadowClip"><path d="M363 74 L513 176 L513 367 L374 367 L224 265 Z"/></clipPath>
     <linearGradient id="shadowFade" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0.15" stop-color="#0c0e14" stop-opacity="1"/>
-      <stop offset="1" stop-color="#0c0e14" stop-opacity="0"/>
+      <stop offset="0.15" stop-color="#c6c6c6" stop-opacity="1"/>
+      <stop offset="1" stop-color="#c6c6c6" stop-opacity="0"/>
     </linearGradient>
     <pattern id="hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-      <path d="M0 0 V9" stroke="#414868" stroke-width="1.7"/>
+      <path d="M0 0 V9" stroke="#9e9e9e" stroke-width="1.7"/>
     </pattern>
     <linearGradient id="hatchGrad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0.2" stop-color="#fff" stop-opacity="1"/>
@@ -26,7 +26,7 @@
     </linearGradient>
     <mask id="hatchFade"><rect x="224" y="74" width="289" height="293" fill="url(#hatchGrad)"/></mask>
   </defs>
-  <rect width="640" height="400" fill="#16161e"/>
+  <rect width="640" height="400" fill="#d6d6d6"/>
   <rect width="640" height="400" fill="url(#dots)" mask="url(#dotMask)"/>
   <rect width="640" height="400" fill="url(#glow)"/>
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -34,15 +34,15 @@
       <rect x="224" y="74" width="289" height="293" fill="url(#shadowFade)"/>
       <rect x="224" y="74" width="289" height="293" fill="url(#hatch)" mask="url(#hatchFade)"/>
     </g>
-    <rect x="239" y="89" width="124" height="176" rx="10" fill="#16161e" stroke="#c3c8e2" stroke-width="1.5" stroke-opacity="0.55"/>
-    <rect x="234" y="84" width="124" height="176" rx="10" fill="#16161e" stroke="#c3c8e2" stroke-width="1.6" stroke-opacity="0.72"/>
-    <rect x="229" y="79" width="124" height="176" rx="10" fill="#16161e" stroke="#c3c8e2" stroke-width="1.6" stroke-opacity="0.72"/>
-    <rect x="224" y="74" width="124" height="176" rx="10" fill="#16161e" stroke="#d3daf8" stroke-width="2.5"/>
-    <rect x="233" y="83" width="106" height="158" rx="6" stroke="#c3c8e2" stroke-width="1.3" stroke-opacity="0.55"/>
-    <path d="M244 92 L248.2 98 L244 104 L239.8 98 Z" fill="#c3c8e2" fill-opacity="0.7"/>
-    <path d="M328 220 L332.2 226 L328 232 L323.8 226 Z" fill="#c3c8e2" fill-opacity="0.7"/>
-    <circle cx="286" cy="162" r="36" stroke="#7aa2f7" stroke-width="1.2" stroke-opacity="0.45" stroke-dasharray="1.5 5"/>
-    <circle cx="286" cy="162" r="27" fill="#7aa2f7" fill-opacity="0.2" stroke="#7aa2f7" stroke-width="2.2"/>
-    <circle cx="297" cy="155" r="24" fill="#16161e" stroke="#c3c8e2" stroke-width="1.3" stroke-opacity="0.55"/>
+    <rect x="239" y="89" width="124" height="176" rx="10" fill="#d6d6d6" stroke="#4e4e4e" stroke-width="1.5" stroke-opacity="0.55"/>
+    <rect x="234" y="84" width="124" height="176" rx="10" fill="#d6d6d6" stroke="#4e4e4e" stroke-width="1.6" stroke-opacity="0.72"/>
+    <rect x="229" y="79" width="124" height="176" rx="10" fill="#d6d6d6" stroke="#4e4e4e" stroke-width="1.6" stroke-opacity="0.72"/>
+    <rect x="224" y="74" width="124" height="176" rx="10" fill="#d6d6d6" stroke="#1a1a1a" stroke-width="2.5"/>
+    <rect x="233" y="83" width="106" height="158" rx="6" stroke="#4e4e4e" stroke-width="1.3" stroke-opacity="0.55"/>
+    <path d="M244 92 L248.2 98 L244 104 L239.8 98 Z" fill="#4e4e4e" fill-opacity="0.7"/>
+    <path d="M328 220 L332.2 226 L328 232 L323.8 226 Z" fill="#4e4e4e" fill-opacity="0.7"/>
+    <circle cx="286" cy="162" r="36" stroke="#000000" stroke-width="1.2" stroke-opacity="0.45" stroke-dasharray="1.5 5"/>
+    <circle cx="286" cy="162" r="27" fill="#000000" fill-opacity="0.2" stroke="#000000" stroke-width="2.2"/>
+    <circle cx="297" cy="155" r="24" fill="#d6d6d6" stroke="#4e4e4e" stroke-width="1.3" stroke-opacity="0.55"/>
   </g>
 </svg>

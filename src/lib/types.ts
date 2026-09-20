@@ -35,14 +35,20 @@ export interface ProjectChallenge {
 
 export interface Project {
   slug: string;
+  /** Not built yet: kept out of the home page and out of the routes entirely.
+   *  Drop the flag once the project has something to show. */
+  draft?: boolean;
   /**
-   * "processing" puts the project in the lower Processing section of the home
-   * page. It does not change the detail page: that shows a placeholder only
-   * when the project has no write-up yet.
+   * Set from FEATURED_SLUGS in lib/projects.ts, not from the JSON. True means
+   * the project gets a full card at the top of the home page; everything else
+   * falls to the compact list below. The detail page ignores this.
    */
-  status?: "completed" | "processing";
+  featured?: boolean;
   title: string;
   summary: string;
+  /** One short fact — the hardest constraint or the measurable result. Shown
+   *  under the summary on featured cards only. */
+  impact?: string;
   description: string;
   tags: string[];
   date: string;
@@ -90,10 +96,14 @@ export interface ContactInfo {
 
 export interface Profile {
   name: string;
+  /** 名字怎么念。招聘方念不出名字就不会在电话里叫它 —— 直接写在名字下面。 */
+  pronunciation: string;
   title: string;
+  /** 名字下面那几行，一个元素一行：学历、在找什么。断行位置写死在数据里，
+   *  不靠容器宽度去撞 —— 换个屏幕宽度就换个断法的话没法看。 */
+  tagline: string[];
   bio: string;
   skills: string[];
   experience: Experience[];
-  techStack: TechCategory[];
   contact: ContactInfo;
 }

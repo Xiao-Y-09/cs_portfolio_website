@@ -17,17 +17,21 @@ function resolvePublicImage(relPath: string): string | null {
 // pixels. On the dark theme these read as glaring white blocks, so they get
 // inverted at render time.
 //
-// The project covers used to be listed here; they are now SVGs drawn on the
-// dark ground by scripts/make-project-icons.mjs, so none of them need it. Only
-// the resume-reviewer screenshot is left. Re-export it with a dark background
-// and delete the entry — nothing else depends on it.
-const LIGHT_BG_COVERS = new Set([
-  "resume-reviewer/preview.png",
-]);
+// Empty on the light theme: the covers are drawn on the light ground by
+// scripts/make-project-icons.mjs, and the resume-reviewer screenshot has a
+// light background of its own, so nothing needs flipping any more. Kept as a
+// hook for whichever image turns up with the wrong ground next.
+const LIGHT_BG_COVERS = new Set<string>([]);
+
+// The three projects that get a full card at the top of the home page, in this
+// order. Everything else drops to the compact list below, newest first by
+// sortKey. Swapping a slug here is the only edit needed to re-pick the three.
+const FEATURED_SLUGS = ["xompress", "resume-reviewer", "deep-research-station"];
 
 function withCover(project: Project): Project {
   return {
     ...project,
+    featured: FEATURED_SLUGS.includes(project.slug),
     thumbnailUrl: resolvePublicImage(
       `images/projects/${project.slug}/${project.thumbnail}`
     ),
@@ -41,21 +45,18 @@ function withCover(project: Project): Project {
   };
 }
 
-// Pinned to the front of the home grid, in this order. Everything not listed
-// keeps falling back to newest-first by sortKey. Reorder or empty this array
-// to go back to a purely chronological grid.
-const PINNED_SLUGS = ["xompress", "medium-daily-digest", "tarot-local-ai"];
-
 export function getAllProjects(): Project[] {
   const fileNames = fs.readdirSync(PROJECTS_DIR).filter((f) => f.endsWith(".json"));
-  const projects: Project[] = fileNames.map((fileName) => {
-    const filePath = path.join(PROJECTS_DIR, fileName);
-    const raw = fs.readFileSync(filePath, "utf-8");
-    return withCover(JSON.parse(raw) as Project);
-  });
+  const projects: Project[] = fileNames
+    .map((fileName) => {
+      const filePath = path.join(PROJECTS_DIR, fileName);
+      const raw = fs.readFileSync(filePath, "utf-8");
+      return withCover(JSON.parse(raw) as Project);
+    })
+    .filter((p) => !p.draft);
   return projects.sort((a, b) => {
-    const ai = PINNED_SLUGS.indexOf(a.slug);
-    const bi = PINNED_SLUGS.indexOf(b.slug);
+    const ai = FEATURED_SLUGS.indexOf(a.slug);
+    const bi = FEATURED_SLUGS.indexOf(b.slug);
     if (ai !== -1 && bi !== -1) return ai - bi;
     if (ai !== -1) return -1;
     if (bi !== -1) return 1;
@@ -67,13 +68,12 @@ export function getProjectBySlug(slug: string): Project | null {
   const filePath = path.join(PROJECTS_DIR, `${slug}.json`);
   if (!fs.existsSync(filePath)) return null;
   const raw = fs.readFileSync(filePath, "utf-8");
-  return withCover(JSON.parse(raw) as Project);
+  const project = withCover(JSON.parse(raw) as Project);
+  return project.draft ? null : project;
 }
 
 export function getAllProjectSlugs(): string[] {
-  return fs.readdirSync(PROJECTS_DIR)
-    .filter((f) => f.endsWith(".json"))
-    .map((f) => f.replace(".json", ""));
+  return getAllProjects().map((p) => p.slug);
 }
 
 export function getProfile(): Profile {
