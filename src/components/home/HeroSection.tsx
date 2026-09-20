@@ -71,13 +71,21 @@ export default function HeroSection({ profile }: HeroSectionProps) {
             <p key={line}>{line}</p>
           ))}
         </div>
-        {/* 不画框，靠行宽掐出正方形 —— 见 module.css 的 .bio。 */}
-        <p
+        {/* 断行和条目都写在 profile.json 里，不靠容器宽度去撞。 */}
+        <div
           className={`${styles.bio} animate-fade-in-up`}
           style={{ "--rv-i": 4 } as CSSProperties}
         >
-          {profile.bio}
-        </p>
+          {profile.bio.lines.map((line) => (
+            <p key={line}>{line}</p>
+          ))}
+          <p className={styles.bioLead}>{profile.bio.listTitle}</p>
+          <ul className={styles.bioList}>
+            {profile.bio.list.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
         {/* 跑马灯：同一份标签平铺 N 份，轨道向左恰好移动一份的宽度后回到原点，
             所以接缝处看不出来。副本对屏幕阅读器隐藏，不然技能会被读 N 遍。 */}
         <div

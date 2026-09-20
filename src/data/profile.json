@@ -7,7 +7,18 @@
     "Northeastern, Silicon Valley",
     "Seeking SWE internship, Summer 2027"
   ],
-  "bio": "I build full-stack systems around AI. At NEURAI Lab I work on YouDescribeX, a platform that generates audio descriptions of YouTube videos for blind and low-vision viewers. On my own time I ship local-first LLM tools that run without an API key.",
+  "bio": {
+    "lines": [
+      "I used to design buildings.",
+      "Now I build software."
+    ],
+    "listTitle": "Things I keep coming back to:",
+    "list": [
+      "running LLMs on my own machine",
+      "small tools that do one thing well",
+      "agents that do real work w/o hand-holding"
+    ]
+  },
   "skills": [
     "Python",
     "TypeScript",

@@ -62,6 +62,25 @@
   margin-top: var(--space-2xl);
 }
 
+.bioLead {
+  margin-top: var(--space-lg);
+}
+
+.bioList {
+  list-style: none;
+}
+
+/* 悬挂缩进：第一行的破折号顶在左边缘，折行的部分缩到文字处而不是
+   跑到破折号底下。手机上条目必然要折，这条才是真正起作用的地方。 */
+.bioList li {
+  padding-left: 2ch;
+  text-indent: -2ch;
+}
+
+.bioList li::before {
+  content: "— ";
+}
+
 /* 跑马灯的窗口：宽度跟着容器走（跟改之前那行占的范围一致），
    两端用 mask 淡出 —— 否则标签会在边界上硬切。 */
 .skills {
