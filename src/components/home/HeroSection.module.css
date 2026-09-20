@@ -38,15 +38,6 @@
   margin-top: var(--space-sm);
 }
 
-/* 职位和 tagline 跟下面的自述块同宽、同一条左边线，文字靠左。
-   名字和注音仍然居中 —— 注音那行的中点是对准 "XIAO" 算出来的，挤到左边就没意义了。
-   .hero 的 text-align: center 会继承下来，这里显式收回去。 */
-.title,
-.tagline {
-  width: min(var(--hero-text-width), 100%);
-  text-align: left;
-}
-
 .title {
   font-size: var(--title-size);
   color: var(--color-accent);
@@ -60,11 +51,10 @@
   margin-top: var(--space-sm);
 }
 
-/* 吃满整栏，跟顶上三个链接同宽、同一条左边线。
-   整块居中、每行左对齐：.hero 的 text-align: center 会继承下来，显式收回去。 */
+/* 吃满整栏。宽度还是要的 —— 它决定手机上哪里折行；
+   对齐方式跟首屏其他内容一致，直接继承 .hero 的 text-align: center。 */
 .bio {
   width: min(var(--hero-text-width), 100%);
-  text-align: left;
   font-size: var(--text-lg);
   color: var(--color-text-secondary);
   line-height: 1.8;
@@ -77,13 +67,6 @@
 
 .bioList {
   list-style: none;
-}
-
-/* 悬挂缩进：第一行的破折号顶在左边缘，折行的部分缩到文字处而不是
-   跑到破折号底下。手机上条目必然要折，这条才是真正起作用的地方。 */
-.bioList li {
-  padding-left: 2ch;
-  text-indent: -2ch;
 }
 
 .bioList li::before {
