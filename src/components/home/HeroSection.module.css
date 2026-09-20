@@ -78,8 +78,10 @@
 .skills {
   width: 100%;
   overflow: hidden;
-  /* 比其他区块间距大一档：把技能 + 联系方式跟上面的自述分开。 */
-  margin-top: var(--space-5xl);
+  /* 联系方式现在排在上面，这一档是跟它的距离。
+     48px + 联系方式行高 + 64px 跟改之前“自述到跑马灯 128px”差不多，
+     跑马灯在页面上的高度基本不变。 */
+  margin-top: var(--space-3xl);
   mask-image: linear-gradient(
     to right,
     transparent,
@@ -153,7 +155,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-lg);
-  margin-top: var(--space-xl);
+  margin-top: var(--space-2xl);
 }
 
 @media (max-width: 639px) {

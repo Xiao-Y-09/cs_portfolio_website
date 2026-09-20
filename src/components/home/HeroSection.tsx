@@ -86,13 +86,30 @@ export default function HeroSection({ profile }: HeroSectionProps) {
             ))}
           </ul>
         </div>
+        {/* 之前这里把完整 URL 当作链接文字，三行长串。缩成短标签横排一行。 */}
+        <div
+          className={`${styles.contact} animate-fade-in-up`}
+          style={{ "--rv-i": 5 } as CSSProperties}
+        >
+          <IconLink
+            href={`mailto:${profile.contact.email}`}
+            icon="email"
+            label={profile.contact.email}
+          />
+          <IconLink href={profile.contact.github} icon="github" label="GitHub" />
+          <IconLink
+            href={profile.contact.linkedin}
+            icon="linkedin"
+            label="LinkedIn"
+          />
+        </div>
         {/* 跑马灯：同一份标签平铺 N 份，轨道向左恰好移动一份的宽度后回到原点，
             所以接缝处看不出来。副本对屏幕阅读器隐藏，不然技能会被读 N 遍。 */}
         <div
           className={`${styles.skills} animate-fade-in-up`}
           style={
             {
-              "--rv-i": 5,
+              "--rv-i": 6,
               "--marquee-copies": copies,
               "--marquee-duration": `${(runWidth / SPEED).toFixed(1)}s`,
             } as CSSProperties
@@ -111,23 +128,6 @@ export default function HeroSection({ profile }: HeroSectionProps) {
               </div>
             ))}
           </div>
-        </div>
-        {/* 之前这里把完整 URL 当作链接文字，三行长串。缩成短标签横排一行。 */}
-        <div
-          className={`${styles.contact} animate-fade-in-up`}
-          style={{ "--rv-i": 6 } as CSSProperties}
-        >
-          <IconLink
-            href={`mailto:${profile.contact.email}`}
-            icon="email"
-            label={profile.contact.email}
-          />
-          <IconLink href={profile.contact.github} icon="github" label="GitHub" />
-          <IconLink
-            href={profile.contact.linkedin}
-            icon="linkedin"
-            label="LinkedIn"
-          />
         </div>
       </div>
     </section>
