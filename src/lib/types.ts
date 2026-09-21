@@ -80,6 +80,8 @@ export interface Experience {
   role: string;
   company: string;
   period: string;
+  /** 排在日期下面。没填就不渲染，日期独占一行。 */
+  location?: string;
   description: string;
   /**
    * 描述里哪些词要变成链接：原词 -> 网址。

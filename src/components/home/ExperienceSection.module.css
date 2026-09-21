@@ -25,9 +25,24 @@
   font-weight: 700;
 }
 
+/* 日期和地点叠成右侧一列。靠右对齐才能跟 .head 的 space-between
+   右端贴齐 —— 否则短的那行会在列里左靠，右边缘参差不齐。 */
+.when {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
+}
+
 .period {
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
+}
+
+/* 比日期再小一档：同一块里日期是主、地点是附带信息。 */
+.location {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
 }
 
 .company {
@@ -59,5 +74,10 @@
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-xs);
+  }
+
+  /* 竖排了，右对齐就没意义了 —— 跟职位同一条左边线。 */
+  .when {
+    align-items: flex-start;
   }
 }

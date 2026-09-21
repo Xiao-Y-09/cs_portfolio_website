@@ -34,6 +34,7 @@
       "role": "Research Assistant",
       "company": "NEURAI Lab — YouDescribe",
       "period": "Jun 2026 — Present",
+      "location": "San Jose, CA",
       "description": "Develop and maintain youdescribe.org across the frontend and backend, and contribute to the AI pipeline that generates audio descriptions for blind and low-vision viewers.",
       "links": {
         "youdescribe.org": "https://youdescribe.org"
@@ -43,6 +44,7 @@
       "role": "Contract Full-Stack Developer",
       "company": "Fun de Mental — E-commerce Site",
       "period": "Aug 2026 — Present",
+      "location": "Remote, US",
       "description": "Building a headless Shopify storefront with Next.js, covering product catalog, cart, and checkout for a metal EDC brand."
     }
   ],

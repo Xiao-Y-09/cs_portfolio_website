@@ -50,7 +50,12 @@ export default function ExperienceSection({ experience }: ExperienceSectionProps
           >
             <div className={styles.head}>
               <h3 className={styles.role}>{item.role}</h3>
-              <span className={styles.period}>{item.period}</span>
+              <div className={styles.when}>
+                <span className={styles.period}>{item.period}</span>
+                {item.location && (
+                  <span className={styles.location}>{item.location}</span>
+                )}
+              </div>
             </div>
             <p className={styles.company}>{item.company}</p>
             <p className={styles.description}>
