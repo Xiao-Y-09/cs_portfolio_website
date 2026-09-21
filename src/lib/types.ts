@@ -114,8 +114,6 @@ export interface Bio {
 
 export interface Profile {
   name: string;
-  /** 名字怎么念。招聘方念不出名字就不会在电话里叫它 —— 直接写在名字下面。 */
-  pronunciation: string;
   title: string;
   /** 名字下面那几行，一个元素一行：学历、在找什么。断行位置写死在数据里，
    *  不靠容器宽度去撞 —— 换个屏幕宽度就换个断法的话没法看。 */

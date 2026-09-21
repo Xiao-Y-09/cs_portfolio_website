@@ -12,9 +12,7 @@ import { SITE_URL } from "@/lib/site";
 // 指向它，想换回分开的字体只改那三行。不是可变字体，字重要逐个列：
 // 站内实际用到 400（正文）、600（卡片标题）、700（各级标题）。
 const plexMono = IBM_Plex_Mono({
-  // latin-ext 是为名字下面的 IPA 注音加的：ɕ (U+0255)、ʊ (U+028A)
-  // 落在 U+0100-02AF，只加载 latin 的话浏览器会拿别的字体补，看着就不是一套。
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   weight: ["400", "600", "700"],
   variable: "--font-plex-mono",
   display: "swap",

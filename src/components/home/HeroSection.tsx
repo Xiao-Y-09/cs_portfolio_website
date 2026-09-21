@@ -35,16 +35,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
     >
       {/* 居中单列，一路读下来：名字 → 我是什么工程师 → 学历和求职意向 →
           自述 → 技能 → 联系方式。首屏只讲一件事，项目卡片才挤得进来。 */}
-      {/* 发音那一行要对准名字里第一个词的中点，偏移量在 CSS 里算（见 .pronunciation） */}
-      <div
-        className={styles.hero}
-        style={
-          {
-            "--name-chars": profile.name.length,
-            "--first-word-chars": profile.name.split(" ")[0].length,
-          } as CSSProperties
-        }
-      >
+      <div className={styles.hero}>
         <h1
           className={`${styles.name} animate-fade-in-up`}
           style={{ "--rv-i": 0 } as CSSProperties}
@@ -52,20 +43,14 @@ export default function HeroSection({ profile }: HeroSectionProps) {
           {profile.name}
         </h1>
         <p
-          className={`${styles.pronunciation} animate-fade-in-up`}
-          style={{ "--rv-i": 1 } as CSSProperties}
-        >
-          {profile.pronunciation}
-        </p>
-        <p
           className={`${styles.title} animate-fade-in-up`}
-          style={{ "--rv-i": 2 } as CSSProperties}
+          style={{ "--rv-i": 1 } as CSSProperties}
         >
           {profile.title}
         </p>
         <div
           className={`${styles.tagline} animate-fade-in-up`}
-          style={{ "--rv-i": 3 } as CSSProperties}
+          style={{ "--rv-i": 2 } as CSSProperties}
         >
           {profile.tagline.map((line) => (
             <p key={line}>{line}</p>
@@ -74,7 +59,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
         {/* 断行和条目都写在 profile.json 里，不靠容器宽度去撞。 */}
         <div
           className={`${styles.bio} animate-fade-in-up`}
-          style={{ "--rv-i": 4 } as CSSProperties}
+          style={{ "--rv-i": 3 } as CSSProperties}
         >
           {profile.bio.lines.map((line) => (
             <p key={line}>{line}</p>
@@ -90,7 +75,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
             邮箱全写出来比另两个长一倍，一行里它会把其他两个压下去。 */}
         <div
           className={`${styles.contact} animate-fade-in-up`}
-          style={{ "--rv-i": 5 } as CSSProperties}
+          style={{ "--rv-i": 4 } as CSSProperties}
         >
           <IconLink
             href={`mailto:${profile.contact.email}`}
@@ -110,7 +95,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
           className={`${styles.skills} animate-fade-in-up`}
           style={
             {
-              "--rv-i": 6,
+              "--rv-i": 5,
               "--marquee-copies": copies,
               "--marquee-duration": `${(runWidth / SPEED).toFixed(1)}s`,
             } as CSSProperties

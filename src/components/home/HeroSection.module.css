@@ -1,7 +1,6 @@
 .hero {
   --name-size: var(--text-6xl);
-  /* 发音和职位共用这一档。之前两处分开写死成 --text-2xl，
-     手机上只给 .title 缩了一档，结果注音反而比职位大 —— 层级反了。 */
+  /* 职位字号只在这里定义一次，两个窄屏断点都改这一个值。 */
   --title-size: var(--text-2xl);
 
   display: flex;
@@ -19,23 +18,6 @@
      等宽字体各字重的字宽一致，所以改字重不影响发音那行的偏移量。 */
   font-weight: 400;
   text-transform: uppercase;
-}
-
-/* IPA 字符的字体问题不在这里解决，在 layout.tsx 的 subsets 里 ——
-   缺了 latin-ext 就会被别的字体接手。
-   这一行的中点对准名字里 "XIAO" 的中点，而不是整个名字的中点 ——
-   两者相差 (总字符数 − 第一个词字符数) / 2 个字宽，等宽字体里一个字宽 = 0.6em。
-   用 position/left 而不是 transform：.animate-fade-in-up 的关键帧占着 transform，
-   动画停在 translateY(0) 会把这里的位移抹掉。 */
-.pronunciation {
-  position: relative;
-  left: calc(
-    var(--name-size) * -0.6 *
-      (var(--name-chars) - var(--first-word-chars)) / 2
-  );
-  font-size: var(--title-size);
-  color: var(--color-text-tertiary);
-  margin-top: var(--space-sm);
 }
 
 .title {
