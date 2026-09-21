@@ -10,13 +10,21 @@
   padding-left: var(--space-lg);
 }
 
-/* 职位和时间排在同一行两端 —— 简历上的读法，扫一眼就知道什么时候做的。 */
+/* 两列，每列两行：职位对日期、公司对地点。
+   公司名必须在这个块里面 —— 摆到外面的话，右列有两行而左列只有一行，
+   .head 被右列撑高，公司名就跟职位之间多出一道空隙。 */
 .head {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-sm);
+}
+
+.what {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
 .role {
@@ -48,7 +56,6 @@
 .company {
   font-size: var(--text-base);
   color: var(--color-accent);
-  margin-top: var(--space-xs);
 }
 
 /* 全站只有这一处是正文里的内联链接。全局的 a 默认不带下划线、
@@ -76,8 +83,10 @@
     gap: var(--space-xs);
   }
 
-  /* 竖排了，右对齐就没意义了 —— 跟职位同一条左边线。 */
+  /* 竖排了，右对齐就没意义了 —— 跟职位同一条左边线。
+     另外此时公司名和日期之间只剩 .head 的 gap，太紧，补一点。 */
   .when {
     align-items: flex-start;
+    margin-top: var(--space-xs);
   }
 }

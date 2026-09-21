@@ -49,7 +49,10 @@ export default function ExperienceSection({ experience }: ExperienceSectionProps
             style={{ "--rv-i": index } as CSSProperties}
           >
             <div className={styles.head}>
-              <h3 className={styles.role}>{item.role}</h3>
+              <div className={styles.what}>
+                <h3 className={styles.role}>{item.role}</h3>
+                <p className={styles.company}>{item.company}</p>
+              </div>
               <div className={styles.when}>
                 <span className={styles.period}>{item.period}</span>
                 {item.location && (
@@ -57,7 +60,6 @@ export default function ExperienceSection({ experience }: ExperienceSectionProps
                 )}
               </div>
             </div>
-            <p className={styles.company}>{item.company}</p>
             <p className={styles.description}>
               {linkify(item.description, item.links)}
             </p>
