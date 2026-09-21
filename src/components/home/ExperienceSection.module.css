@@ -36,6 +36,14 @@
   margin-top: var(--space-xs);
 }
 
+/* 全站只有这一处是正文里的内联链接。全局的 a 默认不带下划线、
+   只换颜色，而链接色是黑、正文是深灰，两者挤在一句话里分不出来。 */
+.description a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .description {
   font-size: var(--text-base);
   color: var(--color-text-secondary);

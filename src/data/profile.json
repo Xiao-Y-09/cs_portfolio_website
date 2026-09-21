@@ -34,7 +34,10 @@
       "role": "Research Assistant",
       "company": "NEURAI Lab — YouDescribe",
       "period": "Jun 2026 — Present",
-      "description": "Develop and maintain youdescribe.org across the frontend and backend, and contribute to the AI pipeline that generates audio descriptions for blind and low-vision viewers."
+      "description": "Develop and maintain youdescribe.org across the frontend and backend, and contribute to the AI pipeline that generates audio descriptions for blind and low-vision viewers.",
+      "links": {
+        "youdescribe.org": "https://youdescribe.org"
+      }
     },
     {
       "role": "Contract Full-Stack Developer",

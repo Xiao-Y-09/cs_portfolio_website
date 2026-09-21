@@ -81,6 +81,12 @@ export interface Experience {
   company: string;
   period: string;
   description: string;
+  /**
+   * 描述里哪些词要变成链接：原词 -> 网址。
+   * 描述本体仍然是一句读得顺的话，改文案时不用拆成一堆片段；
+   * 这里没匹配到的词会安静地什么也不发生。
+   */
+  links?: Record<string, string>;
 }
 
 export interface TechCategory {
